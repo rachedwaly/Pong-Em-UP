@@ -1,6 +1,6 @@
 import java.awt.*;
 
-public class Entity {
+public abstract class Entity {
     protected int x,y,width,height;
     final int HEIGHT=500; //height of the game
     final int WIDTH=300; //width of the game

@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.security.Key;
 
 
 import static java.lang.Math.min;
@@ -17,15 +16,15 @@ public class StickPlayer1 extends Stick {
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
 
-        if (key == KeyEvent.VK_UP) {
+        if (key == KeyEvent.VK_LEFT) {
             speed=5;
-            dy = -speed;
+            dx = -speed;
 
         }
 
-        if (key == KeyEvent.VK_DOWN) {
+        if (key == KeyEvent.VK_RIGHT) {
             speed=-5;
-            dy = -speed;
+            dx = -speed;
 
         }
     }
@@ -33,15 +32,15 @@ public class StickPlayer1 extends Stick {
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
         speed=0;
-        if (key == KeyEvent.VK_UP) {
-            dy = 0;
+        if (key == KeyEvent.VK_LEFT) {
+            dx = 0;
         }
-        if (key == KeyEvent.VK_DOWN) {
-            dy = 0;
+        if (key == KeyEvent.VK_RIGHT) {
+            dx = 0;
         }
     }
 
     public Rectangle getBounds(){
-        return new Rectangle(getX()+getWidth(),getY(),1,getHeight());
+        return new Rectangle(getX(),getY(),getWidth(),1);
     }
 }

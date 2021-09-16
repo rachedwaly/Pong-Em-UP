@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.security.Key;
 
 import static java.lang.Math.min;
 
@@ -19,19 +18,16 @@ public class StickPlayer2 extends Stick {
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
 
-
-
-
         if (key == KeyEvent.VK_Z) {
 
             speed=5;
-            dy = -speed;
+            dx = -speed;
         }
 
         if (key == KeyEvent.VK_S) {
 
             speed=-5;
-            dy = -speed;
+            dx = -speed;
         }
     }
 
@@ -43,11 +39,11 @@ public class StickPlayer2 extends Stick {
         speed=0;
 
         if (key == KeyEvent.VK_Z) {
-            dy = 0;
+            dx = 0;
         }
 
         if (key == KeyEvent.VK_S) {
-            dy = 0;
+            dx = 0;
         }
 
     }

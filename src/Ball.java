@@ -33,17 +33,17 @@ public class Ball extends Entity {
         this.y=slope*speed+this.y;
         this.x=x+speed*(direction ? 1:-1);
 
-        if ((x>500) || (x<0)){
+        if ((x>HEIGHT) || (x<0)){
             x=250;
             y=150;
         }
     }
 
     public void move(){
-        this.y=slope*speed+this.y;
-        this.x=x+speed*(direction ? 1:-1);
+        this.x=slope*speed+this.x;
+        this.y=y+speed*(direction ? 1:-1);
 
-        if ((x>500) || (x<0)){
+        if ((x>300) || (x<0)){
             x=250;
             y=150;
         }
@@ -56,12 +56,13 @@ public class Ball extends Entity {
             if (this.getBounds().intersects(entity.getBounds())) {
                 slope = -slope;
                 if (entity.isOrientation()) {
+                    //taking in consideration the speed of the stick
                     if (entity.speed == 0) {
                         slope = -slope;
                         direction = !direction;
                     } else {
-                        slope = -min(-slope + entity.speed, 3);
-                        direction = !direction;
+                    slope = -min(-slope + entity.speed, 3);
+                    direction = !direction;
                     }
                 }
                 break;
