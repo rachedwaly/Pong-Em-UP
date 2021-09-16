@@ -3,23 +3,24 @@ import static java.lang.Math.min;
 
 public class Stick extends Entity{
 
-
+    protected int dx;
 
 
     public Stick(int x, int y){
         super(x,y);
-        this.width=10;
-        this.height=30;
+        this.width=40;
+        this.height=10;
         orientation=true;
 
     }
     public void move(){
 
-        if ((y>=10) && (y<=HEIGHT-10-height)) {
-            this.y = max(this.y+dy,10);
+        if ((x>=10) && (x<WIDTH/2)) {
+            //y<=HEIGHT-10-height
+            this.x = max(this.x+ dx,10);
         }
         else{
-            this.y=min(this.y+dy,HEIGHT-10-height);
+            this.x=min(this.x+ dx,WIDTH-10-width);
         }
 
     }
@@ -27,5 +28,5 @@ public class Stick extends Entity{
 
 
 
-    protected int dy;
+
 }
