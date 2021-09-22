@@ -12,18 +12,22 @@ public class Model implements ActionListener {
     private PlayGround listener;
     private Timer timer;
     private ArrayList<Entity> invariableObjects = new ArrayList<>();
-    private ArrayList<Entity> physicalObjects=new ArrayList<>();
+    public ArrayList<Entity> physicalObjects = new ArrayList<>();
+    private Enemy[] level1List = {new Enemy(), new Enemy(), new Enemy()};
 
     public Model(PlayGround p){
         VerticalWall wallRight = new VerticalWall(WIDTH-10,0,10,HEIGHT);
         VerticalWall wallLeft = new VerticalWall(0,0,10,HEIGHT);
         HorizontalWall wallUp = new HorizontalWall(0,0,WIDTH,10);
+
         invariableObjects.add(wallRight);
         invariableObjects.add(wallLeft);
         invariableObjects.add(wallUp);
 
+        physicalObjects.add(level1List[0]);
         listener = p;
         s1 = new StickPlayer1(WIDTH/2,HEIGHT-20);
+        invariableObjects.add(s1);
         b=new Ball(250,580);
         timer = new Timer(10, this);
         timer.start();
@@ -31,13 +35,8 @@ public class Model implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        /*physicalObjects.add(wallUp);
-        physicalObjects.add(wallLeft);
-        physicalObjects.add(wallRight);*/
-        physicalObjects.add(s1);
         b.solveCollisions(invariableObjects);
         b.solveCollisions(physicalObjects);
-        physicalObjects.clear();
         s1.move();
         b.move();
         listener.update();
