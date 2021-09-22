@@ -13,7 +13,9 @@ public class PlayGround extends JPanel implements ActionListener, KeyListener {
     private Timer timer;
     private Ball b;
     private int acceleration=0;
-    private Entity wallRight,wallLeft,wallUp;
+    private VerticalWall wallRight;
+    private VerticalWall wallLeft;
+    private HorizontalWall wallUp;
     private ArrayList<Entity> physicalObjects=new ArrayList<>();
 
 
