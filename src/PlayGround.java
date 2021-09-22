@@ -16,13 +16,13 @@ public class PlayGround extends JPanel implements ActionListener, KeyListener {
     private Entity wallRight,wallLeft,wallUp;
     private ArrayList<Entity> physicalObjects=new ArrayList<>();
 
-    public JButton backToMenu; //Listener initialised in PongEmUp
+    public JButton gameToMenu; //Listener initialised in PongEmUp
 
 
     public PlayGround(){
-        super(new FlowLayout());
-        backToMenu = new JButton("Menu");
-        add(backToMenu);
+        super(new FlowLayout()); //BorderLayout instead ?
+        gameToMenu = new JButton("Menu");
+        add(gameToMenu);
         setPreferredSize(new Dimension(WIDTH,HEIGHT));
         s1=new StickPlayer1(WIDTH/2,HEIGHT-20);
         b=new Ball(250,580);

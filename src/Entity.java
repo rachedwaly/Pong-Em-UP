@@ -1,11 +1,13 @@
 import java.awt.*;
+import java.util.Random;
 
 public abstract class Entity {
+
     protected int x,y,width,height;
-    final int HEIGHT=500; //height of the game
-    final int WIDTH=300; //width of the game
+    static final int HEIGHT=500; //height of the game
+    static final int WIDTH=300; //width of the game
     protected  int speed;
-    protected boolean orientation=false; //the orientation of the object
+    protected boolean orientation=false; //the orientation of the object : TODO which is which ?
     protected String name;
 
 
@@ -17,7 +19,10 @@ public abstract class Entity {
         this.orientation = orientation;
     }
 
-
+    public Entity(){
+        this(Main.random.nextInt(WIDTH),Main.random.nextInt(HEIGHT),
+                Main.random.nextInt(20),Main.random.nextInt(20),true);
+    }
 
     public Entity(int x,int y){
         this.x=x;
