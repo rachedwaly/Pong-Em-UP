@@ -40,7 +40,7 @@ public class PlayGround extends JPanel implements KeyListener {
         g.fillRect(model.s1.getX(), model.s1.getY(), model.s1.getWidth(), model.s1.getHeight());
         g.fillOval(model.b.getX(),model.b.getY(),model.b.getWidth(),model.b.getWidth());
         for(Entity entity : model.physicalObjects){
-            g.setColor(Color.BLUE);
+            g.setColor(entity.color);
             g.fillRect(entity.x,entity.y,entity.width,entity.height);
         }
 
