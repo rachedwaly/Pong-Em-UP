@@ -29,6 +29,7 @@ public abstract class Entity {
         this.y=y;
         this.width=0;
         this.height=0;
+        this.speed = 1;
     }
 
     public Entity(int x,int y, int w, int h){
@@ -36,6 +37,7 @@ public abstract class Entity {
         this.y=y;
         this.width=w;
         this.height=h;
+        this.speed = 1;
     }
 
     public Entity(int x,int y, int w, int h,boolean orientation){
@@ -44,6 +46,7 @@ public abstract class Entity {
         this.y=y;
         this.width=w;
         this.height=h;
+        this.speed = 1;
     }
 
     public int getX(){
