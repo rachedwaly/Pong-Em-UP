@@ -12,8 +12,7 @@ public class PongEmUp extends JFrame {
         PlayGround p=new PlayGround();
         addKeyListener(p);
         add(p,BorderLayout.CENTER);
-
-
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
 
 

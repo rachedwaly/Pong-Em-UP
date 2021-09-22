@@ -2,9 +2,9 @@ import java.awt.*;
 
 public abstract class Entity {
     protected int x,y,width,height;
-    final int HEIGHT=500; //height of the game
-    final int WIDTH=300; //width of the game
-    protected  int speed;
+    static int HEIGHT=PlayGround.HEIGHT; //height of the game
+    static int WIDTH=PlayGround.WIDTH; //width of the game
+    protected  int speedx=0,speedy=0;
     protected boolean orientation=false; //the orientation of the object
     protected String name;
 
@@ -57,5 +57,6 @@ public abstract class Entity {
     public Rectangle getBounds(){
         return new Rectangle(x,y,width,height);
     }
+
 
 }

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class PlayGround extends JPanel implements ActionListener, KeyListener {
     private StickPlayer1 s1;
-    private int HEIGHT=600,WIDTH=300;
+    static int HEIGHT=600,WIDTH=300;
     private Timer timer;
     private Ball b;
     private int acceleration=0;
@@ -24,7 +24,7 @@ public class PlayGround extends JPanel implements ActionListener, KeyListener {
         wallRight=new VerticalWall(WIDTH-10,0,10,HEIGHT);
         wallLeft=new VerticalWall(0,0,10,HEIGHT);
         wallUp=new HorizontalWall(0,0,WIDTH,10);
-        timer = new Timer(10, this);
+        timer = new Timer(1, this);
         timer.start();
     }
     @Override
@@ -47,12 +47,14 @@ public class PlayGround extends JPanel implements ActionListener, KeyListener {
     private void updateStick(){
 
         s1.move();
+        repaint();
 
 
     }
 
     private void updateBall(){
         b.move();
+        repaint();
     }
 
     @Override
@@ -63,9 +65,10 @@ public class PlayGround extends JPanel implements ActionListener, KeyListener {
         physicalObjects.add(s1);
         b.solveCollisions(physicalObjects);
         physicalObjects.clear();
-        updateStick();
         updateBall();
-        repaint();
+        updateStick();
+
+
 
     }
 
