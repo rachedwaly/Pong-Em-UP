@@ -29,7 +29,7 @@ public class PlayGround extends JPanel  {
         for (Entity entity : drawables) {
             entity.drawEntity(g);
         }
->>>>>>>>> Temporary merge branch 2
+
     }
 
     public void addDrawable(Entity e){

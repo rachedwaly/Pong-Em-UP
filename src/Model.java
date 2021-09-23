@@ -31,6 +31,7 @@ public class Model implements ActionListener, KeyListener {
         HorizontalWall wallUp = new HorizontalWall(0, 0, WIDTH, 10);
         s1 = new Stick(WIDTH / 2, HEIGHT - 20);
         b = new Ball(250, 580);
+
         addPhysicalObject(wallRight);
         addPhysicalObject(wallLeft);
         addPhysicalObject(wallUp);
@@ -46,7 +47,7 @@ public class Model implements ActionListener, KeyListener {
         }
         view.addDrawable(b); //to remove
         timer = new Timer(1, this);
->>>>>>>>> Temporary merge branch 2
+
         timer.start();
 
     }
