@@ -2,9 +2,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
-public class Model implements ActionListener {
+public class Model implements ActionListener, KeyListener {
 
     public static int HEIGHT=600,WIDTH=300;
 
@@ -32,9 +34,11 @@ public class Model implements ActionListener {
         addPhysicalObject(wallRight);
         addPhysicalObject(wallLeft);
         addPhysicalObject(wallUp);
+        addPhysicalObject(s1);
+
         for(Enemy enemy : level1List)
             addPhysicalObject(enemy);
-        addPhysicalObject(s1);
+
 
 
         for (Entity entity : physicalObjects) {
@@ -47,19 +51,37 @@ public class Model implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        this.update();
+        view.update();
 
-        b.solveCollisions(physicalObjects);
-        for(Entity enemy : physicalObjects){
-            if(enemy instanceof Enemy)
-                ((Enemy) enemy).move();
-        }
-        //level1List[0].move();
-        s1.move();
-        b.move();
     }
 
     public void addPhysicalObject(Entity e){
         physicalObjects.add(e);
     }
 
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+    s1.keyPressed(e);
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+    s1.keyReleased(e);
+    }
+    private void update(){
+        b.solveCollisions(physicalObjects);
+        for(Entity enemy : physicalObjects){
+            if(enemy instanceof Enemy)
+                ((Enemy) enemy).move();
+        }
+
+        s1.move();
+        b.move();
+    }
 }

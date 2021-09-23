@@ -22,6 +22,8 @@ public class Enemy extends Entity{ //Eventuellement transformer en LineEnemy
 
     public Enemy(int x,int y,int fX, int fY,Color color){
         super(x,y);
+        width=30;
+        height=30;
         this.fX = fX;
         this.fY = fY;
         distance = Math.sqrt(Math.pow((fX - x),2) + Math.pow((fY - y),2));
@@ -40,7 +42,7 @@ public class Enemy extends Entity{ //Eventuellement transformer en LineEnemy
         distance = Math.sqrt(Math.pow((fX - x),2) + Math.pow((fY - y),2));
         directionVector[0] = (fX - x) / (float)distance;
         directionVector[1] = (fY - y) / (float)distance;
-        //Normalize
+
         speed = 1;
         this.color = color;
     }
@@ -57,6 +59,11 @@ public class Enemy extends Entity{ //Eventuellement transformer en LineEnemy
 
     public void attack(){
 
+    }
+
+    @Override
+    public void drawEntity(Graphics g){
+        g.drawRect(x,y,width,height);
     }
 
 }

@@ -13,6 +13,9 @@ import java.util.EventListener;
 public class PlayGround extends JPanel  {
 
 
+    public static int HEIGHT=600;
+    public static int WIDTH=300;
+
     private ArrayList<Entity> drawables=new ArrayList<>();
     public JButton gameToMenu;
 
