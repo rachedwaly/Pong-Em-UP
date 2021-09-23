@@ -1,3 +1,4 @@
+<<<<<<<<< Temporary merge branch 1
 import java.awt.*;
 import java.util.Vector;
 
@@ -6,6 +7,11 @@ public class Enemy extends Entity{ //Eventuellement transformer en LineEnemy
     public double distance;
     public float[] directionVector = new float[2]; //vecteur de pos initiale vers pos finale
     public boolean destReached = false;
+=========
+public class Enemy{
+    public int iX,iY;
+    public int fX,fY;
+>>>>>>>>> Temporary merge branch 2
 
     public Enemy(){
 
@@ -20,6 +26,7 @@ public class Enemy extends Entity{ //Eventuellement transformer en LineEnemy
 
     }
 
+<<<<<<<<< Temporary merge branch 1
     public Enemy(int x,int y,int fX, int fY,Color color){
         super(x,y);
         width=30;
@@ -42,7 +49,7 @@ public class Enemy extends Entity{ //Eventuellement transformer en LineEnemy
         distance = Math.sqrt(Math.pow((fX - x),2) + Math.pow((fY - y),2));
         directionVector[0] = (fX - x) / (float)distance;
         directionVector[1] = (fY - y) / (float)distance;
-
+        //Normalize
         speed = 1;
         this.color = color;
     }

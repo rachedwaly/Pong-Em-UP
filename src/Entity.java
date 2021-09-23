@@ -1,8 +1,6 @@
 import java.awt.*;
-import java.util.Random;
 
 public abstract class Entity {
-
     protected int x,y,width,height;
     static final int HEIGHT=PlayGround.HEIGHT; //height of the game
     static final int WIDTH=PlayGround.WIDTH; //width of the game

@@ -5,9 +5,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import java.util.EventListener;
-
-
 
 
 public class PlayGround extends JPanel  {
@@ -26,13 +23,13 @@ public class PlayGround extends JPanel  {
         add(gameToMenu);
         setPreferredSize(new Dimension(WIDTH,HEIGHT));
     }
-
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         for (Entity entity : drawables) {
             entity.drawEntity(g);
         }
+>>>>>>>>> Temporary merge branch 2
     }
 
     public void addDrawable(Entity e){
@@ -41,9 +38,6 @@ public class PlayGround extends JPanel  {
     public void removeDrawable(Entity e){
         drawables.remove(e);
     }
-
-
-
     public void update(){
         repaint();
     }

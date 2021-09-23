@@ -46,14 +46,15 @@ public class Model implements ActionListener, KeyListener {
         }
         view.addDrawable(b); //to remove
         timer = new Timer(1, this);
+>>>>>>>>> Temporary merge branch 2
         timer.start();
+
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         this.update();
         view.update();
-
     }
 
     public void addPhysicalObject(Entity e){
@@ -62,14 +63,11 @@ public class Model implements ActionListener, KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-
     }
-
     @Override
     public void keyPressed(KeyEvent e) {
     s1.keyPressed(e);
     }
-
     @Override
     public void keyReleased(KeyEvent e) {
     s1.keyReleased(e);
