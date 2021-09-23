@@ -1,11 +1,10 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
-public class Model implements ActionListener, KeyListener {
+public class Model implements ActionListener {
 
     public static int HEIGHT=600,WIDTH=300;
 
@@ -13,7 +12,14 @@ public class Model implements ActionListener, KeyListener {
     public Ball b;
     private PlayGround view;
     private Timer timer;
-    private ArrayList<Entity> physicalObjects=new ArrayList<>();
+
+    public ArrayList<Entity> physicalObjects = new ArrayList<>();
+    private Enemy[] level1List = {  //new Enemy(0,0,600,600),
+                                    new Enemy(100,200,200,200, Color.GREEN),
+                                    new Enemy(200,100,200,200, Color.BLUE),
+                                    new Enemy(100,100,10,10,100,100,Color.RED)
+                                    //new Enemy(400,400,500,500)
+                                };
 
 
     public Model(PlayGround p) {
@@ -26,6 +32,8 @@ public class Model implements ActionListener, KeyListener {
         addPhysicalObject(wallRight);
         addPhysicalObject(wallLeft);
         addPhysicalObject(wallUp);
+        for(Enemy enemy : level1List)
+            addPhysicalObject(enemy);
         addPhysicalObject(s1);
 
 
@@ -35,29 +43,18 @@ public class Model implements ActionListener, KeyListener {
         view.addDrawable(b); //to remove
         timer = new Timer(1, this);
         timer.start();
-
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        this.update();
-        view.update();
-    }
-    @Override
-    public void keyTyped(KeyEvent e) {
-    }
-    @Override
-    public void keyPressed(KeyEvent e) {
-        s1.keyPressed(e);
-    }
-    @Override
-    public void keyReleased(KeyEvent e) {
-        s1.keyReleased(e);
-    }
 
-    private void update(){
-        s1.move();
         b.solveCollisions(physicalObjects);
+        for(Entity enemy : physicalObjects){
+            if(enemy instanceof Enemy)
+                ((Enemy) enemy).move();
+        }
+        //level1List[0].move();
+        s1.move();
         b.move();
     }
 
