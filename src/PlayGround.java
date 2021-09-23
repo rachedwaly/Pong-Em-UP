@@ -5,26 +5,30 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import java.util.EventListener;
 
 
-public class PlayGround extends JPanel implements KeyListener {
-
-    public static int HEIGHT=600,WIDTH=300;
+public class PlayGround extends JPanel implements ActionListener, KeyListener {
+    private StickPlayer1 s1;
+    static int HEIGHT=600,WIDTH=300;
+    private Timer timer;
+    private Ball b;
     private int acceleration=0;
-    private Model model;
-
-    public JButton gameToMenu; //Listener initialised in PongEmUp
+    private VerticalWall wallRight;
+    private VerticalWall wallLeft;
+    private HorizontalWall wallUp;
+    private ArrayList<Entity> physicalObjects=new ArrayList<>();
 
 
     public PlayGround(){
-        super(new FlowLayout()); //BorderLayout instead ?
-        model = new Model(this);
-        gameToMenu = new JButton("Menu");
-        add(gameToMenu);
         setPreferredSize(new Dimension(WIDTH,HEIGHT));
+        s1=new StickPlayer1(WIDTH/2,HEIGHT-20);
+        b=new Ball(250,580);
+        wallRight=new VerticalWall(WIDTH-10,0,10,HEIGHT);
+        wallLeft=new VerticalWall(0,0,10,HEIGHT);
+        wallUp=new HorizontalWall(0,0,WIDTH,10);
+        timer = new Timer(1, this);
+        timer.start();
     }
-
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -36,12 +40,39 @@ public class PlayGround extends JPanel implements KeyListener {
 
     private void drawObjects(Graphics g) {
         g.setColor(Color.BLACK);
-        g.fillRect(model.s1.getX(), model.s1.getY(), model.s1.getWidth(), model.s1.getHeight());
-        g.fillOval(model.b.getX(),model.b.getY(),model.b.getWidth(),model.b.getWidth());
+        g.fillRect(s1.getX(), s1.getY(), s1.getWidth(), s1.getHeight());
+        g.fillOval(b.getX(),b.getY(),b.getWidth(),b.getWidth());
 
 
     }
 
+    private void updateStick(){
+
+        s1.move();
+        repaint();
+
+
+    }
+
+    private void updateBall(){
+        b.move();
+        repaint();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        physicalObjects.add(wallUp);
+        physicalObjects.add(wallLeft);
+        physicalObjects.add(wallRight);
+        physicalObjects.add(s1);
+        b.solveCollisions(physicalObjects);
+        physicalObjects.clear();
+        updateBall();
+        updateStick();
+
+
+
+    }
 
 
     @Override
@@ -53,19 +84,14 @@ public class PlayGround extends JPanel implements KeyListener {
     public void keyPressed(KeyEvent e) {
 
 
-        model.s1.keyPressed(e);
+        s1.keyPressed(e);
 
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
 
-        model.s1.keyReleased(e);
+        s1.keyReleased(e);
 
     }
-
-    public void update(){
-        repaint();
-    }
-
 }

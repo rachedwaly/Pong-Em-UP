@@ -1,23 +1,24 @@
 import java.util.ArrayList;
 import java.util.Random;
 
-
-import static java.lang.Math.min;
+import static java.lang.Math.*;
 
 
 public class Ball extends Entity {
     private int slope;
     private boolean direction;
-    private int speed;
+
     public Ball(int x, int y) {
 
         super(x, y);
         this.width=10;
         this.height=10;
 
-        this.speed=1;
+        this.speedy=1;
+
         Random r=new Random();
-        slope= r.nextInt(4)+1;
+        slope= r.nextInt(2)+1;
+        speedx=slope*slope;
         direction=r.nextBoolean();
         //slope=5;
         //direction=true;
@@ -25,47 +26,57 @@ public class Ball extends Entity {
 
 
     }
-    public void move(int speed,boolean dir,int slope){
-        this.speed=speed;
-        this.direction=dir;
-        this.slope=slope;
 
-        this.y=slope*speed+this.y;
-        this.x=x+speed*(direction ? 1:-1);
-
-        if ((x>HEIGHT) || (x<0)){
-            x=250;
-            y=150;
-        }
-    }
 
     public void move(){
-        this.x=slope*speed+this.x;
-        this.y=y+speed*(direction ? 1:-1);
+        speedx=slope*speedy;
+        this.x=speedx+this.x;
+        this.y=y+speedy;
 
-        if ((x>300) || (x<0)){
+        if (y>HEIGHT){
             x=250;
             y=150;
         }
     }
+
+
+
 
     public void solveCollisions(ArrayList<Entity> list){
         for (Entity entity : list) {
-
-
             if (this.getBounds().intersects(entity.getBounds())) {
-                slope = -slope;
-                if (entity.isOrientation()) {
-                    //taking in consideration the speed of the stick
-                    if (entity.speed == 0) {
-                        slope = -slope;
-                        direction = !direction;
-                    } else {
-                    slope = -min(-slope + entity.speed, 3);
-                    direction = !direction;
-                    }
+                if (!entity.isOrientation()){
+                    slope = -slope;
                 }
+                else{
+                    //taking in consideration the speed of the stick
+                    int sgn1= slope/abs(slope);
+                    int sgn2=speedy/abs(speedy);
+                    if (entity.speedx == 0)  {
+
+                        slope=-slope;
+                        speedy=-speedy;
+
+                    } else {
+                        if (speedx*entity.speedx<0){
+                            System.out.println("zall1");
+                            slope=-slope/2;
+                            speedy=-sgn2;
+                            if (slope==0){
+                                slope=-sgn1;
+                            }
+                        }
+                        else if(speedx*entity.speedx>0) {
+                            System.out.println("zall2");
+                            slope=-sgn1*min(abs(slope)*2,3);
+                            speedy=-sgn2*2;
+                        }
+                    }
+
+                    }
                 break;
+                }
+
             }
 
         }
@@ -74,4 +85,4 @@ public class Ball extends Entity {
 
 
 
-}
+
