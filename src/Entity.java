@@ -6,8 +6,9 @@ public abstract class Entity {
     protected int x,y,width,height;
     static final int HEIGHT=500; //height of the game
     static final int WIDTH=300; //width of the game
-    protected  int speed;
+    protected  int speed; //speed in pixels /10ms
     protected boolean orientation=false; //the orientation of the object : TODO which is which ?
+    public Color color = Color.BLACK;
     protected String name;
 
 
@@ -21,14 +22,14 @@ public abstract class Entity {
 
     public Entity(){
         this(Main.random.nextInt(WIDTH),Main.random.nextInt(HEIGHT),
-                Main.random.nextInt(20),Main.random.nextInt(20),true);
+                Main.random.nextInt(30),Main.random.nextInt(30),true);
     }
 
     public Entity(int x,int y){
         this.x=x;
         this.y=y;
-        this.width=0;
-        this.height=0;
+        this.width=30;
+        this.height=30;
         this.speed = 1;
     }
 

@@ -23,6 +23,7 @@ public class PlayGround extends JPanel implements KeyListener {
         gameToMenu = new JButton("Menu");
         add(gameToMenu);
         setPreferredSize(new Dimension(WIDTH,HEIGHT));
+        //setFocusable(true);
     }
 
     @Override
@@ -38,6 +39,10 @@ public class PlayGround extends JPanel implements KeyListener {
         g.setColor(Color.BLACK);
         g.fillRect(model.s1.getX(), model.s1.getY(), model.s1.getWidth(), model.s1.getHeight());
         g.fillOval(model.b.getX(),model.b.getY(),model.b.getWidth(),model.b.getWidth());
+        for(Entity entity : model.physicalObjects){
+            g.setColor(entity.color);
+            g.fillRect(entity.x,entity.y,entity.width,entity.height);
+        }
 
 
     }
