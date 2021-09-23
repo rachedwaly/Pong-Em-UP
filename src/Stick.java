@@ -94,11 +94,5 @@ public class Stick extends Entity{
     public void drawEntity(Graphics g){
         g.fillRect(getX(),getY(),getWidth(),10);
     }
-
-
-
-
-
-
-
+    
 }
