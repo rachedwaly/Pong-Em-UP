@@ -45,8 +45,6 @@ public class Ball extends Entity {
     public void solveCollisions(ArrayList<Entity> list){
         for (Entity entity : list) {
             if (this.getBounds().intersects(entity.getBounds())) {
-
-
                 if (!entity.isOrientation()){
                     slope = -slope;
                 }
@@ -73,10 +71,6 @@ public class Ball extends Entity {
                             slope=-sgn1*min(abs(slope)*2,3);
                             speedy=-sgn2*2;
                         }
-
-
-
-
                     }
 
                     }
