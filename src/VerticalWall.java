@@ -4,4 +4,5 @@ public class VerticalWall extends Wall{
         orientation=false;
 
     }
+
 }

@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -12,41 +13,40 @@ public class Ball extends Entity {
 
         super(x, y);
         this.width=10;
-        this.height=10;
-
+        this.height=width;
         this.speedy=1;
-
         Random r=new Random();
         slope= r.nextInt(2)+1;
-        speedx=slope*slope;
+        //speedx=slope*slope;
         direction=r.nextBoolean();
-        //slope=5;
-        //direction=true;
-
-
 
     }
-
+    @Override
+    public void drawEntity(Graphics g){
+        g.fillOval(x,y,width,height);
+    }
 
     public void move(){
         speedx=slope*speedy;
         this.x=speedx+this.x;
         this.y=y+speedy;
 
+
         if (y>HEIGHT){
             x=250;
             y=150;
         }
+
+
+
+
     }
-
-
-
-
     public void solveCollisions(ArrayList<Entity> list){
         for (Entity entity : list) {
             if (this.getBounds().intersects(entity.getBounds())) {
                 if (!entity.isOrientation()){
                     slope = -slope;
+
                 }
                 else{
                     //taking in consideration the speed of the stick

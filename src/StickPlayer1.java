@@ -3,7 +3,7 @@ import java.awt.event.*;
 
 
 import static java.lang.Math.min;
-
+//this class will be usefull if we ever work in the versus version of this game
 public class StickPlayer1 extends Stick {
 
 
@@ -63,7 +63,10 @@ public class StickPlayer1 extends Stick {
         }
     }
 
+    @Override
     public Rectangle getBounds(){
         return new Rectangle(getX()+1,getY(),getWidth(),3);
     }
+
+
 }

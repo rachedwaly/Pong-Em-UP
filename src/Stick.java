@@ -1,3 +1,6 @@
+import java.awt.*;
+import java.awt.event.KeyEvent;
+
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
@@ -31,6 +34,68 @@ public class Stick extends Entity{
 
 
     }
+
+    public void keyPressed(KeyEvent e) {
+        int key = e.getKeyCode();
+
+        if (key == KeyEvent.VK_LEFT) {
+            speedx =-5;
+            dx = speedx;
+
+        }
+
+        if (key == KeyEvent.VK_RIGHT) {
+            speedx =5;
+            dx = speedx;
+
+        }
+
+        if (key == KeyEvent.VK_UP) {
+            speedy =5;
+            dy = -speedy;
+
+        }
+
+        if (key == KeyEvent.VK_DOWN) {
+            speedy =-5;
+            dy = -speedy;
+
+        }
+    }
+
+    public void keyReleased(KeyEvent e) {
+        int key = e.getKeyCode();
+
+
+        if (key == KeyEvent.VK_LEFT) {
+            dx = 0;
+            speedx =0;
+        }
+        if (key == KeyEvent.VK_RIGHT) {
+            dx = 0;
+            speedx =0;
+        }
+        if (key == KeyEvent.VK_UP) {
+            dy = 0;
+            speedy =0;
+        }
+        if (key == KeyEvent.VK_DOWN) {
+            dy = 0;
+            speedy =0;
+        }
+    }
+
+    @Override
+    public Rectangle getBounds(){
+        return new Rectangle(getX()+1,getY(),getWidth(),3);
+    }
+
+    @Override
+    public void drawEntity(Graphics g){
+        g.fillRect(getX(),getY(),getWidth(),10);
+    }
+
+
 
 
 
