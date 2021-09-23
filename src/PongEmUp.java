@@ -10,6 +10,7 @@ public class PongEmUp extends JFrame {
     public final static String MAINMENU = "mainmenu";
     public final static String OPTIONS = "options";
 
+    private Model controller;
     private JPanel containerPane;
     private String currentScene;
     private PlayGround playground;
@@ -21,10 +22,10 @@ public class PongEmUp extends JFrame {
 
         super("Pong'em up");
         containerPane = new JPanel();
-        containerPane.setFocusable(true);
         add(containerPane);
+        containerPane.setFocusable(true);
 
-        setPreferredSize(new Dimension(600,800));
+        setPreferredSize(new Dimension(PlayGround.WIDTH,PlayGround.HEIGHT));
         setVisible(true);
         setResizable(true);
 
@@ -68,7 +69,8 @@ public class PongEmUp extends JFrame {
         newGame.addActionListener(e -> {        //TODO Reset playground instead of making a new one ?
             playground = new PlayGround();
             containerPane.add(playground);
-            containerPane.addKeyListener(playground);
+            controller= new Model(playground);
+            containerPane.addKeyListener(controller);
             playground.gameToMenu.addActionListener(e2 -> { //Eventually, layeredPane transition
                 playground.setVisible(false);
                 menu.setVisible(true);

@@ -3,7 +3,7 @@ import java.awt.event.*;
 
 
 import static java.lang.Math.min;
-
+//this class will be usefull if we ever work in the versus version of this game
 public class StickPlayer1 extends Stick {
 
 
@@ -17,30 +17,56 @@ public class StickPlayer1 extends Stick {
         int key = e.getKeyCode();
 
         if (key == KeyEvent.VK_LEFT) {
-            speed=5;
-            dx = -speed;
+            speedx =-5;
+            dx = speedx;
 
         }
 
         if (key == KeyEvent.VK_RIGHT) {
-            speed=-5;
-            dx = -speed;
+            speedx =5;
+            dx = speedx;
+
+        }
+
+        if (key == KeyEvent.VK_UP) {
+            speedy =5;
+            dy = -speedy;
+
+        }
+
+        if (key == KeyEvent.VK_DOWN) {
+            speedy =-5;
+            dy = -speedy;
 
         }
     }
 
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
-        speed=0;
+
+
         if (key == KeyEvent.VK_LEFT) {
             dx = 0;
+            speedx =0;
         }
         if (key == KeyEvent.VK_RIGHT) {
             dx = 0;
+            speedx =0;
+        }
+        if (key == KeyEvent.VK_UP) {
+            dy = 0;
+            speedy =0;
+        }
+        if (key == KeyEvent.VK_DOWN) {
+            dy = 0;
+            speedy =0;
         }
     }
 
+    @Override
     public Rectangle getBounds(){
-        return new Rectangle(getX(),getY(),getWidth(),1);
+        return new Rectangle(getX()+1,getY(),getWidth(),3);
     }
+
+
 }
