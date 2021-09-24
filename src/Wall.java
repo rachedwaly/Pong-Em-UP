@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Wall extends Entity{
     public Wall(int x,int y,int w,int h){
@@ -11,4 +12,8 @@ public class Wall extends Entity{
         g.drawRect(x,y,width,height);
 
     }
+
+
+
+
 }

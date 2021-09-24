@@ -1,14 +1,14 @@
 import java.awt.*;
+import java.util.ArrayList;
 
 public abstract class Entity {
     protected int x,y,width,height;
     static final int HEIGHT=PlayGround.HEIGHT; //height of the game
     static final int WIDTH=PlayGround.WIDTH; //width of the game
-    protected  int speedx=0,speedy=0;
+    protected  int[] speed =new int[2];
     protected boolean orientation=false; //the orientation of the object
     public Color color = Color.BLACK;
     protected String name;
-    protected  int speed; //speed in pixels /10ms
 
 
     public boolean isOrientation() {
@@ -29,7 +29,6 @@ public abstract class Entity {
         this.y=y;
         this.width=0;
         this.height=0;
-        this.speed = 1;
     }
 
     public Entity(int x,int y, int w, int h){
@@ -37,7 +36,6 @@ public abstract class Entity {
         this.y=y;
         this.width=w;
         this.height=h;
-        this.speed = 1;
     }
 
     public Entity(int x,int y, int w, int h,boolean orientation){
@@ -46,7 +44,6 @@ public abstract class Entity {
         this.y=y;
         this.width=w;
         this.height=h;
-        this.speed = 1;
     }
 
     public int getX(){
@@ -67,6 +64,8 @@ public abstract class Entity {
     }
 
     public void drawEntity(Graphics g){}
+
+    public ArrayList<PhysicalBoundarie> getPhysicalBoundaries(){ return new ArrayList<>();}
 
 
 }

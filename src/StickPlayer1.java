@@ -17,26 +17,26 @@ public class StickPlayer1 extends Stick {
         int key = e.getKeyCode();
 
         if (key == KeyEvent.VK_LEFT) {
-            speedx =-5;
-            dx = speedx;
+            speed[0] =-5;
+            dx = speed[0];
 
         }
 
         if (key == KeyEvent.VK_RIGHT) {
-            speedx =5;
-            dx = speedx;
+            speed[0] =5;
+            dx = speed[0];
 
         }
 
         if (key == KeyEvent.VK_UP) {
-            speedy =5;
-            dy = -speedy;
+            speed[1] =5;
+            dy = -speed[1];
 
         }
 
         if (key == KeyEvent.VK_DOWN) {
-            speedy =-5;
-            dy = -speedy;
+            speed[1] =-5;
+            dy = -speed[1];
 
         }
     }
@@ -47,19 +47,19 @@ public class StickPlayer1 extends Stick {
 
         if (key == KeyEvent.VK_LEFT) {
             dx = 0;
-            speedx =0;
+            speed[0] =0;
         }
         if (key == KeyEvent.VK_RIGHT) {
             dx = 0;
-            speedx =0;
+            speed[0] =0;
         }
         if (key == KeyEvent.VK_UP) {
             dy = 0;
-            speedy =0;
+            speed[1] =0;
         }
         if (key == KeyEvent.VK_DOWN) {
             dy = 0;
-            speedy =0;
+            speed[1] =0;
         }
     }
 

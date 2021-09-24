@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -39,26 +40,26 @@ public class Stick extends Entity{
         int key = e.getKeyCode();
 
         if (key == KeyEvent.VK_LEFT) {
-            speedx =-5;
-            dx = speedx;
+            speed[0] =-5;
+            dx = speed[0];
 
         }
 
         if (key == KeyEvent.VK_RIGHT) {
-            speedx =5;
-            dx = speedx;
+            speed[0] =5;
+            dx = speed[0];
 
         }
 
         if (key == KeyEvent.VK_UP) {
-            speedy =5;
-            dy = -speedy;
+            speed[1] =5;
+            dy = -speed[1];
 
         }
 
         if (key == KeyEvent.VK_DOWN) {
-            speedy =-5;
-            dy = -speedy;
+            speed[1] =-5;
+            dy = -speed[1];
 
         }
     }
@@ -69,30 +70,41 @@ public class Stick extends Entity{
 
         if (key == KeyEvent.VK_LEFT) {
             dx = 0;
-            speedx =0;
+            speed[0] =0;
         }
         if (key == KeyEvent.VK_RIGHT) {
             dx = 0;
-            speedx =0;
+            speed[0] =0;
         }
         if (key == KeyEvent.VK_UP) {
             dy = 0;
-            speedy =0;
+            speed[1] =0;
         }
         if (key == KeyEvent.VK_DOWN) {
             dy = 0;
-            speedy =0;
+            speed[1] =0;
         }
     }
 
     @Override
     public Rectangle getBounds(){
-        return new Rectangle(getX()+1,getY(),getWidth(),3);
+        return new Rectangle(getX(),getY(),getWidth(),10);
     }
 
     @Override
     public void drawEntity(Graphics g){
         g.fillRect(getX(),getY(),getWidth(),10);
     }
-    
+
+    @Override
+    public ArrayList<PhysicalBoundarie> getPhysicalBoundaries() {
+        PhysicalBoundarie c1=new PhysicalBoundarie(getX()+2,getY(),getWidth()-4,getHeight(),true);
+        PhysicalBoundarie c2=new PhysicalBoundarie(getX(),getY(),1,getHeight(),false); //left side
+        PhysicalBoundarie c3=new PhysicalBoundarie(getWidth()-1,getY(),1,getHeight(),false); //right side
+        ArrayList <PhysicalBoundarie> list=new ArrayList<>();
+        list.add(c1);
+        list.add(c2);
+        list.add(c3);
+        return list;
+    }
 }

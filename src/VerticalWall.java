@@ -1,8 +1,16 @@
+import java.util.ArrayList;
+
 public class VerticalWall extends Wall{
     public VerticalWall(int x,int y,int width,int height){
         super(x,y,width,height);
         orientation=false;
 
     }
-
+    @Override
+    public ArrayList<PhysicalBoundarie> getPhysicalBoundaries() {
+        PhysicalBoundarie c=new PhysicalBoundarie(x,y,width,height,false);
+        ArrayList <PhysicalBoundarie> list=new ArrayList<>();
+        list.add(c);
+        return list;
+    }
 }
