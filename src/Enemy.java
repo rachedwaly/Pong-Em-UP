@@ -3,23 +3,16 @@ import java.util.ArrayList;
 
 public class Enemy extends Entity{ //Eventuellement transformer en LineEnemy
     public int fX,fY; //pos finale de l'objet
-    public double distance;
-    public float[] directionVector = new float[2]; //vecteur de pos initiale vers pos finale
     public boolean destReached = false;
-
-
 
     public Enemy(){
 
         super();
         fX = x;
         fY = y;
-        distance = 0;
-        directionVector[0] = 0;
-        directionVector[1] = 0;
 
-        speed[0]=1;
-        speed[1]=1;
+        speed[0] = 0;
+        speed[1] = 0;
 
     }
 
@@ -30,13 +23,15 @@ public class Enemy extends Entity{ //Eventuellement transformer en LineEnemy
         height=30;
         this.fX = fX;
         this.fY = fY;
-        distance = Math.sqrt(Math.pow((fX - x),2) + Math.pow((fY - y),2));
-        //Normalize
-        directionVector[0] = (fX - x) / (float)distance;
-        directionVector[1] = (fY - y) / (float)distance;
 
-        speed[0] = 1;
-        speed[1]=1;
+        if(fX - x != 0)
+            speed[0] = (fX - x)/Math.abs(fX - x);
+        else
+            speed[0] = 0;
+        if(fY - y != 0)
+            speed[1] = (fY - y)/Math.abs(fY - y);
+        else
+            speed[1] = 0;
         this.color = color;
     }
 
@@ -44,26 +39,25 @@ public class Enemy extends Entity{ //Eventuellement transformer en LineEnemy
         super(x, y, w, h);
         this.fX = fX;
         this.fY = fY;
-        distance = Math.sqrt(Math.pow((fX - x),2) + Math.pow((fY - y),2));
-        directionVector[0] = (fX - x) / (float)distance;
-        directionVector[1] = (fY - y) / (float)distance;
-        //Normalize
-        speed[0] = 1;
-        speed[1]=1;
+
+        if(fX - x != 0)
+            speed[0] = (fX - x)/Math.abs(fX - x);
+        else
+            speed[0] = 0;
+        if(fY - y != 0)
+            speed[1] = (fY - y)/Math.abs(fY - y);
+        else
+            speed[1] = 0;
         this.color = color;
     }
 
     public void move(){
-        if(!destReached){
-            x += (int)(directionVector[0] * speed[0]);
-            y += (int)(directionVector[1] * speed[1]);
-            if(x >= fX && y >= fY) {
-                destReached = true;
+            x += speed[0];
+            y += speed[1];
+            if(Math.abs(fX - x) <= 0.1f && Math.abs(fY - y) <= 0.1f) {
                 speed[0]=0;
                 speed[1]=0;
             }
-
-        }
     }
     public void attack(){
 
@@ -71,7 +65,8 @@ public class Enemy extends Entity{ //Eventuellement transformer en LineEnemy
 
     @Override
     public void drawEntity(Graphics g){
-        g.drawRect(x,y,width,height);
+        g.setColor(this.color);
+        g.fillRect(x,y,width,height);
     }
 
     @Override

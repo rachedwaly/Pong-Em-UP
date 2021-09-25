@@ -93,6 +93,7 @@ public class Stick extends Entity{
 
     @Override
     public void drawEntity(Graphics g){
+        g.setColor(Color.BLACK);
         g.fillRect(getX(),getY(),getWidth(),10);
     }
 

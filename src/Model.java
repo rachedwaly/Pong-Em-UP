@@ -16,9 +16,8 @@ public class Model implements ActionListener, KeyListener {
     private Timer timer;
 
     public ArrayList<Entity> physicalObjects = new ArrayList<>();
-    private Enemy[] level1List = {  //new Enemy(0,0,600,600),
-                                    //new Enemy(100,200,200,200, Color.GREEN),
-                                    //new Enemy(200,100,200,200, Color.BLUE),
+    private Enemy[] level1List = {  new Enemy(100,200,200,200, Color.GREEN),
+                                    new Enemy(200,100,200,200, Color.BLUE),
                                     new Enemy(50,50,10,10,100,100,Color.RED),
 
                                     //new Enemy(400,400,500,500)
