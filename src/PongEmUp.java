@@ -76,6 +76,7 @@ public class PongEmUp extends JFrame {
                 menu.setVisible(true);
             });
             menu.setVisible(false);
+
         });
 
         options.addActionListener(e -> {

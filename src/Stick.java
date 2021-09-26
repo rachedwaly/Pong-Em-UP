@@ -52,13 +52,13 @@ public class Stick extends Entity{
         }
 
         if (key == KeyEvent.VK_UP) {
-            speed[1] =-3;
+            speed[1] =-2;
             dy = speed[1];
 
         }
 
         if (key == KeyEvent.VK_DOWN) {
-            speed[1] =3;
+            speed[1] =2;
             dy = speed[1];
 
         }

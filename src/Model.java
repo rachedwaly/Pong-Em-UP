@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.TimerTask;
 
 public class Model implements ActionListener, KeyListener {
-
+    boolean running=true;
     public static int HEIGHT=600,WIDTH=300;
     private  int delay=0;
     public Stick s1;
@@ -42,20 +42,14 @@ public class Model implements ActionListener, KeyListener {
         for(Enemy enemy : level1List)
             addPhysicalObject(enemy);
 
-
-
         for (Entity entity : physicalObjects) {
             view.addDrawable(entity);
         }
+
         view.addDrawable(b); //to remove
 
-        //rendering in 120 frames per second
-        timer = new Timer(9, this);
+        timer = new Timer(5, this);
         timer.start();
-        Timer timer1=new Timer(1000,view);
-        timer1.start();
-
-
 
 
     }
@@ -65,6 +59,7 @@ public class Model implements ActionListener, KeyListener {
         delay+= timer.getDelay();
         this.update();
         view.update();
+
 
     }
 
@@ -84,7 +79,7 @@ public class Model implements ActionListener, KeyListener {
     s1.keyReleased(e);
     }
     private void update(){
-        delay+=timer.getDelay();
+
         b.solveCollisions(physicalObjects);
         for(Entity enemy : physicalObjects){
             if(enemy instanceof Enemy)
@@ -94,4 +89,6 @@ public class Model implements ActionListener, KeyListener {
         s1.move();
         b.move();
     }
+
+
 }
