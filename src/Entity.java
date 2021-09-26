@@ -6,6 +6,7 @@ public abstract class Entity {
     static final int HEIGHT=PlayGround.HEIGHT; //height of the game
     static final int WIDTH=PlayGround.WIDTH; //width of the game
     protected  int[] speed =new int[2];
+    protected int[] lookDirection;
     protected boolean orientation=false; //the orientation of the object
     public Color color = Color.BLACK;
     protected String name;
@@ -58,6 +59,8 @@ public abstract class Entity {
     public int getHeight(){
         return height;
     }
+
+    public abstract void move();
 
     public Rectangle getBounds(){
         return new Rectangle(x,y,width,height);

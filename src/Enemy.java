@@ -3,42 +3,23 @@ import java.util.ArrayList;
 
 public class Enemy extends Entity{ //Eventuellement transformer en LineEnemy
     public int fX,fY; //pos finale de l'objet
-    public boolean destReached = false;
+    public Projectile[] projectiles = new Projectile[20];
+    private int projectileIndex = 0;
 
-    public Enemy(){
-
-        super();
-        fX = x;
-        fY = y;
-
-        speed[0] = 0;
-        speed[1] = 0;
-
+    public Enemy(int x, int y){
+        this(x,y,x,y,Color.BLUE);
     }
 
 
     public Enemy(int x,int y,int fX, int fY,Color color){
-        super(x,y);
-        width=30;
-        height=30;
-        this.fX = fX;
-        this.fY = fY;
-
-        if(fX - x != 0)
-            speed[0] = (fX - x)/Math.abs(fX - x);
-        else
-            speed[0] = 0;
-        if(fY - y != 0)
-            speed[1] = (fY - y)/Math.abs(fY - y);
-        else
-            speed[1] = 0;
-        this.color = color;
+        this(x,y,30,30,fX,fY,color);
     }
 
     public Enemy(int x,int y, int w, int h,int fX, int fY,Color color){
         super(x, y, w, h);
         this.fX = fX;
         this.fY = fY;
+        lookDirection = new int[]{0,1};
 
         if(fX - x != 0)
             speed[0] = (fX - x)/Math.abs(fX - x);
@@ -49,6 +30,10 @@ public class Enemy extends Entity{ //Eventuellement transformer en LineEnemy
         else
             speed[1] = 0;
         this.color = color;
+
+        for(int i = 0; i < projectiles.length; i++)
+            projectiles[i] = new Projectile(x,y);
+
     }
 
     public void move(){
@@ -59,8 +44,8 @@ public class Enemy extends Entity{ //Eventuellement transformer en LineEnemy
                 speed[1]=0;
             }
     }
-    public void attack(){
-
+    public void fire(){
+        //projectiles[projectileIndex].fire();
     }
 
     @Override

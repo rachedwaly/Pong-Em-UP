@@ -16,9 +16,9 @@ public class Model implements ActionListener, KeyListener {
     private Timer timer;
 
     public ArrayList<Entity> physicalObjects = new ArrayList<>();
-    private Enemy[] level1List = {  new Enemy(100,200,200,200, Color.GREEN),
-                                    new Enemy(200,100,200,200, Color.BLUE),
-                                    new Enemy(50,50,10,10,100,100,Color.RED),
+    private Enemy[] level1List = {  //new Enemy(100,200,200,200, Color.GREEN),
+                                    //new Enemy(200,100,200,200, Color.BLUE),
+                                    //new Enemy(50,50,10,10,100,100,Color.RED),
 
                                     //new Enemy(400,400,500,500)
                                 };
@@ -36,16 +36,30 @@ public class Model implements ActionListener, KeyListener {
         addPhysicalObject(wallLeft);
         addPhysicalObject(wallUp);
         addPhysicalObject(s1);
+        for(Projectile projectile : s1.projectiles)
+            addPhysicalObject(projectile);
 
-        for(Enemy enemy : level1List)
+        for(Enemy enemy : level1List){
             addPhysicalObject(enemy);
-
-
+            for(Projectile projectile : enemy.projectiles)
+                addPhysicalObject(projectile);
+        }
 
         for (Entity entity : physicalObjects) {
-            view.addDrawable(entity);
+            if(entity instanceof Enemy){
+                Enemy enemy = (Enemy) entity;
+                for(Projectile projectile : enemy.projectiles)
+                    view.addDrawable(projectile);
+            }
+            else if(entity instanceof Stick){
+                Stick stick = (Stick) entity;
+                for(Projectile projectile : stick.projectiles)
+                    view.addDrawable(projectile);
+            }else
+                view.addDrawable(entity);
         }
         view.addDrawable(b); //to remove
+        view.addDrawable(s1);
         timer = new Timer(1, this);
 
         timer.start();
@@ -75,12 +89,10 @@ public class Model implements ActionListener, KeyListener {
     }
     private void update(){
         b.solveCollisions(physicalObjects);
-        for(Entity enemy : physicalObjects){
-            if(enemy instanceof Enemy)
-                ((Enemy) enemy).move();
+        for(Entity e : physicalObjects){
+            e.move();
         }
 
-        s1.move();
         b.move();
     }
 }

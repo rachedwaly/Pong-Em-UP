@@ -41,8 +41,8 @@ public class Ball extends Entity {
         }
 
     }
-/*
-    public void solveCollisions(ArrayList<Entity> list){
+
+    /*public void solveCollisions(ArrayList<Entity> list){
         for (Entity entity : list) {
 
             if (this.getBounds().intersects(entity.getBounds())) {//checking with which object the ball collide
@@ -83,9 +83,9 @@ public class Ball extends Entity {
 
         }
 
-    }
+    }*/
 
-*/
+
     public void solveCollisions(ArrayList<Entity> list){
         int flag=0;
         for (Entity entity : list) {
