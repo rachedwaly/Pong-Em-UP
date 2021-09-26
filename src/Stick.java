@@ -52,14 +52,14 @@ public class Stick extends Entity{
         }
 
         if (key == KeyEvent.VK_UP) {
-            speed[1] =5;
-            dy = -speed[1];
+            speed[1] =-3;
+            dy = speed[1];
 
         }
 
         if (key == KeyEvent.VK_DOWN) {
-            speed[1] =-5;
-            dy = -speed[1];
+            speed[1] =3;
+            dy = speed[1];
 
         }
     }
@@ -98,9 +98,10 @@ public class Stick extends Entity{
 
     @Override
     public ArrayList<PhysicalBoundarie> getPhysicalBoundaries() {
-        PhysicalBoundarie c1=new PhysicalBoundarie(getX()+2,getY(),getWidth()-4,getHeight(),true);
-        PhysicalBoundarie c2=new PhysicalBoundarie(getX(),getY(),1,getHeight(),false); //left side
-        PhysicalBoundarie c3=new PhysicalBoundarie(getWidth()-1,getY(),1,getHeight(),false); //right side
+        PhysicalBoundarie c1=new PhysicalBoundarie(getX(),getY(),getWidth(),3,true); //top side
+        PhysicalBoundarie c2=new PhysicalBoundarie(getX(),getY()+3,2,getHeight()-6,false); //left side
+        PhysicalBoundarie c3=new PhysicalBoundarie(getX()+getWidth()-2,getY()+3,2,getHeight()-6,false); //right side
+        PhysicalBoundarie c4=new PhysicalBoundarie(getX(),getY()+getHeight()-3,getWidth(),3,true); //right side
         ArrayList <PhysicalBoundarie> list=new ArrayList<>();
         list.add(c1);
         list.add(c2);

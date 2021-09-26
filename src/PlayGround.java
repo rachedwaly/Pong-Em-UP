@@ -7,7 +7,7 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 
-public class PlayGround extends JPanel  {
+public class PlayGround extends JPanel implements ActionListener {
     public static int HEIGHT=600;
     public static int WIDTH=300;
     private ArrayList<Entity> drawables=new ArrayList<>();
@@ -35,4 +35,8 @@ public class PlayGround extends JPanel  {
         repaint();
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        update();
+    }
 }
