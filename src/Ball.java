@@ -1,20 +1,14 @@
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
 
 import static java.lang.Math.*;
 
 
-public class Ball extends Entity{
+public class Ball extends Entity {
     private int slope;
     private float[] directionVector=new float[2];
     private Random r=new Random();
-
-    private int dy,dx;
-
 
     public Ball(int x, int y) {
 
@@ -31,21 +25,20 @@ public class Ball extends Entity{
     }
     @Override
     public void drawEntity(Graphics g){
+        g.setColor(Color.BLACK);
         g.fillOval(x,y,width,height);
     }
 
     public void move(){
-        speed[0]=slope*speed[1];
 
+        speed[0]=slope*speed[1];
         this.x+=speed[0];
         this.y+=speed[1];
-
 
         if (y>HEIGHT){
             x=250;
             y=150;
         }
-
 
     }
 
@@ -53,63 +46,64 @@ public class Ball extends Entity{
     public void solveCollisions(ArrayList<Entity> list) {
 
         for (Entity entity : list) {
-                if (this.getBounds().intersects(entity.getBounds())) {//checking with which object the ball collide
+            if (this.getBounds().intersects(entity.getBounds())) {//checking with which object the ball collide
 
-                    for (PhysicalBoundarie side : entity.getPhysicalBoundaries()) {
-                        //looping on the sides of the object to determine which side we are colliding with
+                for (PhysicalBoundarie side : entity.getPhysicalBoundaries()) {
+                    //looping on the sides of the object to determine which side we are colliding with
 
-                        if (this.getBounds().intersects(side)) {
+                    if (this.getBounds().intersects(side)) {
 
-                            if (!side.isOrientation()) {
-                                slope = -slope;
-                            } else {
-                                //taking in consideration the speed of the entity that collided with the ball
-
-
-
-                                //taking in consideration the speed along the y axis
-                                if ((entity.speed[1]==0)){
-                                    speed[1]=-speed[1];
-                                    y=y+2*speed[1];
-
-                                    //taking in consideration the speed along the x axis
-                                    updateSlope(entity);
-
-                                }
-
-                                else if (entity.speed[1]*speed[1]<0){
-                                    //taking in consideration the speed along the x axis
-                                    int sgn2 = speed[1] / abs(speed[1]);
-                                    speed[1]=-sgn2*(min(abs(speed[1])+1,2));
-                                    y=y+2*speed[1];
-
-                                    updateSlope(entity);
-                                }
-
-                                else {
-                                    int sgn2 = speed[1] / abs(speed[1]);
-
-                                    speed[1]=-sgn2*(max(abs(speed[1])-1,1));
-                                    y=y+2*speed[1];
-
-                                    updateSlope(entity);
-                                }
+                        if (!side.isOrientation()) {
+                            slope = -slope;
+                        } else {
+                            //taking in consideration the speed of the entity that collided with the ball
 
 
 
+                            //taking in consideration the speed along the y axis
+                            if ((entity.speed[1]==0)){
+                                speed[1]=-speed[1];
+                                y=y+2*speed[1];
 
-
-
+                                //taking in consideration the speed along the x axis
+                                updateSlope(entity);
 
                             }
 
-                        }
-                    }
-                    break;
-                }
+                            else if (entity.speed[1]*speed[1]<0){
+                                //taking in consideration the speed along the x axis
+                                int sgn2 = speed[1] / abs(speed[1]);
+                                speed[1]=-sgn2*(min(abs(speed[1])+1,2));
+                                y=y+2*speed[1];
 
+                                updateSlope(entity);
+                            }
+
+                            else {
+                                int sgn2 = speed[1] / abs(speed[1]);
+
+                                speed[1]=-sgn2*(max(abs(speed[1])-1,1));
+                                y=y+2*speed[1];
+
+                                updateSlope(entity);
+                            }
+
+
+
+
+
+
+
+                        }
+
+                    }
+                }
+                break;
             }
+
+        }
     }
+
 
     void updateSlope(Entity entity) {
         int sgn1 = slope / abs(slope);
@@ -124,11 +118,7 @@ public class Ball extends Entity{
 
         }
     }
-
-
-
 }
-
 
 
 

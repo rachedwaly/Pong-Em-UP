@@ -8,6 +8,9 @@ import static java.lang.Math.min;
 public class Stick extends Entity{
 
     protected int dx,dy;
+    private int projectileIndex;
+    private boolean canShoot = true;
+    public Projectile[] projectiles = new Projectile[20]; //Ten buffered projectiles, 11 is empty
 
 
     public Stick(int x, int y){
@@ -15,7 +18,9 @@ public class Stick extends Entity{
         this.width=40;
         this.height=10;
         orientation=true;
-
+        lookDirection = new int[]{0,-1};
+        for(int i = 0; i < projectiles.length; i++)
+            projectiles[i] = new Projectile(x,y);
     }
     public void move(){
 
@@ -33,6 +38,10 @@ public class Stick extends Entity{
             this.y=max(this.y+dy,HEIGHT*3/4);
         }
 
+
+    }
+
+    public void fire(){
 
     }
 
@@ -62,6 +71,12 @@ public class Stick extends Entity{
             dy = speed[1];
 
         }
+        if (key == KeyEvent.VK_SPACE){
+            if(canShoot){
+                projectiles[projectileIndex].fire(this); // shoot vertically
+                canShoot = false;
+            }
+        }
     }
 
     public void keyReleased(KeyEvent e) {
@@ -84,6 +99,10 @@ public class Stick extends Entity{
             dy = 0;
             speed[1] =0;
         }
+        if (key == KeyEvent.VK_SPACE){
+            canShoot = true;
+            projectileIndex = (projectileIndex + 1)%20;
+        }
     }
 
     @Override
@@ -93,6 +112,7 @@ public class Stick extends Entity{
 
     @Override
     public void drawEntity(Graphics g){
+        g.setColor(Color.BLACK);
         g.fillRect(getX(),getY(),getWidth(),10);
     }
 
