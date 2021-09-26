@@ -45,7 +45,7 @@ public class Enemy extends Entity{ //Eventuellement transformer en LineEnemy
             }
 
         }
-    }
+
     public void fire(){
         //projectiles[projectileIndex].fire();
     }

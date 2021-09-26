@@ -63,6 +63,7 @@ public class Ball extends Entity {
                             //taking in consideration the speed along the y axis
                             if ((entity.speed[1]==0)){
                                 speed[1]=-speed[1];
+                                //shifting the ball a little more to avoid more collisions
                                 y=y+2*speed[1];
 
                                 //taking in consideration the speed along the x axis
@@ -71,11 +72,12 @@ public class Ball extends Entity {
                             }
 
                             else if (entity.speed[1]*speed[1]<0){
-                                //taking in consideration the speed along the x axis
+
                                 int sgn2 = speed[1] / abs(speed[1]);
                                 speed[1]=-sgn2*(min(abs(speed[1])+1,2));
+                                //shifting the ball a little more to avoid more collisions
                                 y=y+2*speed[1];
-
+                                //taking in consideration the speed along the x axis
                                 updateSlope(entity);
                             }
 
@@ -83,15 +85,11 @@ public class Ball extends Entity {
                                 int sgn2 = speed[1] / abs(speed[1]);
 
                                 speed[1]=-sgn2*(max(abs(speed[1])-1,1));
+                                //shifting the ball a little more to avoid more collisions
                                 y=y+2*speed[1];
-
+                                //taking in consideration the speed along the x axis
                                 updateSlope(entity);
                             }
-
-
-
-
-
 
 
                         }

@@ -60,7 +60,8 @@ public class Model implements ActionListener, KeyListener {
                 view.addDrawable(entity);
         }
         view.addDrawable(b); //to remove
-        timer = new Timer(1, this);
+        view.addDrawable(s1);
+        timer = new Timer(8, this);
 
         timer.start();
 
@@ -93,7 +94,6 @@ public class Model implements ActionListener, KeyListener {
             e.move();
         }
 
-        s1.move();
         b.move();
     }
 }
