@@ -71,7 +71,7 @@ public abstract class Entity {
 
     public abstract void drawEntity(Graphics g);
 
-    public ArrayList<PhysicalBoundarie> getPhysicalBoundaries(){ return new ArrayList<>();}
+    public abstract ArrayList<PhysicalBoundarie> getPhysicalBoundaries();
 
 
 }
