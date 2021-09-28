@@ -123,7 +123,8 @@ public class Stick extends Entity{
         PhysicalBoundarie c1=new PhysicalBoundarie(getX(),getY(),getWidth(),3,true); //top side
         PhysicalBoundarie c2=new PhysicalBoundarie(getX(),getY()+3,2,getHeight()-6,false); //left side
         PhysicalBoundarie c3=new PhysicalBoundarie(getX()+getWidth()-2,getY()+3,2,getHeight()-6,false); //right side
-        PhysicalBoundarie c4=new PhysicalBoundarie(getX(),getY()+getHeight()-3,getWidth(),3,true); //right side
+        PhysicalBoundarie c4=
+                new PhysicalBoundarie(getX(),getY()+getHeight()-3,getWidth(),3,true); //bottom side
         ArrayList <PhysicalBoundarie> list=new ArrayList<>();
         list.add(c1);
         list.add(c2);

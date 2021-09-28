@@ -49,5 +49,10 @@ public class Projectile extends Entity {
         g.fillRect(x,y,width,height);
     }
 
+    @Override
+    public ArrayList<PhysicalBoundarie> getPhysicalBoundaries() {
+        return null;
+    }
+
 
 }

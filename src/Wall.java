@@ -19,7 +19,10 @@ public class Wall extends Entity{
 
     }
 
-
+    @Override
+    public ArrayList<PhysicalBoundarie> getPhysicalBoundaries() {
+        return null;
+    }
 
 
 }
