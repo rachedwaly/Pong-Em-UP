@@ -5,6 +5,7 @@ public abstract class Entity {
     protected int x,y,width,height;
     static final int HEIGHT=PlayGround.HEIGHT; //height of the game
     static final int WIDTH=PlayGround.WIDTH; //width of the game
+    static final int PROJECTILEBUFFER = 50;
     protected  int[] speed =new int[2];
     protected int[] lookDirection;
     protected boolean orientation=false; //the orientation of the object
@@ -63,7 +64,7 @@ public abstract class Entity {
         return height;
     }
 
-    public abstract void move();
+    public abstract void update();
 
     public Rectangle getBounds(){
         return new Rectangle(x,y,width,height);

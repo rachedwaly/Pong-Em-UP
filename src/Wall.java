@@ -8,7 +8,7 @@ public class Wall extends Entity{
     }
 
     @Override
-    public void move() {
+    public void update() {
 
     }
 
