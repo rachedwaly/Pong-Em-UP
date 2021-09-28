@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class Model implements ActionListener, KeyListener {
 
     public static int HEIGHT=600,WIDTH=300;
+    static final int DELAY = 8;
 
     public Stick s1;
     public Ball b;
@@ -16,14 +17,31 @@ public class Model implements ActionListener, KeyListener {
     private Timer timer;
 
     public ArrayList<Entity> physicalObjects = new ArrayList<>();
-    private Enemy[] level1List = {  //new Enemy(0,0,600,600),
-                                    //new Enemy(100,200,200,200, Color.GREEN),
+    private Enemy[] level1List = {  new Enemy(100,200,200,200, Color.GREEN){
+        @Override
+        public void behaviorUpdate() {
+
+        }
+    },
                                     //new Enemy(200,100,200,200, Color.BLUE),
-                                    new Enemy(50,50,10,10,100,100,Color.RED),
+                                    new Enemy(50,50,100,100,Color.RED){
+                                        public void behaviorUpdate(){
+                                            if(innerTimer < 1000 ){
+                                                color = Color.RED;
+                                            }
+                                            if(1000 <= innerTimer && innerTimer < 2000){
+                                                color = Color.GREEN;
+                                            }
+                                            if(2000 <= innerTimer){
+                                                color = Color.RED;
+                                                innerTimer = 0;
+                                            }
+
+                                        }
+                                    },
 
                                     //new Enemy(400,400,500,500)
                                 };
-    //private Enemy[] level1List={};
 
     public Model(PlayGround p) {
         view = p;
@@ -56,12 +74,12 @@ public class Model implements ActionListener, KeyListener {
                 Stick stick = (Stick) entity;
                 for(Projectile projectile : stick.projectiles)
                     view.addDrawable(projectile);
-            }else
-                view.addDrawable(entity);
+            }
+            view.addDrawable(entity);
         }
         view.addDrawable(b); //to remove
-        view.addDrawable(s1);
-        timer = new Timer(8, this);
+        //view.addDrawable(s1);
+        timer = new Timer(DELAY, this);
 
         timer.start();
 
@@ -91,7 +109,7 @@ public class Model implements ActionListener, KeyListener {
     private void update(){
         b.solveCollisions(physicalObjects);
         for(Entity e : physicalObjects){
-            e.move();
+            e.update();
         }
 
         b.move();

@@ -10,7 +10,7 @@ public class Stick extends Entity{
     protected int dx,dy;
     private int projectileIndex;
     private boolean canShoot = true;
-    public Projectile[] projectiles = new Projectile[20]; //Ten buffered projectiles, 11 is empty
+    public Projectile[] projectiles = new Projectile[PROJECTILEBUFFER]; //Ten buffered projectiles, 11 is empty
 
 
     public Stick(int x, int y){
@@ -22,6 +22,12 @@ public class Stick extends Entity{
         for(int i = 0; i < projectiles.length; i++)
             projectiles[i] = new Projectile(x,y);
     }
+
+    @Override
+    public void update() {
+        move();
+    }
+
     public void move(){
 
         if ((x>=10) && (x<WIDTH/2)) {
@@ -38,10 +44,6 @@ public class Stick extends Entity{
             this.y=max(this.y+dy,HEIGHT*3/4);
         }
 
-
-    }
-
-    public void fire(){
 
     }
 

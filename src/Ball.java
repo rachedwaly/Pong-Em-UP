@@ -42,6 +42,9 @@ public class Ball extends Entity {
 
     }
 
+    public void update(){
+        move();
+    }
 
     public void solveCollisions(ArrayList<Entity> list) {
 
