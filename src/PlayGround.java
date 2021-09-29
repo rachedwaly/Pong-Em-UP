@@ -12,12 +12,11 @@ public class PlayGround extends JPanel {
         super(new FlowLayout()); //BorderLayout instead ?
         gameToMenu = new JButton("Menu");
         add(gameToMenu);
-        setPreferredSize(new Dimension(WIDTH,HEIGHT));
+        setPreferredSize(new Dimension(Model.WIDTH,Model.HEIGHT));
     }
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        //g.drawLine(0,200,300,200);
         for (Entity entity : drawables) {
             entity.drawEntity(g);
         }

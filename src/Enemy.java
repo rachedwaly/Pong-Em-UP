@@ -81,16 +81,13 @@ public class Enemy extends Entity{ //Eventuellement transformer en LineEnemy
         if(loopMode){
             switch(name){
                 case "SENTRY":
-
                     if(innerTimer % 2000 < 1000){
-                        speed[0] = - 1;
+                        speed[0] = -1;
                         speed[1] = 0;
-
                     }else{
                         speed[0] = 1;
                         speed[1] = 0;
                     }
-
                     if(innerTimer % 400 == 0)
                         fire();
                     break;
@@ -112,10 +109,10 @@ public class Enemy extends Entity{ //Eventuellement transformer en LineEnemy
 
     @Override
     public ArrayList<PhysicalBoundarie> getPhysicalBoundaries() {
-        PhysicalBoundarie c1=new PhysicalBoundarie(x,y,1,height,false); //left side
-        PhysicalBoundarie c2=new PhysicalBoundarie(x+width-1,y,1,height,false); // right side
-        PhysicalBoundarie c3=new PhysicalBoundarie(x+1,y,width-2,1,true); //top side
-        PhysicalBoundarie c4=new PhysicalBoundarie(x+1,y+height-1,width-2,1,true); //bottom side
+        PhysicalBoundarie c1=new PhysicalBoundarie(x,y-1,1,height-2,false); //left side
+        PhysicalBoundarie c2=new PhysicalBoundarie(x+width-1,y-1,1,height-2,false); // right side
+        PhysicalBoundarie c3=new PhysicalBoundarie(x,y,width,1,true); //top side
+        PhysicalBoundarie c4=new PhysicalBoundarie(x,y+height-1,width,1,true); //bottom side
         ArrayList <PhysicalBoundarie> list=new ArrayList<>();
         list.add(c1);
         list.add(c2);

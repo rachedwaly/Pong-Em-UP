@@ -51,7 +51,7 @@ public class Ball extends Entity {
         move();
     }
 
-    public void solveCollisions(ArrayList<Entity> list) {
+    public boolean solveCollisions(ArrayList<Entity> list) {
 
         for (Entity entity : list) {
             if (this.getBounds().intersects(entity.getBounds())) {//checking with which object the ball collide
@@ -97,10 +97,12 @@ public class Ball extends Entity {
 
                     }
                 }
-                break;
+                return false;
             }
 
+
         }
+        return true;
     }
 
 
@@ -108,12 +110,21 @@ public class Ball extends Entity {
         int sgn1 = slope / abs(slope);
         if (entity.speed[0]==0){
             slope=-slope;
+            speed[0]=slope*speed[1];
+            x+=2*speed[0];
+
         }
         else if ((entity.speed[0]*speed[0]<0)){
             slope=sgn1*(max(abs(slope)-1,1));
+            speed[0]=slope*speed[1];
+            x+=2*speed[0];
+
         }
         else{
+            speed[0]=slope*speed[1];
             slope=-sgn1*(min(abs(slope)+1,2));
+            x+=2*speed[0];
+
 
         }
     }

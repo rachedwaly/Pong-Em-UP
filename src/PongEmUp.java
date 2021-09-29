@@ -18,19 +18,32 @@ public class PongEmUp extends JFrame {
     private JPanel levelSelect;
     private JPanel optionsMenu;
 
+
+
+
     public PongEmUp(){
 
         super("Pong'em up");
+
         containerPane = new JPanel();
-        add(containerPane);
+        add(containerPane,BorderLayout.CENTER);
         containerPane.setFocusable(true);
 
-        setPreferredSize(new Dimension(PlayGround.WIDTH,PlayGround.HEIGHT));
+        setVisible(true);
+
+        setMinimumSize(new Dimension(PlayGround.WIDTH,PlayGround.HEIGHT));
+
+
+
+
+        //setMinimumSize(new Dimension(PlayGround.WIDTH,PlayGround.HEIGHT));
+
+        //setSize(new Dimension(PlayGround.WIDTH+100,PlayGround.HEIGHT));
         setVisible(true);
         setResizable(true);
 
         ///// MAIN MENU /////
-        menu = new JPanel(new GridLayout(0,1));
+        menu = new JPanel(new GridLayout(5,1));
 
         JLabel title = new JLabel("Pong Em' Up");
         JButton newGame = new JButton("New Game");
@@ -53,7 +66,7 @@ public class PongEmUp extends JFrame {
         lvl2.setEnabled(false);                 //TODO Define clear conditions to enable them
         JButton lvl3 = new JButton("3");
         lvl2.setEnabled(false);
-        containerPane.add(levelSelect);
+        //containerPane.add(levelSelect);
 
         ///// OPTIONS MENU /////
         optionsMenu = new JPanel();
@@ -63,17 +76,25 @@ public class PongEmUp extends JFrame {
         optionsMenu.add(placeholder);
         optionsMenu.add(volume);
         optionsMenu.add(optionsToMain);
-        containerPane.add(optionsMenu);
+        //containerPane.add(optionsMenu);
         optionsMenu.setVisible(false);
 
         newGame.addActionListener(e -> {        //TODO Reset playground instead of making a new one ?
+
+            setMinimumSize(new Dimension(2*getSize().width-getContentPane().getSize().width,
+                    2*getSize().height-getContentPane().getSize().height));
+
+            containerPane.remove(menu);
+            revalidate();
+
             playground = new PlayGround();
             containerPane.add(playground);
             model= new Model(playground);
             containerPane.addKeyListener(model);
+
             playground.gameToMenu.addActionListener(e2 -> { //Eventually, layeredPane transition
                 //playground.setVisible(false);
-                remove(playground);
+                containerPane.remove(playground);
                 menu.setVisible(true);
                 playground = null;
             });
@@ -94,6 +115,9 @@ public class PongEmUp extends JFrame {
 
 
         pack();
+
+
+
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
