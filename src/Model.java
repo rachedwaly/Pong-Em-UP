@@ -19,7 +19,11 @@ public class Model implements ActionListener, KeyListener {
     public ArrayList<Entity> physicalObjects = new ArrayList<>();
     private Enemy[] level1List = {
                                     new Enemy(Enemy.SENTRY,150,-50,150,200),
-                                    new Enemy(Enemy.SENTRY,150,-50,200,200)
+                                    new Enemy(Enemy.SENTRY,150,-50,200,200),
+                                    new Enemy(Enemy.SENTRY,150,-50,50,100),
+                                    new Enemy(Enemy.SENTRY,150,-50,100,150),
+            new Enemy(Enemy.SENTRY,150,-50,250,350),
+            new Enemy(Enemy.SENTRY,150,-50,20,300),
                                     //new Enemy(400,400,500,500)
                                 };
 
@@ -92,6 +96,6 @@ public class Model implements ActionListener, KeyListener {
             e.update();
         }
 
-        b.move();
+        b.update(); //b updated separately else it collides with itself
     }
 }

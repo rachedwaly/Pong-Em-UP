@@ -49,12 +49,21 @@ public class Projectile extends Entity {
     public Rectangle getBounds(){
         if(active){
             if(lookDirection[1] == 1)
-                return new Rectangle((int)x,(int)y + height*3/4,width,height/4);
+                return new Rectangle((int)x,(int)y + height*3/4,width,height/3);
             if(lookDirection[1] == -1)
-                return new Rectangle((int)x,(int)y,width,height/4);
+                return new Rectangle((int)x,(int)y,width,height/3);
         }else
             return new Rectangle(0,0,0,0);
         return null;
+    }
+
+    public ArrayList<PhysicalBoundarie> getPhysicalBoundaries(){
+        PhysicalBoundarie square = new PhysicalBoundarie((int)x,(int)y,width,1,true);
+
+        ArrayList <PhysicalBoundarie> list=new ArrayList<>();
+        list.add(square);
+
+        return list;
     }
 
     @Override
@@ -64,9 +73,9 @@ public class Projectile extends Entity {
             g.fillRect((int)x,(int)y,width,height);
             g.setColor(Color.BLACK);
             if(lookDirection[1] == 1)
-                g.fillRect((int)x,(int)y + height*3/4,width,height/4);
+                g.fillRect((int)x,(int)y + height*2/3,width,height/3);
             if(lookDirection[1] == -1)
-                g.fillRect((int)x,(int)y,width,height/4);
+                g.fillRect((int)x,(int)y,width,height/3);
         }
 
     }

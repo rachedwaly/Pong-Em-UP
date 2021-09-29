@@ -7,7 +7,7 @@ import static java.lang.Math.*;
 
 public class Ball extends Entity {
     private int slope;
-    private float[] directionVector=new float[2];
+    private float[] lastValidPosition = new float[]{0,0};
     private Random r=new Random();
 
     public Ball(int x, int y) {
@@ -43,6 +43,9 @@ public class Ball extends Entity {
     }
 
     public void update(){
+        //System.out.println("(" + x + ", " +  y + ")");
+        lastValidPosition[0] = x;
+        lastValidPosition[1] = y;
         move();
     }
 
@@ -55,6 +58,8 @@ public class Ball extends Entity {
                     //looping on the sides of the object to determine which side we are colliding with
 
                     if (this.getBounds().intersects(side)) {
+                        x = (int)lastValidPosition[0];  //reroll to prevent excessive collision bugs
+                        y = (int)lastValidPosition[1];
 
                         if (!side.isOrientation()) {
                             slope = -slope;
@@ -105,7 +110,27 @@ public class Ball extends Entity {
         }
     }
 
+    public String furthestSide(Entity e){
+        if(e instanceof Enemy){
+            float cX = x + width/2;
+            float cY = y + height/2;
+            float ceX = e.x + e.width/2;
+            float ceY = e.y + e.height/2;
 
+            if(Math.abs(cX - ceX) < Math.abs(cY - ceY)){
+                if(cY - ceY > 0)
+                    return "DOWN";
+                else
+                    return "UP";
+            }else{
+                if(cX - ceX > 0)
+                    return "RIGHT";
+                else
+                    return "LEFT";
+            }
+        }
+        return null;
+    }
     void updateSlope(Entity entity) {
         int sgn1 = slope / abs(slope);
         if (entity.speed[0]==0){

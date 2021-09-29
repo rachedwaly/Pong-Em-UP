@@ -114,8 +114,8 @@ public class Enemy extends Entity{ //Eventuellement transformer en LineEnemy
     public ArrayList<PhysicalBoundarie> getPhysicalBoundaries() {
         PhysicalBoundarie c1=new PhysicalBoundarie((int)x,(int)y,1,height,false); //left side
         PhysicalBoundarie c2=new PhysicalBoundarie((int)x+width-1,(int)y,1,height,false); // right side
-        PhysicalBoundarie c3=new PhysicalBoundarie((int)x,(int)y,width,1,true); //top side
-        PhysicalBoundarie c4=new PhysicalBoundarie((int)x,(int)y+height-1,width,1,true); //bottom side
+        PhysicalBoundarie c3=new PhysicalBoundarie((int)x + 1,(int)y,width - 2,1,true); //top side
+        PhysicalBoundarie c4=new PhysicalBoundarie((int)x + 1,(int)y+height-1,width - 2,1,true); //bottom side
         ArrayList <PhysicalBoundarie> list=new ArrayList<>();
         list.add(c1);
         list.add(c2);
