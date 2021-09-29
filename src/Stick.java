@@ -103,7 +103,7 @@ public class Stick extends Entity{
         }
         if (key == KeyEvent.VK_SPACE){
             canShoot = true;
-            projectileIndex = (projectileIndex + 1)%20;
+            projectileIndex = (projectileIndex + 1)%PROJECTILEBUFFER;
         }
     }
 

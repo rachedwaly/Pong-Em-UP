@@ -17,6 +17,7 @@ public class PlayGround extends JPanel {
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
+        //g.drawLine(0,200,300,200);
         for (Entity entity : drawables) {
             entity.drawEntity(g);
         }

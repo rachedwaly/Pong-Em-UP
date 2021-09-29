@@ -57,7 +57,7 @@ public class Model implements ActionListener, KeyListener {
             view.addDrawable(entity);
         }
         view.addDrawable(b); //to remove
-        //view.addDrawable(s1);
+
         timer = new Timer(DELAY, this);
 
         timer.start();

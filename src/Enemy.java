@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class Enemy extends Entity{ //Eventuellement transformer en LineEnemy
     public int fX,fY; //pos "finale" de l'objet, ou sa loop de comportement commence
     protected boolean loopMode = false; //false : se deplace vers (fX,fY) || true : effectue sa loop de behavior
-    public Projectile[] projectiles = new Projectile[20];
+    public Projectile[] projectiles = new Projectile[Entity.PROJECTILEBUFFER];
     private int projectileIndex = 0;
     protected int innerTimer = 0;
 
@@ -59,10 +59,12 @@ public class Enemy extends Entity{ //Eventuellement transformer en LineEnemy
     }
 
     public void move(){ //eventually move to abstract
+
+
         x += speed[0];
         y += speed[1];
 
-        if(!loopMode && Math.abs(fX - x) <= 0.1f && Math.abs(fY - y) <= 0.1f) { //home reached
+        if(!loopMode && Math.abs(fX - x) <= 2f && Math.abs(fY - y) <= 2f) { //home reached
             loopMode = true;
             innerTimer = 4000; //soft reset the timer to control the loop easily
         }
