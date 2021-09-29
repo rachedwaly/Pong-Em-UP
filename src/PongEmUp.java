@@ -72,8 +72,10 @@ public class PongEmUp extends JFrame {
             model= new Model(playground);
             containerPane.addKeyListener(model);
             playground.gameToMenu.addActionListener(e2 -> { //Eventually, layeredPane transition
-                //playground.setVisible(false);
-                remove(playground);
+                playground.setVisible(false);
+                model.timer.stop();
+                model = null;
+                containerPane.remove(playground);
                 menu.setVisible(true);
                 playground = null;
             });
