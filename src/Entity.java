@@ -10,7 +10,8 @@ public abstract class Entity {
     static final int SCROLLSPEED = 1;
     protected  float[] speed = new float[2];
     protected int[] lookDirection;
-    protected boolean orientation=false; //the orientation of the object
+    protected boolean orientation=false; //the orientation of the object //false for vertical
+    // objects
     public Color color = Color.BLACK;
     protected String name;
 
