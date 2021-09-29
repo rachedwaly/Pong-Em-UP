@@ -11,6 +11,8 @@ public class Model implements ActionListener, KeyListener {
     public static int HEIGHT=600,WIDTH=300;
     static final int DELAY = 8;
 
+
+
     public Stick s1;
     public Ball b;
     private PlayGround view;
@@ -73,6 +75,8 @@ public class Model implements ActionListener, KeyListener {
     public void actionPerformed(ActionEvent e) {
         this.update();
         view.update();
+
+
     }
 
     public void addPhysicalObject(Entity e){
@@ -91,7 +95,9 @@ public class Model implements ActionListener, KeyListener {
     s1.keyReleased(e);
     }
     private void update(){
+
         b.solveCollisions(physicalObjects);
+
         for(Entity e : physicalObjects){
             e.update();
         }

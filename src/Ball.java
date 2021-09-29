@@ -29,6 +29,11 @@ public class Ball extends Entity {
         g.fillOval((int)x,(int)y,width,height);
     }
 
+    @Override
+    public ArrayList<PhysicalBoundarie> getPhysicalBoundaries() {
+        return null;
+    }
+
     public void move(){
 
         speed[0]=slope*speed[1];
@@ -64,10 +69,8 @@ public class Ball extends Entity {
                         if (!side.isOrientation()) {
                             slope = -slope;
                         } else {
-                            //taking in consideration the speed of the entity that collided with the ball
-
-
-
+                            //taking in consideration the speed of the entity that collided with
+                            // the ball
                             //taking in consideration the speed along the y axis
                             if ((entity.speed[1]==0)){
                                 speed[1]=-speed[1];

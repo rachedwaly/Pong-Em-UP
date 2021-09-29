@@ -21,16 +21,26 @@ public class PongEmUp extends JFrame {
     public PongEmUp(){
 
         super("Pong'em up");
+
         containerPane = new JPanel();
-        add(containerPane);
+        add(containerPane,BorderLayout.CENTER);
         containerPane.setFocusable(true);
 
-        setPreferredSize(new Dimension(PlayGround.WIDTH,PlayGround.HEIGHT));
+        setVisible(true);
+
+        setMinimumSize(new Dimension(PlayGround.WIDTH,PlayGround.HEIGHT));
+
+
+
+
+        //setMinimumSize(new Dimension(PlayGround.WIDTH,PlayGround.HEIGHT));
+
+        //setSize(new Dimension(PlayGround.WIDTH+100,PlayGround.HEIGHT));
         setVisible(true);
         setResizable(true);
 
         ///// MAIN MENU /////
-        menu = new JPanel(new GridLayout(0,1));
+        menu = new JPanel(new GridLayout(5,1));
 
         JLabel title = new JLabel("Pong Em' Up");
         JButton newGame = new JButton("New Game");
@@ -67,6 +77,13 @@ public class PongEmUp extends JFrame {
         optionsMenu.setVisible(false);
 
         newGame.addActionListener(e -> {        //TODO Reset playground instead of making a new one ?
+
+            setMinimumSize(new Dimension(2*getSize().width-getContentPane().getSize().width,
+                    2*getSize().height-getContentPane().getSize().height));
+
+            containerPane.remove(menu);
+            revalidate();
+
             playground = new PlayGround();
             containerPane.add(playground);
             model= new Model(playground);
