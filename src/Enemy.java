@@ -1,25 +1,21 @@
 import java.awt.*;
 import java.util.ArrayList;
 
-public abstract class Enemy extends Entity{ //Eventuellement transformer en LineEnemy
-    public int fX,fY; //pos finale de l'objet
+public class Enemy extends Entity{ //Eventuellement transformer en LineEnemy
+    public int fX,fY; //pos "finale" de l'objet, ou sa loop de comportement commence
+    protected boolean loopMode = false; //false : se deplace vers (fX,fY) || true : effectue sa loop de behavior
     public Projectile[] projectiles = new Projectile[20];
     private int projectileIndex = 0;
     protected int innerTimer = 0;
 
-    public Enemy(int x, int y){
-        this(x,y,x,y,Color.BLUE);
-    }
+    static final String SENTRY = "SENTRY";
+    private Enemy(int x0, int y0, int fX, int fY){
+        x = x0;
+        y = y0;
 
-
-    public Enemy(int x,int y,int fX, int fY,Color color){
-        this(x,y,30,30,fX,fY,color);
-    }
-
-    public Enemy(int x,int y, int w, int h,int fX, int fY,Color color){
-        super(x, y, w, h);
         this.fX = fX;
         this.fY = fY;
+
         lookDirection = new int[]{0,1};
 
         if(fX - x != 0)
@@ -30,12 +26,31 @@ public abstract class Enemy extends Entity{ //Eventuellement transformer en Line
             speed[1] = (fY - y)/Math.abs(fY - y);
         else
             speed[1] = 0;
-        this.color = color;
 
-        for(int i = 0; i < projectiles.length; i++)
-            projectiles[i] = new Projectile(x,y);
 
     }
+
+    public Enemy(String name, int x0, int y0 , int fX, int fY){
+        this(x0,y0,fX,fY);
+        switch(name){
+            case "SENTRY":
+                width = 20;
+                height = 20;
+                speed[0] *= 2;
+                speed[1] *= 2;
+                for(int i = 0; i < projectiles.length; i++)
+                    projectiles[i] = new Projectile(5,20,10,new int[]{5,5});
+                color = Color.BLUE;
+                this.name = name;
+                break;
+            case "JUGGERNAUT":
+                break;
+            case "SPINNER":
+                break;
+
+        }
+    }
+
 
     public void update(){
         move();
@@ -43,21 +58,49 @@ public abstract class Enemy extends Entity{ //Eventuellement transformer en Line
         innerTimer += Model.DELAY;
     }
 
-    public void move(){
-            x += speed[0];
-            y += speed[1];
-            if(Math.abs(fX - x) <= 0.1f && Math.abs(fY - y) <= 0.1f) {
-                speed[0]=0;
-                speed[1]=0;
-            }
+    public void move(){ //eventually move to abstract
+        x += speed[0];
+        y += speed[1];
+
+        if(!loopMode && Math.abs(fX - x) <= 0.1f && Math.abs(fY - y) <= 0.1f) { //home reached
+            loopMode = true;
+            innerTimer = 4000; //soft reset the timer to control the loop easily
+        }
+
     }
+
     public void fire(){
         projectiles[projectileIndex].fire(this); // shoot vertically
         projectileIndex = (projectileIndex + 1) % PROJECTILEBUFFER;
     }
 
 
-    public abstract void behaviorUpdate();
+    public void behaviorUpdate(){
+        if(loopMode){
+            switch(name){
+                case "SENTRY":
+
+                    if(innerTimer % 2000 < 1000){
+                        speed[0] = - 1;
+                        speed[1] = 0;
+
+                    }else{
+                        speed[0] = 1;
+                        speed[1] = 0;
+                    }
+
+                    if(innerTimer % 400 == 0)
+                        fire();
+                    break;
+                case "JUGGERNAUT":
+                    break;
+                case "SPINNER":
+                    break;
+
+            }
+        }
+
+    }
 
     @Override
     public void drawEntity(Graphics g){
@@ -78,4 +121,5 @@ public abstract class Enemy extends Entity{ //Eventuellement transformer en Line
         list.add(c4);
         return list;
     }
+
 }

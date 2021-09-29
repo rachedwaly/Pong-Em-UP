@@ -6,14 +6,13 @@ public class Projectile extends Entity {
     public int damage = 10;
     public boolean fired = false;
 
-    public Projectile(int x, int y){
-        //super(x,y);
+    public Projectile(int w, int h, int dmg, int[] speed){
         this.x = 500;
         this.y = 1000;
         width = 5;
         height = 20;
         color = Color.RED;
-        speed = new int[]{2,2};
+        this.speed = speed;
 
     }
 
@@ -23,8 +22,8 @@ public class Projectile extends Entity {
     }
 
     public void fire(Entity source){
-        x = source.getX() + source.getWidth()/2;
-        y = source.getY();
+        x = source.getX() + source.getWidth()/2 - width/2; // centrer le projectile sur la source
+        y = source.getY() + source.lookDirection[1]*height ;
         speed[0] = Math.abs(speed[0]) * source.lookDirection[0];
         speed[1] = Math.abs(speed[1]) * source.lookDirection[1];
     }

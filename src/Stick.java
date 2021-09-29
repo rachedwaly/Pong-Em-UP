@@ -20,7 +20,7 @@ public class Stick extends Entity{
         orientation=true;
         lookDirection = new int[]{0,-1};
         for(int i = 0; i < projectiles.length; i++)
-            projectiles[i] = new Projectile(x,y);
+            projectiles[i] = new Projectile(5,20,10,new int[]{5,5});
     }
 
     @Override
