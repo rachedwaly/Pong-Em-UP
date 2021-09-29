@@ -17,29 +17,8 @@ public class Model implements ActionListener, KeyListener {
     private Timer timer;
 
     public ArrayList<Entity> physicalObjects = new ArrayList<>();
-    private Enemy[] level1List = {  new Enemy(100,200,200,200, Color.GREEN){
-        @Override
-        public void behaviorUpdate() {
-
-        }
-    },
-                                    //new Enemy(200,100,200,200, Color.BLUE),
-                                    new Enemy(50,50,100,100,Color.RED){
-                                        public void behaviorUpdate(){
-                                            if(innerTimer < 1000 ){
-                                                color = Color.RED;
-                                            }
-                                            if(1000 <= innerTimer && innerTimer < 2000){
-                                                color = Color.GREEN;
-                                            }
-                                            if(2000 <= innerTimer){
-                                                color = Color.RED;
-                                                innerTimer = 0;
-                                            }
-
-                                        }
-                                    },
-
+    private Enemy[] level1List = {
+                                    new Enemy(Enemy.SENTRY,150,-50,150,200)
                                     //new Enemy(400,400,500,500)
                                 };
 
@@ -78,7 +57,7 @@ public class Model implements ActionListener, KeyListener {
             view.addDrawable(entity);
         }
         view.addDrawable(b); //to remove
-        //view.addDrawable(s1);
+
         timer = new Timer(DELAY, this);
 
         timer.start();
