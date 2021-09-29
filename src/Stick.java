@@ -20,7 +20,7 @@ public class Stick extends Entity{
         orientation=true;
         lookDirection = new int[]{0,-1};
         for(int i = 0; i < projectiles.length; i++)
-            projectiles[i] = new Projectile(5,20,10,new int[]{5,5});
+            projectiles[i] = new Projectile(5,20,10,new float[]{5f,5f});
     }
 
     @Override
@@ -109,22 +109,21 @@ public class Stick extends Entity{
 
     @Override
     public Rectangle getBounds(){
-        return new Rectangle(getX(),getY(),getWidth(),10);
+        return new Rectangle((int)x,(int)y,width,10);
     }
 
     @Override
     public void drawEntity(Graphics g){
         g.setColor(Color.BLACK);
-        g.fillRect(getX(),getY(),getWidth(),10);
+        g.fillRect((int)x,(int)y,width,10);
     }
 
     @Override
     public ArrayList<PhysicalBoundarie> getPhysicalBoundaries() {
-        PhysicalBoundarie c1=new PhysicalBoundarie(getX(),getY(),getWidth(),3,true); //top side
-        PhysicalBoundarie c2=new PhysicalBoundarie(getX(),getY()+3,2,getHeight()-6,false); //left side
-        PhysicalBoundarie c3=new PhysicalBoundarie(getX()+getWidth()-2,getY()+3,2,getHeight()-6,false); //right side
-        PhysicalBoundarie c4=
-                new PhysicalBoundarie(getX(),getY()+getHeight()-3,getWidth(),3,true); //bottom side
+        PhysicalBoundarie c1=new PhysicalBoundarie((int)x,(int)y,width,3,true); //top side
+        PhysicalBoundarie c2=new PhysicalBoundarie((int)x,(int)y+3,2,height-6,false); //left side
+        PhysicalBoundarie c3=new PhysicalBoundarie((int)x+width-2,(int)y+3,2,height-6,false); //right side
+        PhysicalBoundarie c4=new PhysicalBoundarie((int)x,(int)y+height-3,width,3,true); //right side
         ArrayList <PhysicalBoundarie> list=new ArrayList<>();
         list.add(c1);
         list.add(c2);

@@ -16,11 +16,12 @@ public class Model implements ActionListener, KeyListener {
     public Stick s1;
     public Ball b;
     private PlayGround view;
-    private Timer timer;
+    public Timer timer;
 
     public ArrayList<Entity> physicalObjects = new ArrayList<>();
     private Enemy[] level1List = {
-                                    new Enemy(Enemy.SENTRY,150,-50,150,200)
+                                    new Enemy(Enemy.SENTRY,150,-50,150,200),
+                                    new Enemy(Enemy.SENTRY,150,-50,200,200)
                                     //new Enemy(400,400,500,500)
                                 };
 

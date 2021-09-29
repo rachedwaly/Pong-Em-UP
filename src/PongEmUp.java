@@ -18,9 +18,6 @@ public class PongEmUp extends JFrame {
     private JPanel levelSelect;
     private JPanel optionsMenu;
 
-
-
-
     public PongEmUp(){
 
         super("Pong'em up");
@@ -66,7 +63,7 @@ public class PongEmUp extends JFrame {
         lvl2.setEnabled(false);                 //TODO Define clear conditions to enable them
         JButton lvl3 = new JButton("3");
         lvl2.setEnabled(false);
-        //containerPane.add(levelSelect);
+        containerPane.add(levelSelect);
 
         ///// OPTIONS MENU /////
         optionsMenu = new JPanel();
@@ -76,7 +73,7 @@ public class PongEmUp extends JFrame {
         optionsMenu.add(placeholder);
         optionsMenu.add(volume);
         optionsMenu.add(optionsToMain);
-        //containerPane.add(optionsMenu);
+        containerPane.add(optionsMenu);
         optionsMenu.setVisible(false);
 
         newGame.addActionListener(e -> {        //TODO Reset playground instead of making a new one ?
@@ -91,9 +88,10 @@ public class PongEmUp extends JFrame {
             containerPane.add(playground);
             model= new Model(playground);
             containerPane.addKeyListener(model);
-
             playground.gameToMenu.addActionListener(e2 -> { //Eventually, layeredPane transition
-                //playground.setVisible(false);
+                playground.setVisible(false);
+                model.timer.stop();
+                model = null;
                 containerPane.remove(playground);
                 menu.setVisible(true);
                 playground = null;
@@ -115,9 +113,6 @@ public class PongEmUp extends JFrame {
 
 
         pack();
-
-
-
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }

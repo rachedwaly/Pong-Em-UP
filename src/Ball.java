@@ -26,7 +26,7 @@ public class Ball extends Entity {
     @Override
     public void drawEntity(Graphics g){
         g.setColor(Color.BLACK);
-        g.fillOval(x,y,width,height);
+        g.fillOval((int)x,(int)y,width,height);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class Ball extends Entity {
         move();
     }
 
-    public boolean solveCollisions(ArrayList<Entity> list) {
+    public void solveCollisions(ArrayList<Entity> list) {
 
         for (Entity entity : list) {
             if (this.getBounds().intersects(entity.getBounds())) {//checking with which object the ball collide
@@ -71,19 +71,24 @@ public class Ball extends Entity {
                                 speed[1]=-speed[1];
                                 //shifting the ball a little more to avoid more collisions
                                 y=y+2*speed[1];
+
                                 //taking in consideration the speed along the x axis
                                 updateSlope(entity);
+
                             }
+
                             else if (entity.speed[1]*speed[1]<0){
-                                int sgn2 = speed[1] / abs(speed[1]);
+
+                                int sgn2 = (int)(speed[1] / abs(speed[1]));
                                 speed[1]=-sgn2*(min(abs(speed[1])+1,2));
                                 //shifting the ball a little more to avoid more collisions
                                 y=y+2*speed[1];
                                 //taking in consideration the speed along the x axis
                                 updateSlope(entity);
                             }
+
                             else {
-                                int sgn2 = speed[1] / abs(speed[1]);
+                                int sgn2 = (int)(speed[1] / abs(speed[1]));
 
                                 speed[1]=-sgn2*(max(abs(speed[1])-1,1));
                                 //shifting the ball a little more to avoid more collisions
@@ -97,12 +102,10 @@ public class Ball extends Entity {
 
                     }
                 }
-                return false;
+                break;
             }
 
-
         }
-        return true;
     }
 
 
@@ -110,21 +113,12 @@ public class Ball extends Entity {
         int sgn1 = slope / abs(slope);
         if (entity.speed[0]==0){
             slope=-slope;
-            speed[0]=slope*speed[1];
-            x+=2*speed[0];
-
         }
         else if ((entity.speed[0]*speed[0]<0)){
             slope=sgn1*(max(abs(slope)-1,1));
-            speed[0]=slope*speed[1];
-            x+=2*speed[0];
-
         }
         else{
-            speed[0]=slope*speed[1];
             slope=-sgn1*(min(abs(slope)+1,2));
-            x+=2*speed[0];
-
 
         }
     }
