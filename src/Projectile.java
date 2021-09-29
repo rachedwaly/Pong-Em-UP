@@ -6,7 +6,7 @@ public class Projectile extends Entity {
     public int damage = 10;
     public boolean active = false;
 
-    public Projectile(int w, int h, int dmg, int[] speed){
+    public Projectile(int w, int h, int dmg, float[] speed){
         this.x = 500;
         this.y = 1000;
         width = 5;
@@ -49,9 +49,9 @@ public class Projectile extends Entity {
     public Rectangle getBounds(){
         if(active){
             if(lookDirection[1] == 1)
-                return new Rectangle(x,y + height*3/4,width,height/4);
+                return new Rectangle((int)x,(int)y + height*3/4,width,height/4);
             if(lookDirection[1] == -1)
-                return new Rectangle(x,y,width,height/4);
+                return new Rectangle((int)x,(int)y,width,height/4);
         }else
             return new Rectangle(0,0,0,0);
         return null;
@@ -61,12 +61,12 @@ public class Projectile extends Entity {
     public void drawEntity(Graphics g) {
         if(active){
             g.setColor(this.color);
-            g.fillRect(x,y,width,height);
+            g.fillRect((int)x,(int)y,width,height);
             g.setColor(Color.BLACK);
             if(lookDirection[1] == 1)
-                g.fillRect(x,y + height*3/4,width,height/4);
+                g.fillRect((int)x,(int)y + height*3/4,width,height/4);
             if(lookDirection[1] == -1)
-                g.fillRect(x,y,width,height/4);
+                g.fillRect((int)x,(int)y,width,height/4);
         }
 
     }

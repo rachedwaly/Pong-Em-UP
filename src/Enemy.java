@@ -19,11 +19,11 @@ public class Enemy extends Entity{ //Eventuellement transformer en LineEnemy
         lookDirection = new int[]{0,1};
 
         if(fX - x != 0)
-            speed[0] = (fX - x)/Math.abs(fX - x);
+            speed[0] = (fX - x)/(float)Math.sqrt(Math.pow(fX - x,2) + Math.pow(fY - y,2));
         else
             speed[0] = 0;
         if(fY - y != 0)
-            speed[1] = (fY - y)/Math.abs(fY - y);
+            speed[1] = (fY - y)/(float)Math.sqrt(Math.pow(fX - x,2) + Math.pow(fY - y,2));
         else
             speed[1] = 0;
 
@@ -39,7 +39,7 @@ public class Enemy extends Entity{ //Eventuellement transformer en LineEnemy
                 speed[0] *= 2;
                 speed[1] *= 2;
                 for(int i = 0; i < projectiles.length; i++)
-                    projectiles[i] = new Projectile(5,20,10,new int[]{5,5});
+                    projectiles[i] = new Projectile(5,20,10,new float[]{5f,5f});
                 color = Color.BLUE;
                 this.name = name;
                 break;
@@ -107,15 +107,15 @@ public class Enemy extends Entity{ //Eventuellement transformer en LineEnemy
     @Override
     public void drawEntity(Graphics g){
         g.setColor(this.color);
-        g.fillRect(x,y,width,height);
+        g.fillRect((int)x,(int)y,width,height);
     }
 
     @Override
     public ArrayList<PhysicalBoundarie> getPhysicalBoundaries() {
-        PhysicalBoundarie c1=new PhysicalBoundarie(x,y,1,height,false); //left side
-        PhysicalBoundarie c2=new PhysicalBoundarie(x+width-1,y,1,height,false); // right side
-        PhysicalBoundarie c3=new PhysicalBoundarie(x,y,width,1,true); //top side
-        PhysicalBoundarie c4=new PhysicalBoundarie(x,y+height-1,width,1,true); //bottom side
+        PhysicalBoundarie c1=new PhysicalBoundarie((int)x,(int)y,1,height,false); //left side
+        PhysicalBoundarie c2=new PhysicalBoundarie((int)x+width-1,(int)y,1,height,false); // right side
+        PhysicalBoundarie c3=new PhysicalBoundarie((int)x,(int)y,width,1,true); //top side
+        PhysicalBoundarie c4=new PhysicalBoundarie((int)x,(int)y+height-1,width,1,true); //bottom side
         ArrayList <PhysicalBoundarie> list=new ArrayList<>();
         list.add(c1);
         list.add(c2);

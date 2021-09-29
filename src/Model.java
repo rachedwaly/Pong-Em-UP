@@ -18,7 +18,8 @@ public class Model implements ActionListener, KeyListener {
 
     public ArrayList<Entity> physicalObjects = new ArrayList<>();
     private Enemy[] level1List = {
-                                    new Enemy(Enemy.SENTRY,150,-50,150,200)
+                                    new Enemy(Enemy.SENTRY,150,-50,150,200),
+                                    new Enemy(Enemy.SENTRY,150,-50,200,200)
                                     //new Enemy(400,400,500,500)
                                 };
 

@@ -26,7 +26,7 @@ public class Ball extends Entity {
     @Override
     public void drawEntity(Graphics g){
         g.setColor(Color.BLACK);
-        g.fillOval(x,y,width,height);
+        g.fillOval((int)x,(int)y,width,height);
     }
 
     public void move(){
@@ -76,7 +76,7 @@ public class Ball extends Entity {
 
                             else if (entity.speed[1]*speed[1]<0){
 
-                                int sgn2 = speed[1] / abs(speed[1]);
+                                int sgn2 = (int)(speed[1] / abs(speed[1]));
                                 speed[1]=-sgn2*(min(abs(speed[1])+1,2));
                                 //shifting the ball a little more to avoid more collisions
                                 y=y+2*speed[1];
@@ -85,7 +85,7 @@ public class Ball extends Entity {
                             }
 
                             else {
-                                int sgn2 = speed[1] / abs(speed[1]);
+                                int sgn2 = (int)(speed[1] / abs(speed[1]));
 
                                 speed[1]=-sgn2*(max(abs(speed[1])-1,1));
                                 //shifting the ball a little more to avoid more collisions

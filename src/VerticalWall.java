@@ -8,7 +8,7 @@ public class VerticalWall extends Wall{
     }
     @Override
     public ArrayList<PhysicalBoundarie> getPhysicalBoundaries() {
-        PhysicalBoundarie c=new PhysicalBoundarie(x,y,width,height,false);
+        PhysicalBoundarie c=new PhysicalBoundarie((int)x,(int)y,width,height,false);
         ArrayList <PhysicalBoundarie> list=new ArrayList<>();
         list.add(c);
         return list;

@@ -65,7 +65,7 @@ public class StickPlayer1 extends Stick {
 
     @Override
     public Rectangle getBounds(){
-        return new Rectangle(getX()+1,getY(),getWidth(),3);
+        return new Rectangle((int)x+1,(int)y,width,3);
     }
 
 
