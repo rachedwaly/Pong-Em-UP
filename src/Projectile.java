@@ -74,7 +74,8 @@ public class Projectile extends Entity {
     @Override
     public ArrayList<PhysicalBoundarie> getPhysicalBoundaries() {
         ArrayList<PhysicalBoundarie> list=new ArrayList<>();
-        list.add(new PhysicalBoundarie(x+width/2,y+height/2,width/2,height/2,true));
+        list.add(new PhysicalBoundarie((int)x+width/2,(int)y+height/2,(int)width/2,(int)height/2,
+                true));
         return list;
     }
 

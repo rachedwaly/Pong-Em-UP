@@ -7,7 +7,7 @@ import static java.lang.Math.min;
 
 public class Stick extends Entity{
 
-    protected int dx,dy;
+    protected float dx,dy;
     private int projectileIndex;
     private boolean canShoot = true;
     public Projectile[] projectiles = new Projectile[PROJECTILEBUFFER]; //Ten buffered projectiles, 11 is empty

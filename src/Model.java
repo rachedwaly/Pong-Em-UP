@@ -11,7 +11,7 @@ public class Model implements ActionListener, KeyListener {
     public static int HEIGHT=600,WIDTH=300;
     static final int DELAY = 8;
 
-    private boolean solvingCollision=true;
+
 
     public Stick s1;
     public Ball b;
@@ -72,11 +72,6 @@ public class Model implements ActionListener, KeyListener {
         this.update();
         view.update();
 
-        if (timer.getDelay()%(DELAY/4)==0){
-            if (solvingCollision==false){
-                solvingCollision=true;
-            }
-        }
 
     }
 
@@ -96,9 +91,9 @@ public class Model implements ActionListener, KeyListener {
     s1.keyReleased(e);
     }
     private void update(){
-        if (solvingCollision) {
-            solvingCollision=b.solveCollisions(physicalObjects);
-        }
+
+        b.solveCollisions(physicalObjects);
+
         for(Entity e : physicalObjects){
             e.update();
         }
