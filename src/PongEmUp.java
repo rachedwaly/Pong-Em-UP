@@ -1,8 +1,6 @@
 import javax.swing.*;
-import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
-
-import static com.sun.java.accessibility.util.AWTEventMonitor.addActionListener;
 
 
 public class PongEmUp extends JFrame {
@@ -10,6 +8,8 @@ public class PongEmUp extends JFrame {
     public final static String MAINMENU = "mainmenu";
     public final static String OPTIONS = "options";
 
+    private boolean running=false;
+    private boolean paused=false;
     private Model model;
     private JPanel containerPane;
     private String currentScene;
@@ -17,56 +17,56 @@ public class PongEmUp extends JFrame {
     private JPanel menu;
     private JPanel levelSelect;
     private JPanel optionsMenu;
+    private PausePane pausePane;
+    private MainMenuPane mainMenuPane;
+    private JButton newGame,selectButton,quit,options,gameToMenu;
 
     public PongEmUp(){
 
         super("Pong'em up");
 
-        containerPane = new JPanel();
+        pausePane= new PausePane(this);
+        mainMenuPane=new MainMenuPane(this);
+        this.setGlassPane(pausePane);
+        containerPane = new JPanel(new BorderLayout());
         add(containerPane,BorderLayout.CENTER);
-        containerPane.setFocusable(true);
+
+        containerPane.setBorder(new EmptyBorder(0,10,0,5));
+
+        setMinimumSize(new Dimension(PlayGround.WIDTH+100,PlayGround.HEIGHT+100));
+
 
         setVisible(true);
+        setResizable(false);
 
-        setMinimumSize(new Dimension(PlayGround.WIDTH,PlayGround.HEIGHT));
+        showMainMenu();
 
-
-
-
-        //setMinimumSize(new Dimension(PlayGround.WIDTH,PlayGround.HEIGHT));
-
-        //setSize(new Dimension(PlayGround.WIDTH+100,PlayGround.HEIGHT));
         setVisible(true);
-        setResizable(true);
+        pack();
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    }
 
-        ///// MAIN MENU /////
-        menu = new JPanel(new GridLayout(5,1));
+    public void initTransitionsButtons(){
 
-        JLabel title = new JLabel("Pong Em' Up");
-        JButton newGame = new JButton("New Game");
-        JButton selectButton = new JButton("Level Select");
-        selectButton.setEnabled(false);                 //TODO Enable condition ?
-        JButton options = new JButton("Options");
-        JButton quit = new JButton("Exit");
+    }
 
-        menu.add(title);
-        menu.add(newGame);
-        menu.add(selectButton);
-        menu.add(options);
-        menu.add(quit);
-        containerPane.add(menu);
+    public void pauseGame(){
+        pausePane.setOpaque(false);
+        pausePane.setVisible(true);
+        model.timer.stop();
+    }
 
-        ///// LEVEL SELECTION /////
-        levelSelect = new JPanel(new GridLayout(1,3));
-        JButton lvl1 = new JButton("1");
-        JButton lvl2 = new JButton("2");
-        lvl2.setEnabled(false);                 //TODO Define clear conditions to enable them
-        JButton lvl3 = new JButton("3");
-        lvl2.setEnabled(false);
-        containerPane.add(levelSelect);
+    public void resumeGame(){
+        containerPane.requestFocusInWindow();
+        model.timer.start();
+    }
 
-        ///// OPTIONS MENU /////
+    public void goToOptions(){
         optionsMenu = new JPanel();
+        if (!running){
+        containerPane.removeAll();
+
         JLabel placeholder = new JLabel("Placeholder");
         JSlider volume = new JSlider(0,100,50);
         JButton optionsToMain = new JButton("Menu");
@@ -74,51 +74,101 @@ public class PongEmUp extends JFrame {
         optionsMenu.add(volume);
         optionsMenu.add(optionsToMain);
         containerPane.add(optionsMenu);
-        optionsMenu.setVisible(false);
-
-        newGame.addActionListener(e -> {        //TODO Reset playground instead of making a new one ?
-
-            setMinimumSize(new Dimension(2*getSize().width-getContentPane().getSize().width,
-                    2*getSize().height-getContentPane().getSize().height));
-
-            containerPane.remove(menu);
+        revalidate();
+        repaint();}
+        else {
+            containerPane.removeAll();
+            remove(gameToMenu);
+            JLabel placeholder = new JLabel("Placeholder");
+            JSlider volume = new JSlider(0,100,50);
+            JButton optionsToMain = new JButton("Menu");
+            optionsMenu.add(placeholder);
+            optionsMenu.add(volume);
+            optionsMenu.add(optionsToMain);
+            containerPane.add(optionsMenu);
             revalidate();
+            repaint();
 
-            playground = new PlayGround();
-            containerPane.add(playground);
-            model= new Model(playground);
-            containerPane.addKeyListener(model);
-            playground.gameToMenu.addActionListener(e2 -> { //Eventually, layeredPane transition
-                playground.setVisible(false);
-                model.timer.stop();
-                model = null;
-                containerPane.remove(playground);
-                menu.setVisible(true);
-                playground = null;
-            });
-            menu.setVisible(false);
-
-        });
-
-        options.addActionListener(e -> {
-            menu.setVisible(false);
-            optionsMenu.setVisible(true);
-        });
-
-        optionsToMain.addActionListener(e -> {
-            menu.setVisible(true);
-            optionsMenu.setVisible(false);
-        });
-        quit.addActionListener(e -> System.exit(0));
+        }
 
 
-        pack();
-
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
-    public void initTransitionsButtons(){
+    public void goToLevelSelect(){
+        containerPane.remove(mainMenuPane);
+        levelSelect = new JPanel(new GridLayout(1,3));
+        JButton lvl1 = new JButton("1");
+        JButton lvl2 = new JButton("2");
+        lvl2.setEnabled(false);                 //TODO Define clear conditions to enable them
+        JButton lvl3 = new JButton("3");
+        lvl2.setEnabled(false);
+        levelSelect.add(lvl1);
+        containerPane.add(levelSelect);
+        revalidate();
+        repaint();
+
 
     }
+
+    public void goBackToMainMenu(){
+
+        containerPane.removeAll();
+        remove(gameToMenu);
+        stopTheGame();
+        showMainMenu();
+
+    }
+
+    public void showMainMenu(){
+
+        containerPane.add(mainMenuPane);
+        revalidate();
+        repaint();
+    }
+
+    public void quit() {
+        System.exit(0);
+    }
+
+    public void startGame() {
+        running=true;
+
+
+        //put this inside a gamePane class maybe?
+        containerPane.removeAll();
+        playground = new PlayGround();
+        containerPane.add(playground,BorderLayout.CENTER);
+        model= new Model(playground);
+        containerPane.addKeyListener(model);
+        containerPane.requestFocusInWindow();
+        gameToMenu = new JButton("Menu");
+        JPanel test=new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        test.add(gameToMenu,gbc);
+        containerPane.add(test,BorderLayout.EAST);
+        System.out.println(containerPane.getSize());
+        System.out.println(getContentPane().getSize());
+        gameToMenu.addActionListener(e2 -> { //Eventually, layeredPane transition
+            pauseGame();
+        });
+
+        revalidate();
+        repaint();
+
+
+
+    }
+
+    public void stopTheGame(){
+        if (running){
+            playground=null;
+            model.timer.stop();
+            model=null;
+        }
+    }
+
 
 }

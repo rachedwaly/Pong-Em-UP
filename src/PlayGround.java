@@ -7,12 +7,15 @@ public class PlayGround extends JPanel {
     public static int HEIGHT=600;
     public static int WIDTH=300;
     private ArrayList<Entity> drawables=new ArrayList<>();
-    public JButton gameToMenu;
+
     public PlayGround(){
-        super(new FlowLayout()); //BorderLayout instead ?
-        gameToMenu = new JButton("Menu");
-        add(gameToMenu);
+        super(new BorderLayout()); //BorderLayout instead ?
         setPreferredSize(new Dimension(Model.WIDTH,Model.HEIGHT));
+        JPanel statusBar=new JPanel();
+
+        statusBar.setBackground(Color.GRAY);
+        statusBar.setPreferredSize(new Dimension(Model.WIDTH,50));
+        add(statusBar,BorderLayout.SOUTH);
     }
     @Override
     public void paintComponent(Graphics g){

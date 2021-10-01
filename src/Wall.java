@@ -15,7 +15,7 @@ public class Wall extends Entity{
     @Override
     public void drawEntity(Graphics g){
         g.setColor(Color.BLACK);
-        g.drawRect((int)x,(int)y,width,height);
+        g.fillRect((int)x,(int)y,width,height);
 
     }
 
