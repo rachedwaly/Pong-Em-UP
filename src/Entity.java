@@ -14,15 +14,7 @@ public abstract class Entity {
     // objects
     public Color color = Color.BLACK;
     protected String name;
-
-
-    public boolean isOrientation() {
-        return orientation;
-    }
-
-    public void setOrientation(boolean orientation) {
-        this.orientation = orientation;
-    }
+    protected int innerTimer = 0;
 
     public Entity(){
         this(Main.random.nextInt(WIDTH),Main.random.nextInt(HEIGHT),

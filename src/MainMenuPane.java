@@ -14,6 +14,7 @@ public class MainMenuPane extends JPanel {
 
 
         setBorder(new EmptyBorder(50, 10, 10, 10));
+        //50 10 10 10
         setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -41,7 +42,6 @@ public class MainMenuPane extends JPanel {
         quit.addActionListener(e -> pongemup.quit());
 
         selectButton.addActionListener(e -> pongemup.goToLevelSelect());
-
 
         menu.add(newGame,gbc);
         menu.add(options,gbc);

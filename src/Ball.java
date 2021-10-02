@@ -49,7 +49,7 @@ public class Ball extends Entity {
 
     public void update(ArrayList<Entity> eList){
         //System.out.println("(" + x + ", " +  y + ")");
-        //solveCollisions(eList);
+        solveCollisions(eList);
         lastValidPosition[0] = x;
         lastValidPosition[1] = y;
 
@@ -72,6 +72,7 @@ public class Ball extends Entity {
                     if (this.getBounds().intersects(side)) {
                         x = (int)lastValidPosition[0];  //reroll to prevent excessive collision bugs
                         y = (int)lastValidPosition[1];
+                        entity.whenCollided(this);
 
                         if (!side.isOrientation()) {
                             slope = -slope;
@@ -120,27 +121,6 @@ public class Ball extends Entity {
         }
     }
 
-    /*public String furthestSide(Entity e){
-        if(e instanceof Enemy){
-            float cX = x + width/2;
-            float cY = y + height/2;
-            float ceX = e.x + e.width/2;
-            float ceY = e.y + e.height/2;
-
-            if(Math.abs(cX - ceX) < Math.abs(cY - ceY)){
-                if(cY - ceY > 0)
-                    return "DOWN";
-                else
-                    return "UP";
-            }else{
-                if(cX - ceX > 0)
-                    return "RIGHT";
-                else
-                    return "LEFT";
-            }
-        }
-        return null;
-    }*/
     void updateSlope(Entity entity) {
         int sgn1 = slope / abs(slope);
         if (entity.speed[0]==0){

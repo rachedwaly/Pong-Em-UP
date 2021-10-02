@@ -6,7 +6,7 @@ public class Enemy extends Entity{ //Eventuellement transformer en LineEnemy
     protected boolean loopMode = false; //false : se deplace vers (fX,fY) || true : effectue sa loop de behavior
     public Projectile[] projectiles = new Projectile[Entity.PROJECTILEBUFFER];
     private int projectileIndex = 0;
-    protected int innerTimer = 0;
+
 
     static final String SENTRY = "SENTRY";
     private Enemy(int x0, int y0, int fX, int fY){

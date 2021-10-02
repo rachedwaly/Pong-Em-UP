@@ -79,7 +79,7 @@ public class Projectile extends Entity {
     public void solveCollisions(ArrayList<Entity> list) {
 
         if(active){
-            System.out.println("flood gaming");
+            //System.out.println("flood gaming");
             for (Entity entity : list) {
                 if (this.getBounds().intersects(entity.getBounds())) {//checking with which object the ball collide
                     System.out.println("hit entity : " + entity.name);

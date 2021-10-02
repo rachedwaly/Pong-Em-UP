@@ -2,19 +2,23 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class Wall extends Entity{
+
     public Wall(int x,int y,int w,int h){
         super(x,y,w,h);
-
     }
 
     @Override
     public void update(ArrayList<Entity> eList) {
-
+        if(innerTimer > 800)
+            color = Color.BLACK;
+        innerTimer += Model.DELAY;
     }
 
     @Override
     public void whenCollided(Entity entity) {
-        //play sound
+        System.out.println("hit wall");
+        color = Color.YELLOW;
+        innerTimer = 0;
     }
 
     @Override
