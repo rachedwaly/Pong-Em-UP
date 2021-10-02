@@ -67,7 +67,9 @@ public abstract class Entity {
         return height;
     }
 
-    public abstract void update();
+    public abstract void update(ArrayList<Entity> eList);
+
+    public abstract void whenCollided(Entity entity);
 
     public Rectangle getBounds(){
         return new Rectangle((int)x,(int)y,width,height);

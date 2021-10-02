@@ -15,6 +15,7 @@ public class Stick extends Entity{
 
     public Stick(int x, int y){
         super(x,y);
+        name = "Stick";
         this.width=40;
         this.height=10;
         orientation=true;
@@ -24,8 +25,13 @@ public class Stick extends Entity{
     }
 
     @Override
-    public void update() {
+    public void update(ArrayList<Entity> eList) {
         move();
+    }
+
+    @Override
+    public void whenCollided(Entity entity) {
+
     }
 
     public void move(){

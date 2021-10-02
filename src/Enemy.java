@@ -52,10 +52,15 @@ public class Enemy extends Entity{ //Eventuellement transformer en LineEnemy
     }
 
 
-    public void update(){
+    public void update(ArrayList<Entity> eList){
         move();
         behaviorUpdate();
         innerTimer += Model.DELAY;
+    }
+
+    @Override
+    public void whenCollided(Entity entity) {
+
     }
 
     public void move(){ //eventually move to abstract

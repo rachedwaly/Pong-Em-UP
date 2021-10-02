@@ -8,8 +8,13 @@ public class Wall extends Entity{
     }
 
     @Override
-    public void update() {
+    public void update(ArrayList<Entity> eList) {
 
+    }
+
+    @Override
+    public void whenCollided(Entity entity) {
+        //play sound
     }
 
     @Override

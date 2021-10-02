@@ -2,11 +2,15 @@ import java.awt.*;
 import java.sql.Array;
 import java.util.ArrayList;
 
+import static java.lang.Math.*;
+import static java.lang.Math.abs;
+
 public class Projectile extends Entity {
     public int damage = 10;
     public boolean active = false;
 
     public Projectile(int w, int h, int dmg, float[] speed){
+        name = "Projectile";
         this.x = 500;
         this.y = 1000;
         width = 5;
@@ -18,13 +22,19 @@ public class Projectile extends Entity {
     }
 
     @Override
-    public void update() {
+    public void update(ArrayList<Entity> eList) {
+        solveCollisions(eList);
         move();
         if(y < 0 || 600 < y){
             active = false; //placeholder, should deactivate when collision
             lookDirection[0] = 0;
             lookDirection[1] = 0;
         }
+    }
+
+    @Override
+    public void whenCollided(Entity entity) {
+
     }
 
     public void fire(Entity source){
@@ -49,22 +59,40 @@ public class Projectile extends Entity {
     public Rectangle getBounds(){
         if(active){
             if(lookDirection[1] == 1)
-                return new Rectangle((int)x,(int)y + height*3/4,width,height/3);
+                return new Rectangle((int)x,(int)y + height - 1,width,1);
             if(lookDirection[1] == -1)
-                return new Rectangle((int)x,(int)y,width,height/3);
+                return new Rectangle((int)x,(int)y,width,1);
         }else
-            return new Rectangle(0,0,0,0);
+            return new Rectangle((int)x,(int)y,100,100);
         return null;
     }
 
     public ArrayList<PhysicalBoundarie> getPhysicalBoundaries(){
-        PhysicalBoundarie square = new PhysicalBoundarie((int)x,(int)y,width,1,true);
+        PhysicalBoundarie square = new PhysicalBoundarie((int)x,(int)y,width,1,false);
 
         ArrayList <PhysicalBoundarie> list=new ArrayList<>();
         list.add(square);
 
         return list;
     }
+
+    public void solveCollisions(ArrayList<Entity> list) {
+
+        if(active){
+            System.out.println("flood gaming");
+            for (Entity entity : list) {
+                if (this.getBounds().intersects(entity.getBounds())) {//checking with which object the ball collide
+                    System.out.println("hit entity : " + entity.name);
+                    x = -100;
+                    y = -100;
+                    active = false;
+                    //deal damage
+                }
+                break;
+            }
+        }
+    }
+
 
     @Override
     public void drawEntity(Graphics g) {

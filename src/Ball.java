@@ -40,18 +40,25 @@ public class Ball extends Entity {
         this.x+=speed[0];
         this.y+=speed[1];
 
-        if (y>HEIGHT){
+        if (y>HEIGHT){ //ball passes stick
             x=250;
             y=150;
         }
 
     }
 
-    public void update(){
+    public void update(ArrayList<Entity> eList){
         //System.out.println("(" + x + ", " +  y + ")");
+        //solveCollisions(eList);
         lastValidPosition[0] = x;
         lastValidPosition[1] = y;
+
         move();
+    }
+
+    @Override
+    public void whenCollided(Entity entity) {
+
     }
 
     public void solveCollisions(ArrayList<Entity> list) {
@@ -82,10 +89,10 @@ public class Ball extends Entity {
 
                             }
 
-                            else if (entity.speed[1]*speed[1]<0){
+                            else if (entity.speed[1]*speed[1]<0){ //objects move in opposite directions
 
-                                int sgn2 = (int)(speed[1] / abs(speed[1]));
-                                speed[1]=-sgn2*(min(abs(speed[1])+1,2));
+                                int ballDirection = (int)(speed[1] / abs(speed[1]));
+                                speed[1]=-ballDirection*(min(abs(speed[1])+1,2));
                                 //shifting the ball a little more to avoid more collisions
                                 y=y+2*speed[1];
                                 //taking in consideration the speed along the x axis
@@ -113,7 +120,7 @@ public class Ball extends Entity {
         }
     }
 
-    public String furthestSide(Entity e){
+    /*public String furthestSide(Entity e){
         if(e instanceof Enemy){
             float cX = x + width/2;
             float cY = y + height/2;
@@ -133,7 +140,7 @@ public class Ball extends Entity {
             }
         }
         return null;
-    }
+    }*/
     void updateSlope(Entity entity) {
         int sgn1 = slope / abs(slope);
         if (entity.speed[0]==0){

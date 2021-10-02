@@ -96,12 +96,10 @@ public class Model implements ActionListener, KeyListener {
     }
     private void update(){
 
-        b.solveCollisions(physicalObjects);
-
         for(Entity e : physicalObjects){
-            e.update();
+            e.update(physicalObjects);
         }
 
-        b.update(); //b updated separately else it collides with itself
+        b.update(physicalObjects); //b updated separately else it collides with itself
     }
 }
