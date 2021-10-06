@@ -16,7 +16,6 @@ public class Projectile extends Entity {
         color = Color.RED;
         absSpeed = speed;
 
-        this.lookDirection = new int[]{0,0};
     }
 
     @Override
@@ -39,7 +38,7 @@ public class Projectile extends Entity {
         return "projectile";
     }
 
-    public void fire(Entity source){
+    public void fire(Shooter source){
         x = source.getX() + source.getWidth()/2 - width/2; // centrer le projectile sur la source
         y = source.getY() + source.lookDirection[1]*height ; //grab look direction dynamically, some ships might change direction
         speed[0] = absSpeed[0] * source.lookDirection[0];

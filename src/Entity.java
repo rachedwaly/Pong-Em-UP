@@ -6,7 +6,7 @@ public abstract class Entity {
     protected int width,height;
     static final int HEIGHT=PlayGround.HEIGHT; //height of the game
     static final int WIDTH=PlayGround.WIDTH; //width of the game
-    static final int PROJECTILEBUFFER = 20; //pre allocated space for projectiles
+
     static final int SCROLLSPEED = 1;
     protected  float[] speed = new float[2];
     protected int[] lookDirection;

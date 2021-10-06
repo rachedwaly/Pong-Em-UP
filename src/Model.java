@@ -99,6 +99,15 @@ public class Model implements ActionListener, KeyListener {
     }
     private void update(){
 
+        solveCollisions();
+        for(Entity e : physicalObjects){
+            e.update(physicalObjects);
+        }
+
+        //b.update(physicalObjects); //b updated separately else it collides with itself
+    }
+
+    public void solveCollisions(){
         for(int i = 0; i < physicalObjects.size() - 1; i++){
             entityBuffer1 = physicalObjects.get(i);
             for(int j = i + 1; j < physicalObjects.size(); j++){
@@ -110,12 +119,5 @@ public class Model implements ActionListener, KeyListener {
                 }
             }
         }
-
-        for(Entity e : physicalObjects){
-            e.update(physicalObjects);
-        }
-
-        //b.update(physicalObjects); //b updated separately else it collides with itself
     }
-
 }

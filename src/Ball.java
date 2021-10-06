@@ -6,8 +6,9 @@ import static java.lang.Math.*;
 
 
 public class Ball extends Entity {
+    static int ROLLBACK_SIZE = 10;
     private int slope;
-    private float[] lastValidPosition = new float[]{0,0};
+    private ArrayList<Float[]> lastValidPositions = new ArrayList<Float[]>();
     private Random r=new Random();
 
     public Ball(int x, int y) {
@@ -49,8 +50,12 @@ public class Ball extends Entity {
 
     public void update(ArrayList<Entity> eList){
         //System.out.println("(" + x + ", " +  y + ")");
-        lastValidPosition[0] = x;
-        lastValidPosition[1] = y;
+        if(lastValidPositions.size() < ROLLBACK_SIZE){
+            lastValidPositions.add(new Float[]{x,y});
+        }else{
+            lastValidPositions.remove(0);
+            lastValidPositions.add(new Float[]{x,y});
+        }
 
         move();
     }
@@ -61,8 +66,12 @@ public class Ball extends Entity {
             //looping on the sides of the object to determine which side we are colliding with
 
             if (this.getBounds().intersects(side)) {
-                x = (int)lastValidPosition[0];  //reroll to prevent excessive collision bugs
-                y = (int)lastValidPosition[1];
+                int rollbackIndex = lastValidPositions.size() - 1;
+                while(this.getBounds().intersects(entity.getBounds()) && rollbackIndex >= 0){
+                    x = lastValidPositions.get(rollbackIndex)[0];
+                    y = lastValidPositions.get(rollbackIndex)[1];
+                    rollbackIndex--;
+                }
 
                 if (!side.isOrientation()) {
                     slope = -slope;
@@ -73,7 +82,7 @@ public class Ball extends Entity {
                     if ((entity.speed[1]==0)){
                         speed[1]=-speed[1];
                         //shifting the ball a little more to avoid more collisions
-                        y=y+2*speed[1];
+                        //y=y+2*speed[1];
 
                         //taking in consideration the speed along the x axis
                         updateSlope(entity);
@@ -85,7 +94,7 @@ public class Ball extends Entity {
                         int ballDirection = (int)(speed[1] / abs(speed[1]));
                         speed[1]=-ballDirection*(min(abs(speed[1])+1,2));
                         //shifting the ball a little more to avoid more collisions
-                        y=y+2*speed[1];
+                        //y=y+2*speed[1];
                         //taking in consideration the speed along the x axis
                         updateSlope(entity);
                     }
@@ -95,7 +104,7 @@ public class Ball extends Entity {
 
                         speed[1]=-sgn2*(max(abs(speed[1])-1,1));
                         //shifting the ball a little more to avoid more collisions
-                        y=y+2*speed[1];
+                        //y=y+2*speed[1];
                         //taking in consideration the speed along the x axis
                         updateSlope(entity);
                     }
