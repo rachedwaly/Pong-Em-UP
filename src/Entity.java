@@ -12,7 +12,7 @@ public abstract class Entity {
     protected int[] lookDirection;
     protected boolean orientation=false; //the orientation of the object //false for vertical
     // objects
-    public Color color = Color.BLACK;
+    public Color color;
     protected String name;
     protected int innerTimer = 0;
 
@@ -22,18 +22,12 @@ public abstract class Entity {
     }
 
     public Entity(int x,int y){
-        this.x=x;
-        this.y=y;
-        this.width=0;
-        this.height=0;
+        this(x,y,0,0);
 
     }
 
     public Entity(int x,int y, int w, int h){
-        this.x=x;
-        this.y=y;
-        this.width=w;
-        this.height=h;
+        this(x,y,w,h,false);
 
     }
 
@@ -43,7 +37,7 @@ public abstract class Entity {
         this.y=y;
         this.width=w;
         this.height=h;
-
+        color = Color.BLACK;
     }
 
     public float getX(){
@@ -59,16 +53,43 @@ public abstract class Entity {
         return height;
     }
 
+    /***
+     * Updates the entity based on the current game timer : movement, color etc
+     * @param eList
+     */
     public abstract void update(ArrayList<Entity> eList);
 
+    /***
+     * Updates the entity when colliding with another entity
+     * THIS METHOD ONLY MODIFIES THE OBJECT ON WHICH IT IS CALLED
+     * @param entity the other object
+     */
     public abstract void whenCollided(Entity entity);
 
+    /***
+     * Alternative to instanceof to ease switch methods
+     * @return entity class name in string
+     */
+    public abstract String getEntityTypeName();
+
+    /***
+     *
+     * @return Rectangle which defines bounds (even ball is a rectangle)
+     */
     public Rectangle getBounds(){
         return new Rectangle((int)x,(int)y,width,height);
     }
 
+    /***
+     * Entity's paint method
+     * @param g
+     */
     public abstract void drawEntity(Graphics g);
 
+    /***
+     * Defines the sides of an entity for the ball to rebound correctly when colliding with an object
+     * @return
+     */
     public abstract ArrayList<PhysicalBoundarie> getPhysicalBoundaries();
 
 

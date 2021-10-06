@@ -63,6 +63,11 @@ public class Enemy extends Entity{ //Eventuellement transformer en LineEnemy
 
     }
 
+    @Override
+    public String getEntityTypeName() {
+        return "enemy";
+    }
+
     public void move(){ //eventually move to abstract
 
 

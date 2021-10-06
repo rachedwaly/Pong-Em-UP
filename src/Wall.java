@@ -9,21 +9,25 @@ public class Wall extends Entity{
 
     @Override
     public void update(ArrayList<Entity> eList) {
-        if(innerTimer > 800)
+        if(innerTimer > 80)
             color = Color.BLACK;
         innerTimer += Model.DELAY;
     }
 
     @Override
     public void whenCollided(Entity entity) {
-        System.out.println("hit wall");
         color = Color.YELLOW;
         innerTimer = 0;
     }
 
     @Override
+    public String getEntityTypeName() {
+        return "wall";
+    }
+
+    @Override
     public void drawEntity(Graphics g){
-        g.setColor(Color.BLACK);
+        g.setColor(this.color);
         g.fillRect((int)x,(int)y,width,height);
 
     }

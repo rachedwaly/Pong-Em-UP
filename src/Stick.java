@@ -7,6 +7,9 @@ import static java.lang.Math.min;
 
 public class Stick extends Entity{
 
+    public int health;
+
+
     protected float dx,dy;
     private int projectileIndex;
     private boolean canShoot = true;
@@ -16,6 +19,7 @@ public class Stick extends Entity{
     public Stick(int x, int y){
         super(x,y);
         name = "Stick";
+
         this.width=40;
         this.height=10;
         orientation=true;
@@ -26,12 +30,21 @@ public class Stick extends Entity{
 
     @Override
     public void update(ArrayList<Entity> eList) {
+        if(innerTimer > 80)
+            color = Color.BLACK;
+        innerTimer += Model.DELAY;
         move();
     }
 
     @Override
     public void whenCollided(Entity entity) {
+        color = Color.RED;
+        innerTimer = 0;
+    }
 
+    @Override
+    public String getEntityTypeName() {
+        return "stick";
     }
 
     public void move(){
@@ -120,7 +133,7 @@ public class Stick extends Entity{
 
     @Override
     public void drawEntity(Graphics g){
-        g.setColor(Color.BLACK);
+        g.setColor(this.color);
         g.fillRect((int)x,(int)y,width,10);
     }
 
