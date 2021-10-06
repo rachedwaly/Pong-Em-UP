@@ -112,18 +112,18 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
         g.fillRect((int)x,(int)y,width,height);
     }
 
-    @Override
+    /*@Override
     public ArrayList<PhysicalBoundarie> getPhysicalBoundaries() {
-        PhysicalBoundarie c1=new PhysicalBoundarie((int)x,(int)y,1,height,false); //left side
-        PhysicalBoundarie c2=new PhysicalBoundarie((int)x+width-1,(int)y,1,height,false); // right side
-        PhysicalBoundarie c3=new PhysicalBoundarie((int)x + 1,(int)y,width - 2,1,true); //top side
-        PhysicalBoundarie c4=new PhysicalBoundarie((int)x + 1,(int)y+height-1,width - 2,1,true); //bottom side
+        PhysicalBoundarie c1=new PhysicalBoundarie((int)x,(int)y,1,height); //left side
+        PhysicalBoundarie c2=new PhysicalBoundarie((int)x+width-1,(int)y,1,height); // right side
+        PhysicalBoundarie c3=new PhysicalBoundarie((int)x + 1,(int)y,width - 2,1); //top side
+        PhysicalBoundarie c4=new PhysicalBoundarie((int)x + 1,(int)y+height-1,width - 2,1); //bottom side
         ArrayList <PhysicalBoundarie> list=new ArrayList<>();
         list.add(c1);
         list.add(c2);
         list.add(c3);
         list.add(c4);
         return list;
-    }
+    }*/
 
 }

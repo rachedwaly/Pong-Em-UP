@@ -32,10 +32,10 @@ public class Wall extends Entity{
 
     }
 
-    @Override
+    /*@Override
     public ArrayList<PhysicalBoundarie> getPhysicalBoundaries() {
         return null;
-    }
+    }*/
 
 
 }

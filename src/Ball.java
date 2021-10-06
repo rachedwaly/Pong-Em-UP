@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -6,9 +8,9 @@ import static java.lang.Math.*;
 
 
 public class Ball extends Entity {
-    static int ROLLBACK_SIZE = 10;
-    private int slope;
-    private ArrayList<Float[]> lastValidPositions = new ArrayList<Float[]>();
+    static int ROLLBACK_FRAMES = 10;
+    private float scalarSpeed;
+    private ArrayList<Float[]> lastValidPositions = new ArrayList<>();
     private Random r=new Random();
 
     public Ball(int x, int y) {
@@ -17,10 +19,9 @@ public class Ball extends Entity {
         this.width = 10;
         this.height = 10;
 
+        scalarSpeed = 1;
+        this.speed[0]=1;
         this.speed[1]=1;
-        this.speed[0]=0;
-
-        slope= r.nextInt(1)+1;
 
 
     }
@@ -30,14 +31,8 @@ public class Ball extends Entity {
         g.fillOval((int)x,(int)y,width,height);
     }
 
-    @Override
-    public ArrayList<PhysicalBoundarie> getPhysicalBoundaries() {
-        return null;
-    }
-
     public void move(){
 
-        speed[0]=slope*speed[1];
         this.x+=speed[0];
         this.y+=speed[1];
 
@@ -49,8 +44,8 @@ public class Ball extends Entity {
     }
 
     public void update(){
-        //System.out.println("(" + x + ", " +  y + ")");
-        if(lastValidPositions.size() < ROLLBACK_SIZE){
+
+        if(lastValidPositions.size() < ROLLBACK_FRAMES){
             lastValidPositions.add(new Float[]{x,y});
         }else{
             lastValidPositions.remove(0);
@@ -61,56 +56,25 @@ public class Ball extends Entity {
     }
 
     @Override
+    public Rectangle getBounds(){
+        return new CircleShape((int)(x + width/2), (int)(y + height/2), width/2);
+        //return new Rectangle((int)x, (int)y, width,height);
+    }
+
+    @Override
     public void whenCollided(Entity entity) {
-        for (PhysicalBoundarie side : entity.getPhysicalBoundaries()) {
-            //looping on the sides of the object to determine which side we are colliding with
+        float[] normal = entity.getNormalHit(entity);
 
-            if (this.getBounds().intersects(side)) {
-                int rollbackIndex = lastValidPositions.size() - 1;
-                while(this.getBounds().intersects(entity.getBounds()) && rollbackIndex >= 0){
-                    x = lastValidPositions.get(rollbackIndex)[0];
-                    y = lastValidPositions.get(rollbackIndex)[1];
-                    rollbackIndex--;
-                }
-
-                if (!side.isOrientation()) {
-                    slope = -slope;
-                } else {
-                    //taking in consideration the speed of the entity that collided with
-                    // the ball
-                    //taking in consideration the speed along the y axis
-                    if ((entity.speed[1]==0)){
-                        speed[1]=-speed[1];
-                        //shifting the ball a little more to avoid more collisions
-                        //y=y+2*speed[1];
-
-                        //taking in consideration the speed along the x axis
-                        updateSlope(entity);
-
-                    }
-
-                    else if (entity.speed[1]*speed[1]<0){ //objects move in opposite directions
-
-                        int ballDirection = (int)(speed[1] / abs(speed[1]));
-                        speed[1]=-ballDirection*(min(abs(speed[1])+1,2));
-                        //shifting the ball a little more to avoid more collisions
-                        //y=y+2*speed[1];
-                        //taking in consideration the speed along the x axis
-                        updateSlope(entity);
-                    }
-
-                    else {
-                        int sgn2 = (int)(speed[1] / abs(speed[1]));
-
-                        speed[1]=-sgn2*(max(abs(speed[1])-1,1));
-                        //shifting the ball a little more to avoid more collisions
-                        //y=y+2*speed[1];
-                        //taking in consideration the speed along the x axis
-                        updateSlope(entity);
-                    }
-                }
-            }
+        int rollbackIndex = lastValidPositions.size() - 1;
+        while(this.getBounds().intersects(entity.getBounds()) && rollbackIndex >= 0){
+            x = lastValidPositions.get(rollbackIndex)[0];
+            y = lastValidPositions.get(rollbackIndex)[1];
+            rollbackIndex--;
         }
+        speed = reflectVector(speed,normal);
+        speed[0] *= scalarSpeed;
+        speed[1] *= scalarSpeed;
+
     }
 
     @Override
@@ -118,19 +82,66 @@ public class Ball extends Entity {
         return "ball";
     }
 
+    public static float dot(float[] a, float[] b){
+        return a[0] * b[0] + a[1] * b[1];
+    };
 
-    void updateSlope(Entity entity) {
-        int sgn1 = slope / abs(slope);
-        if (entity.speed[0]==0){
-            slope=-slope;
-        }
-        else if ((entity.speed[0]*speed[0]<0)){
-            slope=sgn1*(max(abs(slope)-1,1));
-        }
-        else{
-            slope=-sgn1*(min(abs(slope)+1,2));
+    public static float distance(float[] v){
+        return (float)Math.sqrt(Math.pow(v[0],2) + Math.pow(v[1],2));
+    }
+    public static float[] normalize(float[] v){
+        float distance = distance(v);
+        return new float[]{v[0] / distance,v[1] / distance};
+    }
 
-        }
+    public static float[] reflectVector(float[] v, float[] normal){
+        float[] result = new float[2];
+        v = normalize(v);
+        normal = normalize(normal);
+        result[0] = v[0] - 2 * dot(v,normal) * normal[0];
+        result[1] = v[1] - 2 * dot(v,normal) * normal[1];
+        return result;
+    }
+
+}
+
+class CircleShape extends Rectangle{
+    //angle diagonale :
+    //meilleur cas : cote/2 + rayon
+    //pire cas : diagonale + rayon
+    public int radius;
+    public CircleShape(int x, int y, int radius){
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+    }
+
+    //Code taken from https://stackoverflow.com/questions/401847/circle-rectangle-collision-detection-intersection
+    @Override
+    public boolean intersects(Rectangle rect){
+        Point rCenter = new Point(rect.x + width/2,rect.y + height/2);
+        Point circleDistance = new Point();
+
+        circleDistance.x = Math.abs(x - rCenter.x);
+        circleDistance.y = Math.abs(y - rCenter.y);
+
+        if (circleDistance.x > (rect.width/2 + radius)) { return false; }
+        if (circleDistance.y > (rect.height/2 + radius)) { return false; }
+
+        if (circleDistance.x <= (rect.width/2)) { return true; }
+        if (circleDistance.y <= (rect.height/2)) { return true; }
+
+        double cornerDistance = Math.pow((circleDistance.x - rect.width/2),2) +
+                Math.pow((circleDistance.y - rect.height/2),2);
+
+
+        return (cornerDistance <= (Math.pow(radius,2)));
+
+    };
+
+    public boolean intersects(CircleShape cs){
+        double distance = Math.sqrt(Math.pow(this.x - cs.x,2) + Math.pow(this.y - cs.y,2));
+        return distance <= this.radius + cs.radius;
     }
 }
 

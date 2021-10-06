@@ -62,14 +62,14 @@ public class Projectile extends Entity {
             return new Rectangle(0,0,0,0);
     }
 
-    public ArrayList<PhysicalBoundarie> getPhysicalBoundaries(){
+    /*public ArrayList<PhysicalBoundarie> getPhysicalBoundaries(){
         PhysicalBoundarie square = new PhysicalBoundarie((int)x,(int)y,width,1,true);
 
         ArrayList <PhysicalBoundarie> list=new ArrayList<>();
         list.add(square);
 
         return list;
-    }
+    }*/
 
     @Override
     public void drawEntity(Graphics g) {

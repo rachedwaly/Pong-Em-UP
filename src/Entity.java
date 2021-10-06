@@ -8,9 +8,9 @@ public abstract class Entity {
     static final int WIDTH=PlayGround.WIDTH; //width of the game
 
     static final int SCROLLSPEED = 1;
-    protected  float[] speed = new float[2];
+    protected float[] speed = new float[2];
     protected int[] lookDirection;
-    protected boolean orientation=false; //the orientation of the object //false for vertical
+
     // objects
     public Color color;
     protected String name;
@@ -18,7 +18,7 @@ public abstract class Entity {
 
     public Entity(){
         this(Main.random.nextInt(WIDTH),Main.random.nextInt(HEIGHT),
-                Main.random.nextInt(30),Main.random.nextInt(30),true);
+                Main.random.nextInt(30),Main.random.nextInt(30));
     }
 
     public Entity(int x,int y){
@@ -27,12 +27,6 @@ public abstract class Entity {
     }
 
     public Entity(int x,int y, int w, int h){
-        this(x,y,w,h,false);
-
-    }
-
-    public Entity(int x,int y, int w, int h,boolean orientation){
-        this.orientation=orientation;
         this.x=x;
         this.y=y;
         this.width=w;
@@ -75,6 +69,7 @@ public abstract class Entity {
      *
      * @return Rectangle which defines bounds (even ball is a rectangle)
      */
+    //
     public Rectangle getBounds(){
         return new Rectangle((int)x,(int)y,width,height);
     }
@@ -89,7 +84,19 @@ public abstract class Entity {
      * Defines the sides of an entity for the ball to rebound correctly when colliding with an object
      * @return
      */
-    public abstract ArrayList<PhysicalBoundarie> getPhysicalBoundaries();
+    public float[] getNormalHit(Entity e){
+        float[] center = new float[]{e.x + e.width/2, e.y + e.height/2};
+        if(center[0] - x < center[1] - y) {//hit vertical wall
+            if(center[0] - x < 0)//Left
+                return new float[]{-1,0};
+            else
+                return new float[]{1,0};
 
-
+        }else{//Horizontal
+            if(center[1] - y < 0)//Up
+                return new float[]{0,-1};
+            else
+                return new float[]{0,1};
+        }
+    }
 }

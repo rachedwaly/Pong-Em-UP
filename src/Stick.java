@@ -10,13 +10,13 @@ public class Stick extends Shooter{
     private Color healthColor;
     private Color damageColor;
     static int BASE_WIDTH = 50;
-    static int BASE_X;
+    public float offsetX;
     protected float dx,dy;
     private int score;
 
     public Stick(int x, int y){
         super(x,y);
-        BASE_X = x;
+
         name = "Stick";
         canShoot = true;
         maxHealth = 5;
@@ -24,9 +24,10 @@ public class Stick extends Shooter{
         healthColor = Color.GREEN;
         damageColor = Color.RED;
 
+        offsetX = 0;
         this.width = BASE_WIDTH;
         this.height = 10;
-        orientation = true;
+
         lookDirection = new int[]{0,-1};
         for(int i = 0; i < projectiles.length; i++)
             projectiles[i] = new Projectile(5,20,10,new float[]{5f,5f});
@@ -50,9 +51,11 @@ public class Stick extends Shooter{
                 Projectile p = (Projectile) entity;
                 health -= p.damage;
                 if(health <=0){
+                    width = 0;
+                    //play destruction animation;
                     System.out.println("Lost !");
                 }else{
-                    x += (int)(p.damage/(float)maxHealth * BASE_WIDTH/4);
+                    offsetX += (int)(p.damage/(float)maxHealth * BASE_WIDTH/4);
                     width = BASE_WIDTH/2 + (int)((health/(float)maxHealth) * BASE_WIDTH/2);
                 }
 
@@ -60,6 +63,8 @@ public class Stick extends Shooter{
                 //on bouge de 10 hp vers la droite, on perd 20 hp
 
                 break;
+            case "Enemy":
+
             default :
                 break;
         }
@@ -169,20 +174,24 @@ public class Stick extends Shooter{
 
         g.setColor(this.color);
         g.fillRect((int)x,(int)y,width,height);
-        g.setColor(Color.WHITE);
-
+        g.setColor(healthColor);
+        g.fillRect((int)(x - offsetX),(int)y + height + 5,(int)(BASE_WIDTH * health/(float)maxHealth),5);
+        g.setColor(damageColor);
+        g.fillRect(     (int)(x - offsetX) + (int)(BASE_WIDTH * health/(float)maxHealth),
+                        (int)y + height + 5,(int)(BASE_WIDTH * (maxHealth - health)/(float)maxHealth),5);
     }
 
-    @Override
+    /*@Override
     public ArrayList<PhysicalBoundarie> getPhysicalBoundaries() {
-        PhysicalBoundarie c1=new PhysicalBoundarie((int)x,(int)y,width,3,true); //top side
-        PhysicalBoundarie c2=new PhysicalBoundarie((int)x,(int)y+3,2,height-6,false); //left side
-        PhysicalBoundarie c3=new PhysicalBoundarie((int)x+width-2,(int)y+3,2,height-6,false); //right side
-        PhysicalBoundarie c4=new PhysicalBoundarie((int)x,(int)y+height-3,width,3,true); //right side
+        PhysicalBoundarie c1=new PhysicalBoundarie((int)x,(int)y,width,3); //top side
+        PhysicalBoundarie c2=new PhysicalBoundarie((int)x,(int)y+3,2,height-6); //left side
+        PhysicalBoundarie c3=new PhysicalBoundarie((int)x+width-2,(int)y+3,2,height-6); //right side
+        PhysicalBoundarie c4=new PhysicalBoundarie((int)x,(int)y+height-3,width,3); //right side
         ArrayList <PhysicalBoundarie> list=new ArrayList<>();
         list.add(c1);
         list.add(c2);
         list.add(c3);
+        list.add(c4);
         return list;
-    }
+    }*/
 }
