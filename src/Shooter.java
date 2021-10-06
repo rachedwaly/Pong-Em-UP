@@ -1,6 +1,6 @@
 public abstract class Shooter extends Entity{
-    public int health;
-    public int maxHealth;
+    protected int health;
+    protected int maxHealth;
     public int projectileIndex = 0;
     public boolean canShoot;
     static final int PROJECTILEBUFFER = 50; //pre allocated space for projectiles

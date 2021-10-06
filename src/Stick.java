@@ -12,17 +12,14 @@ public class Stick extends Shooter{
     static int BASE_WIDTH = 50;
     static int BASE_X;
     protected float dx,dy;
-    private int projectileIndex;
-    private boolean canShoot = true;
-    public Projectile[] projectiles = new Projectile[PROJECTILEBUFFER]; //Ten buffered projectiles, 11 is empty
-
+    private int score;
 
     public Stick(int x, int y){
         super(x,y);
         BASE_X = x;
         name = "Stick";
         canShoot = true;
-        maxHealth = 100;
+        maxHealth = 5;
         health = maxHealth;
         healthColor = Color.GREEN;
         damageColor = Color.RED;
@@ -36,7 +33,7 @@ public class Stick extends Shooter{
     }
 
     @Override
-    public void update(ArrayList<Entity> eList) {
+    public void update() {
         if(innerTimer > 80){
             color = Color.BLACK;
         }
@@ -159,12 +156,21 @@ public class Stick extends Shooter{
         return new Rectangle((int)x,(int)y,width,10);
     }
 
+    public int getHealth(){
+        return health;
+    }
+
+    public int getScore(){
+        return score;
+    }
     @Override
     public void drawEntity(Graphics g){
 
-        g.setColor(this.color);
 
+        g.setColor(this.color);
         g.fillRect((int)x,(int)y,width,height);
+        g.setColor(Color.WHITE);
+
     }
 
     @Override

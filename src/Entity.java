@@ -55,9 +55,8 @@ public abstract class Entity {
 
     /***
      * Updates the entity based on the current game timer : movement, color etc
-     * @param eList
      */
-    public abstract void update(ArrayList<Entity> eList);
+    public abstract void update();
 
     /***
      * Updates the entity when colliding with another entity

@@ -50,7 +50,7 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
     }
 
 
-    public void update(ArrayList<Entity> eList){
+    public void update(){
         move();
         behaviorUpdate();
         innerTimer += Model.DELAY;

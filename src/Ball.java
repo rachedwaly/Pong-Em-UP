@@ -48,7 +48,7 @@ public class Ball extends Entity {
 
     }
 
-    public void update(ArrayList<Entity> eList){
+    public void update(){
         //System.out.println("(" + x + ", " +  y + ")");
         if(lastValidPositions.size() < ROLLBACK_SIZE){
             lastValidPositions.add(new Float[]{x,y});

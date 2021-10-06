@@ -8,7 +8,7 @@ public class Wall extends Entity{
     }
 
     @Override
-    public void update(ArrayList<Entity> eList) {
+    public void update() {
         if(innerTimer > 80)
             color = Color.BLACK;
         innerTimer += Model.DELAY;

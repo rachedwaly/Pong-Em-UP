@@ -3,7 +3,7 @@ import java.sql.Array;
 import java.util.ArrayList;
 
 public class Projectile extends Entity {
-    public int damage = 10;
+    public int damage = 1;
     public boolean active = false;
     public float[] absSpeed;
 
@@ -19,7 +19,7 @@ public class Projectile extends Entity {
     }
 
     @Override
-    public void update(ArrayList<Entity> eList) {
+    public void update() {
         move();
         if(y < 0 || 600 < y){
             active = false;
