@@ -15,12 +15,14 @@ public class Model implements ActionListener, KeyListener {
 
     public static int HEIGHT=600,WIDTH=300;
     static final int DELAY = 8;
-    public Stick s1;
-    public Ball b;
+
+
+    private Stick s1;
+    private Ball b;
     private HashMap<String,Image> allImages=new HashMap<>();
     private PlayGround view;
-    public Timer timer;
-
+    private Timer timer;
+    private int currentLvl=1;
 
     public ArrayList<Entity> physicalObjects = new ArrayList<>();
     private Enemy[] level1List = {
@@ -32,6 +34,7 @@ public class Model implements ActionListener, KeyListener {
             new Enemy(Enemy.SENTRY,150,-50,20,300),
                                     //new Enemy(400,400,500,500)
                                 };
+
 
     public Model() throws IOException {
         loadPhotos();
@@ -104,24 +107,42 @@ public class Model implements ActionListener, KeyListener {
 
         b.update(); //b updated separately else it collides with itself
     }
+
+
+
     public PlayGround getView() {
         return view;
     }
-
     public int getPlayerHealth(){
         return s1.getHealth();
     }
     public int getPlayerScore(){
         return s1.getScore();
     }
+
+
+    public void stopTimer(){
+        timer.stop();
+    }
+    public void startTimer(){
+        timer.start();
+    }
+
     private void loadPhotos() throws IOException {
         //This method will import all the photos needed for our game
         BufferedImage ph= ImageIO.read(new File("Resources/health.png"));
         allImages.put("health",(Image) ph);
+        BufferedImage ph1= ImageIO.read(new File("Resources/background lvl1.jpg"));
+        allImages.put("lvl1",(Image)ph1);
+        BufferedImage ph2= ImageIO.read(new File("Resources/background lvl2.jpg"));
+        allImages.put("lvl2",(Image)ph2);
     }
 
     public Image getPhoto(String name){
         return allImages.get(name);
     }
 
+    public int getCurrentLvl() {
+        return currentLvl;
+    }
 }

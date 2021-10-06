@@ -1,3 +1,5 @@
+import Sprites.Sprite;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
@@ -10,6 +12,7 @@ public class PlayGround extends JPanel {
     private ArrayList<Entity> drawables=new ArrayList<>();
     private StatusBar statusBar;
     private Model model;
+    private ArrayList<Sprite> sprites=new ArrayList<Sprite>();
 
 
 
@@ -24,8 +27,32 @@ public class PlayGround extends JPanel {
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
+
+        handleLevelBackground(g);
+
+
         for (Entity entity : drawables) {
             entity.drawEntity(g);
+        }
+    }
+
+    private void handleLevelBackground(Graphics g) {
+        int lvl=model.getCurrentLvl();
+        g.drawImage(model.getPhoto("lvl"+lvl), 0, 0, this);
+        switch(lvl){
+            case 1:{
+                //generate sprites for lvl1
+
+                break;
+            }
+            case 2:{
+                //generate sprites for lvl2
+                break;
+            }
+            case 3:{
+                //generate sprites for lvl3
+                break;
+            }
         }
     }
     public void addDrawable(Entity e){
