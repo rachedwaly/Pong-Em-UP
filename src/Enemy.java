@@ -1,15 +1,13 @@
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Enemy extends Entity{ //Eventuellement transformer en LineEnemy
+public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
     public int fX,fY; //pos "finale" de l'objet, ou sa loop de comportement commence
     protected boolean loopMode = false; //false : se deplace vers (fX,fY) || true : effectue sa loop de behavior
-    public Projectile[] projectiles = new Projectile[Entity.PROJECTILEBUFFER];
-    private int projectileIndex = 0;
-    protected int innerTimer = 0;
-
     static final String SENTRY = "SENTRY";
+
     private Enemy(int x0, int y0, int fX, int fY){
+        super();
         x = x0;
         y = y0;
 
@@ -52,10 +50,20 @@ public class Enemy extends Entity{ //Eventuellement transformer en LineEnemy
     }
 
 
-    public void update(){
+    public void update(ArrayList<Entity> eList){
         move();
         behaviorUpdate();
         innerTimer += Model.DELAY;
+    }
+
+    @Override
+    public void whenCollided(Entity entity) {
+
+    }
+
+    @Override
+    public String getEntityTypeName() {
+        return "enemy";
     }
 
     public void move(){ //eventually move to abstract
@@ -70,12 +78,6 @@ public class Enemy extends Entity{ //Eventuellement transformer en LineEnemy
         }
 
     }
-
-    public void fire(){
-        projectiles[projectileIndex].fire(this); // shoot vertically
-        projectileIndex = (projectileIndex + 1) % PROJECTILEBUFFER;
-    }
-
 
     public void behaviorUpdate(){
         if(loopMode){

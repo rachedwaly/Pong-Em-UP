@@ -5,29 +5,73 @@ import java.util.ArrayList;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
-public class Stick extends Entity{
+public class Stick extends Shooter{
 
+    private Color healthColor;
+    private Color damageColor;
+    static int BASE_WIDTH = 50;
+    static int BASE_X;
     protected float dx,dy;
     private int projectileIndex;
     private boolean canShoot = true;
     public Projectile[] projectiles = new Projectile[PROJECTILEBUFFER]; //Ten buffered projectiles, 11 is empty
-    private int health=3;
-    private int score=0;
 
 
     public Stick(int x, int y){
         super(x,y);
-        this.width=40;
-        this.height=10;
-        orientation=true;
+        BASE_X = x;
+        name = "Stick";
+        canShoot = true;
+        maxHealth = 100;
+        health = maxHealth;
+        healthColor = Color.GREEN;
+        damageColor = Color.RED;
+
+        this.width = BASE_WIDTH;
+        this.height = 10;
+        orientation = true;
         lookDirection = new int[]{0,-1};
         for(int i = 0; i < projectiles.length; i++)
             projectiles[i] = new Projectile(5,20,10,new float[]{5f,5f});
     }
 
     @Override
-    public void update() {
+    public void update(ArrayList<Entity> eList) {
+        if(innerTimer > 80){
+            color = Color.BLACK;
+        }
+
+        innerTimer += Model.DELAY;
         move();
+    }
+
+    @Override
+    public void whenCollided(Entity entity) {
+        color = Color.RED;
+        switch(entity.getEntityTypeName()){
+            case "projectile":
+                Projectile p = (Projectile) entity;
+                health -= p.damage;
+                if(health <=0){
+                    System.out.println("Lost !");
+                }else{
+                    x += (int)(p.damage/(float)maxHealth * BASE_WIDTH/4);
+                    width = BASE_WIDTH/2 + (int)((health/(float)maxHealth) * BASE_WIDTH/2);
+                }
+
+                //100 hp - 20 dgt : 80
+                //on bouge de 10 hp vers la droite, on perd 20 hp
+
+                break;
+            default :
+                break;
+        }
+        innerTimer = 0;
+    }
+
+    @Override
+    public String getEntityTypeName() {
+        return "stick";
     }
 
     public void move(){
@@ -77,7 +121,8 @@ public class Stick extends Entity{
         }
         if (key == KeyEvent.VK_SPACE){
             if(canShoot){
-                projectiles[projectileIndex].fire(this); // shoot vertically
+                System.out.println("isFiring");
+                fire();
                 canShoot = false;
             }
         }
@@ -116,8 +161,10 @@ public class Stick extends Entity{
 
     @Override
     public void drawEntity(Graphics g){
-        g.setColor(Color.BLACK);
-        g.fillRect((int)x,(int)y,width,10);
+
+        g.setColor(this.color);
+
+        g.fillRect((int)x,(int)y,width,height);
     }
 
     @Override
@@ -132,21 +179,4 @@ public class Stick extends Entity{
         list.add(c3);
         return list;
     }
-    public int getHealth() {
-        return health;
-    }
-
-    public void setHealth(int health) {
-        this.health = health;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-
 }

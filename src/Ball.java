@@ -6,16 +6,17 @@ import static java.lang.Math.*;
 
 
 public class Ball extends Entity {
+    static int ROLLBACK_SIZE = 10;
     private int slope;
-    private float[] lastValidPosition = new float[]{0,0};
+    private ArrayList<Float[]> lastValidPositions = new ArrayList<Float[]>();
     private Random r=new Random();
 
     public Ball(int x, int y) {
 
         super(x, y);
-        this.width=10;
+        this.width = 10;
+        this.height = 10;
 
-        this.height=width;
         this.speed[1]=1;
         this.speed[0]=0;
 
@@ -25,7 +26,7 @@ public class Ball extends Entity {
     }
     @Override
     public void drawEntity(Graphics g){
-        g.setColor(Color.BLACK);
+        g.setColor(this.color);
         g.fillOval((int)x,(int)y,width,height);
     }
 
@@ -40,100 +41,84 @@ public class Ball extends Entity {
         this.x+=speed[0];
         this.y+=speed[1];
 
-        if (y>HEIGHT){
+        if (y>HEIGHT){ //ball passes stick
             x=250;
             y=150;
         }
 
     }
 
-    public void update(){
+    public void update(ArrayList<Entity> eList){
         //System.out.println("(" + x + ", " +  y + ")");
-        lastValidPosition[0] = x;
-        lastValidPosition[1] = y;
+        if(lastValidPositions.size() < ROLLBACK_SIZE){
+            lastValidPositions.add(new Float[]{x,y});
+        }else{
+            lastValidPositions.remove(0);
+            lastValidPositions.add(new Float[]{x,y});
+        }
+
         move();
     }
 
-    public void solveCollisions(ArrayList<Entity> list) {
+    @Override
+    public void whenCollided(Entity entity) {
+        for (PhysicalBoundarie side : entity.getPhysicalBoundaries()) {
+            //looping on the sides of the object to determine which side we are colliding with
 
-        for (Entity entity : list) {
-            if (this.getBounds().intersects(entity.getBounds())) {//checking with which object the ball collide
+            if (this.getBounds().intersects(side)) {
+                int rollbackIndex = lastValidPositions.size() - 1;
+                while(this.getBounds().intersects(entity.getBounds()) && rollbackIndex >= 0){
+                    x = lastValidPositions.get(rollbackIndex)[0];
+                    y = lastValidPositions.get(rollbackIndex)[1];
+                    rollbackIndex--;
+                }
 
-                for (PhysicalBoundarie side : entity.getPhysicalBoundaries()) {
-                    //looping on the sides of the object to determine which side we are colliding with
+                if (!side.isOrientation()) {
+                    slope = -slope;
+                } else {
+                    //taking in consideration the speed of the entity that collided with
+                    // the ball
+                    //taking in consideration the speed along the y axis
+                    if ((entity.speed[1]==0)){
+                        speed[1]=-speed[1];
+                        //shifting the ball a little more to avoid more collisions
+                        //y=y+2*speed[1];
 
-                    if (this.getBounds().intersects(side)) {
-                        x = (int)lastValidPosition[0];  //reroll to prevent excessive collision bugs
-                        y = (int)lastValidPosition[1];
-
-                        if (!side.isOrientation()) {
-                            slope = -slope;
-                        } else {
-                            //taking in consideration the speed of the entity that collided with
-                            // the ball
-                            //taking in consideration the speed along the y axis
-                            if ((entity.speed[1]==0)){
-                                speed[1]=-speed[1];
-                                //shifting the ball a little more to avoid more collisions
-                                y=y+2*speed[1];
-
-                                //taking in consideration the speed along the x axis
-                                updateSlope(entity);
-
-                            }
-
-                            else if (entity.speed[1]*speed[1]<0){
-
-                                int sgn2 = (int)(speed[1] / abs(speed[1]));
-                                speed[1]=-sgn2*(min(abs(speed[1])+1,2));
-                                //shifting the ball a little more to avoid more collisions
-                                y=y+2*speed[1];
-                                //taking in consideration the speed along the x axis
-                                updateSlope(entity);
-                            }
-
-                            else {
-                                int sgn2 = (int)(speed[1] / abs(speed[1]));
-
-                                speed[1]=-sgn2*(max(abs(speed[1])-1,1));
-                                //shifting the ball a little more to avoid more collisions
-                                y=y+2*speed[1];
-                                //taking in consideration the speed along the x axis
-                                updateSlope(entity);
-                            }
-
-
-                        }
+                        //taking in consideration the speed along the x axis
+                        updateSlope(entity);
 
                     }
+
+                    else if (entity.speed[1]*speed[1]<0){ //objects move in opposite directions
+
+                        int ballDirection = (int)(speed[1] / abs(speed[1]));
+                        speed[1]=-ballDirection*(min(abs(speed[1])+1,2));
+                        //shifting the ball a little more to avoid more collisions
+                        //y=y+2*speed[1];
+                        //taking in consideration the speed along the x axis
+                        updateSlope(entity);
+                    }
+
+                    else {
+                        int sgn2 = (int)(speed[1] / abs(speed[1]));
+
+                        speed[1]=-sgn2*(max(abs(speed[1])-1,1));
+                        //shifting the ball a little more to avoid more collisions
+                        //y=y+2*speed[1];
+                        //taking in consideration the speed along the x axis
+                        updateSlope(entity);
+                    }
                 }
-                break;
             }
-
         }
     }
 
-    public String furthestSide(Entity e){
-        if(e instanceof Enemy){
-            float cX = x + width/2;
-            float cY = y + height/2;
-            float ceX = e.x + e.width/2;
-            float ceY = e.y + e.height/2;
-
-            if(Math.abs(cX - ceX) < Math.abs(cY - ceY)){
-                if(cY - ceY > 0)
-                    return "DOWN";
-                else
-                    return "UP";
-            }else{
-                if(cX - ceX > 0)
-                    return "RIGHT";
-                else
-                    return "LEFT";
-            }
-        }
-        return null;
+    @Override
+    public String getEntityTypeName() {
+        return "ball";
     }
+
+
     void updateSlope(Entity entity) {
         int sgn1 = slope / abs(slope);
         if (entity.speed[0]==0){

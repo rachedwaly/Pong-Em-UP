@@ -15,22 +15,25 @@ public class Model implements ActionListener, KeyListener {
 
     public static int HEIGHT=600,WIDTH=300;
     static final int DELAY = 8;
+
+
+    private Entity entityBuffer1; // prevent excessive memory usage for collisions
+    private Entity entityBuffer2;
     public Stick s1;
     public Ball b;
     private HashMap<String,Image> allImages=new HashMap<>();
     private PlayGround view;
     public Timer timer;
 
-
     public ArrayList<Entity> physicalObjects = new ArrayList<>();
     private Enemy[] level1List = {
-                                    new Enemy(Enemy.SENTRY,150,-50,150,200),
-                                    new Enemy(Enemy.SENTRY,150,-50,200,200),
-                                    new Enemy(Enemy.SENTRY,150,-50,50,100),
-                                    new Enemy(Enemy.SENTRY,150,-50,100,150),
-            new Enemy(Enemy.SENTRY,150,-50,250,350),
-            new Enemy(Enemy.SENTRY,150,-50,20,300),
-                                    //new Enemy(400,400,500,500)
+                                    new Enemy(Enemy.SENTRY,450,-50,450,200),
+                                    new Enemy(Enemy.SENTRY,150,-50,300,200),
+                                    new Enemy(Enemy.SENTRY,150,-50,500,100),
+                                    new Enemy(Enemy.SENTRY,250,-50,400,150),
+                                    new Enemy(Enemy.SENTRY,150,-50,250,350),
+                                    new Enemy(Enemy.SENTRY,400,-50,550,300),
+
                                 };
 
     public Model() throws IOException {
@@ -46,6 +49,7 @@ public class Model implements ActionListener, KeyListener {
         addPhysicalObject(wallLeft);
         addPhysicalObject(wallUp);
         addPhysicalObject(s1);
+        addPhysicalObject(b);
         for(Projectile projectile : s1.projectiles)
             addPhysicalObject(projectile);
 
@@ -69,14 +73,19 @@ public class Model implements ActionListener, KeyListener {
             view.addDrawable(entity);
         }
         view.addDrawable(b); //to remove
+
         timer = new Timer(DELAY, this);
+
         timer.start();
+
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         this.update();
         view.update();
+
+
     }
 
     public void addPhysicalObject(Entity e){
@@ -96,13 +105,26 @@ public class Model implements ActionListener, KeyListener {
     }
     private void update(){
 
-        b.solveCollisions(physicalObjects);
-
+        solveCollisions();
         for(Entity e : physicalObjects){
             e.update();
         }
 
-        b.update(); //b updated separately else it collides with itself
+        //b.update(physicalObjects); //b updated separately else it collides with itself
+    }
+
+    public void solveCollisions(){
+        for(int i = 0; i < physicalObjects.size() - 1; i++){
+            entityBuffer1 = physicalObjects.get(i);
+            for(int j = i + 1; j < physicalObjects.size(); j++){
+                entityBuffer2 = physicalObjects.get(j);
+                if(entityBuffer1.getBounds().intersects(entityBuffer2.getBounds())){//Order of collision
+                    physicalObjects.get(i).whenCollided(entityBuffer2);
+                    physicalObjects.get(j).whenCollided(entityBuffer1);
+                    break; //is i++ && j = i + 1 better ?
+                }
+            }
+        }
     }
     public PlayGround getView() {
         return view;
