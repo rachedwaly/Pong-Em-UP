@@ -39,7 +39,7 @@ public class Enemy extends Entity{ //Eventuellement transformer en LineEnemy
                 speed[0] *= 2;
                 speed[1] *= 2;
                 for(int i = 0; i < projectiles.length; i++)
-                    projectiles[i] = new Projectile(5,20,10,new float[]{5f,5f});
+                    projectiles[i] = new Projectile(5,20,10,new float[]{2f,2f});
                 color = Color.BLUE;
                 this.name = name;
                 break;

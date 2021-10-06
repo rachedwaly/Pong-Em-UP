@@ -1,22 +1,26 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Model implements ActionListener, KeyListener {
 
     public static int HEIGHT=600,WIDTH=300;
     static final int DELAY = 8;
-
-
-
     public Stick s1;
     public Ball b;
+    private HashMap<String,Image> allImages=new HashMap<>();
     private PlayGround view;
     public Timer timer;
+
 
     public ArrayList<Entity> physicalObjects = new ArrayList<>();
     private Enemy[] level1List = {
@@ -29,8 +33,9 @@ public class Model implements ActionListener, KeyListener {
                                     //new Enemy(400,400,500,500)
                                 };
 
-    public Model(PlayGround p) {
-        view = p;
+    public Model() throws IOException {
+        loadPhotos();
+        view = new PlayGround(this);
         VerticalWall wallRight = new VerticalWall(WIDTH - 10, 0, 10, HEIGHT);
         VerticalWall wallLeft = new VerticalWall(0, 0, 10, HEIGHT);
         HorizontalWall wallUp = new HorizontalWall(10, 0, WIDTH-20, 10);
@@ -64,19 +69,14 @@ public class Model implements ActionListener, KeyListener {
             view.addDrawable(entity);
         }
         view.addDrawable(b); //to remove
-
         timer = new Timer(DELAY, this);
-
         timer.start();
-
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         this.update();
         view.update();
-
-
     }
 
     public void addPhysicalObject(Entity e){
@@ -104,4 +104,24 @@ public class Model implements ActionListener, KeyListener {
 
         b.update(); //b updated separately else it collides with itself
     }
+    public PlayGround getView() {
+        return view;
+    }
+
+    public int getPlayerHealth(){
+        return s1.getHealth();
+    }
+    public int getPlayerScore(){
+        return s1.getScore();
+    }
+    private void loadPhotos() throws IOException {
+        //This method will import all the photos needed for our game
+        BufferedImage ph= ImageIO.read(new File("Resources/health.png"));
+        allImages.put("health",(Image) ph);
+    }
+
+    public Image getPhoto(String name){
+        return allImages.get(name);
+    }
+
 }

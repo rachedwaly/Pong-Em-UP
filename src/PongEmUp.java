@@ -1,6 +1,7 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.io.IOException;
 
 
 public class PongEmUp extends JFrame {
@@ -12,14 +13,12 @@ public class PongEmUp extends JFrame {
     private boolean paused=false;
     private Model model;
     private JPanel containerPane;
-    private String currentScene;
     private PlayGround playground;
-    private JPanel menu;
     private JPanel levelSelect;
     private JPanel optionsMenu;
     private PausePane pausePane;
     private MainMenuPane mainMenuPane;
-    private JButton newGame,selectButton,quit,options,gameToMenu;
+
 
     public PongEmUp(){
 
@@ -30,12 +29,8 @@ public class PongEmUp extends JFrame {
         this.setGlassPane(pausePane);
         containerPane = new JPanel(new BorderLayout());
         add(containerPane,BorderLayout.CENTER);
-
         containerPane.setBorder(new EmptyBorder(0,10,0,5));
-
         setMinimumSize(new Dimension(PlayGround.WIDTH+100,PlayGround.HEIGHT+100));
-
-
         setVisible(true);
         setResizable(false);
 
@@ -78,7 +73,6 @@ public class PongEmUp extends JFrame {
         repaint();}
         else {
             containerPane.removeAll();
-            remove(gameToMenu);
             JLabel placeholder = new JLabel("Placeholder");
             JSlider volume = new JSlider(0,100,50);
             JButton optionsToMain = new JButton("Menu");
@@ -113,7 +107,6 @@ public class PongEmUp extends JFrame {
     public void goBackToMainMenu(){
 
         containerPane.removeAll();
-        remove(gameToMenu);
         stopTheGame();
         showMainMenu();
 
@@ -130,36 +123,19 @@ public class PongEmUp extends JFrame {
         System.exit(0);
     }
 
-    public void startGame() {
+    public void startGame() throws IOException {
         running=true;
-
-
         //put this inside a gamePane class maybe?
         containerPane.removeAll();
-        playground = new PlayGround();
+        model= new Model();
+        playground = model.getView();
         containerPane.add(playground,BorderLayout.CENTER);
-        model= new Model(playground);
         containerPane.addKeyListener(model);
         containerPane.requestFocusInWindow();
-        gameToMenu = new JButton("Menu");
-        JPanel test=new JPanel(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridwidth = GridBagConstraints.REMAINDER;
-        gbc.anchor = GridBagConstraints.CENTER;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        test.add(gameToMenu,gbc);
-        containerPane.add(test,BorderLayout.EAST);
-        System.out.println(containerPane.getSize());
-        System.out.println(getContentPane().getSize());
-        gameToMenu.addActionListener(e2 -> { //Eventually, layeredPane transition
-            pauseGame();
-        });
-
+        JPanel buttonsPanel=new ButtonsPane(this);
+        containerPane.add(buttonsPanel,BorderLayout.EAST);
         revalidate();
         repaint();
-
-
-
     }
 
     public void stopTheGame(){

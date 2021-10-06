@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -7,14 +8,17 @@ public class PlayGround extends JPanel {
     public static int HEIGHT=600;
     public static int WIDTH=300;
     private ArrayList<Entity> drawables=new ArrayList<>();
+    private StatusBar statusBar;
+    private Model model;
 
-    public PlayGround(){
+
+
+
+    public PlayGround(Model model) throws IOException {
         super(new BorderLayout()); //BorderLayout instead ?
+        this.model=model;
         setPreferredSize(new Dimension(Model.WIDTH,Model.HEIGHT));
-        JPanel statusBar=new JPanel();
-
-        statusBar.setBackground(Color.GRAY);
-        statusBar.setPreferredSize(new Dimension(Model.WIDTH,50));
+        statusBar=new StatusBar(model);
         add(statusBar,BorderLayout.SOUTH);
     }
     @Override
@@ -32,7 +36,10 @@ public class PlayGround extends JPanel {
     }
     public void update(){
         repaint();
+        statusBar.repaint();
     }
+
+
 
 
 }

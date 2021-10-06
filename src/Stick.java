@@ -11,6 +11,8 @@ public class Stick extends Entity{
     private int projectileIndex;
     private boolean canShoot = true;
     public Projectile[] projectiles = new Projectile[PROJECTILEBUFFER]; //Ten buffered projectiles, 11 is empty
+    private int health=3;
+    private int score=0;
 
 
     public Stick(int x, int y){
@@ -130,4 +132,21 @@ public class Stick extends Entity{
         list.add(c3);
         return list;
     }
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+
 }

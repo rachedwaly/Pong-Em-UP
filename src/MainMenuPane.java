@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
+import java.io.IOException;
 
 public class MainMenuPane extends JPanel {
 
@@ -34,7 +35,13 @@ public class MainMenuPane extends JPanel {
         JButton selectButton=new JButton("Level Select");
         JButton options=new JButton("Options");
         JButton quit=new JButton("Quit");
-        newGame.addActionListener(e -> pongemup.startGame());
+        newGame.addActionListener(e -> {
+            try {
+                pongemup.startGame();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
 
         options.addActionListener(e -> pongemup.goToOptions());
 
