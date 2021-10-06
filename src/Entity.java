@@ -70,8 +70,8 @@ public abstract class Entity {
      * @return Rectangle which defines bounds (even ball is a rectangle)
      */
     //
-    public Rectangle getBounds(){
-        return new Rectangle((int)x,(int)y,width,height);
+    public CustomRectangle getBounds(){
+        return new CustomRectangle((int)x,(int)y,width,height);
     }
 
     /***

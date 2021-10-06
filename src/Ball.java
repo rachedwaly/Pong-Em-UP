@@ -11,6 +11,7 @@ public class Ball extends Entity {
     static int ROLLBACK_FRAMES = 10;
     private float scalarSpeed;
     private ArrayList<Float[]> lastValidPositions = new ArrayList<>();
+
     private Random r=new Random();
 
     public Ball(int x, int y) {
@@ -18,6 +19,7 @@ public class Ball extends Entity {
         super(x, y);
         this.width = 10;
         this.height = 10;
+        name = "ball";
 
         scalarSpeed = 1;
         this.speed[0]=1;
@@ -29,6 +31,8 @@ public class Ball extends Entity {
     public void drawEntity(Graphics g){
         g.setColor(this.color);
         g.fillOval((int)x,(int)y,width,height);
+        g.setColor(Color.WHITE);
+        g.drawString( Integer.toString((int)(x + width/2) + (int)(y + height/2)),(int)x,(int)y );
     }
 
     public void move(){
@@ -56,7 +60,7 @@ public class Ball extends Entity {
     }
 
     @Override
-    public Rectangle getBounds(){
+    public CustomRectangle getBounds(){
         return new CircleShape((int)(x + width/2), (int)(y + height/2), width/2);
         //return new Rectangle((int)x, (int)y, width,height);
     }
@@ -105,7 +109,7 @@ public class Ball extends Entity {
 
 }
 
-class CircleShape extends Rectangle{
+class CircleShape extends CustomRectangle{
     //angle diagonale :
     //meilleur cas : cote/2 + rayon
     //pire cas : diagonale + rayon
@@ -119,13 +123,16 @@ class CircleShape extends Rectangle{
     //Code taken from https://stackoverflow.com/questions/401847/circle-rectangle-collision-detection-intersection
     @Override
     public boolean intersects(Rectangle rect){
-        Point rCenter = new Point(rect.x + width/2,rect.y + height/2);
+        Point rCenter = new Point(rect.x + rect.width/2,rect.y + rect.height/2);
         Point circleDistance = new Point();
 
         circleDistance.x = Math.abs(x - rCenter.x);
         circleDistance.y = Math.abs(y - rCenter.y);
 
-        if (circleDistance.x > (rect.width/2 + radius)) { return false; }
+        if (circleDistance.x > (rect.width/2 + radius)) {
+            System.out.println("wallright check : " + rect.width);
+            return false;
+        }
         if (circleDistance.y > (rect.height/2 + radius)) { return false; }
 
         if (circleDistance.x <= (rect.width/2)) { return true; }

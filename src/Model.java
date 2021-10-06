@@ -14,7 +14,7 @@ import java.util.HashMap;
 public class Model implements ActionListener, KeyListener {
 
     public static int HEIGHT=600,WIDTH=300;
-    static final int DELAY = 8;
+    static final int DELAY = 50;
 
 
     private Entity entityBuffer1; // prevent excessive memory usage for collisions
@@ -45,19 +45,21 @@ public class Model implements ActionListener, KeyListener {
         s1 = new Stick(WIDTH / 2, HEIGHT - 20);
         b = new Ball(250, 580);
 
-        addPhysicalObject(wallRight);
-        addPhysicalObject(wallLeft);
-        addPhysicalObject(wallUp);
-        addPhysicalObject(s1);
+        wallRight.name = "wallRight";
         addPhysicalObject(b);
-        for(Projectile projectile : s1.projectiles)
+        addPhysicalObject(wallRight);
+        //addPhysicalObject(wallLeft);
+        //addPhysicalObject(wallUp);
+        //addPhysicalObject(s1);
+
+        /*for(Projectile projectile : s1.projectiles)
             addPhysicalObject(projectile);
 
         for(Enemy enemy : level1List){
             addPhysicalObject(enemy);
             for(Projectile projectile : enemy.projectiles)
                 addPhysicalObject(projectile);
-        }
+        }*/
 
         for (Entity entity : physicalObjects) {
             if(entity instanceof Enemy){
@@ -84,8 +86,6 @@ public class Model implements ActionListener, KeyListener {
     public void actionPerformed(ActionEvent e) {
         this.update();
         view.update();
-
-
     }
 
     public void addPhysicalObject(Entity e){
@@ -104,13 +104,10 @@ public class Model implements ActionListener, KeyListener {
     s1.keyReleased(e);
     }
     private void update(){
-
         solveCollisions();
         for(Entity e : physicalObjects){
             e.update();
         }
-
-        //b.update(physicalObjects); //b updated separately else it collides with itself
     }
 
     public void solveCollisions(){

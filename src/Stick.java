@@ -156,11 +156,6 @@ public class Stick extends Shooter{
         }
     }
 
-    @Override
-    public Rectangle getBounds(){
-        return new Rectangle((int)x,(int)y,width,10);
-    }
-
     public int getHealth(){
         return health;
     }

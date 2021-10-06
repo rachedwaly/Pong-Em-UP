@@ -51,15 +51,15 @@ public class Projectile extends Entity {
         y = Math.max(-100,Math.min(1000,y + speed[1]));
     }
 
-    //TODO : add les physicial boundaries
-    public Rectangle getBounds(){
+    @Override
+    public CustomRectangle getBounds(){
         if(active){
             if(speed[1] > 0)
-                return new Rectangle((int)x,(int)y,width,height);
+                return new CustomRectangle((int)x,(int)y,width,height);
             else
-                return new Rectangle((int)x,(int)y,width,height);
+                return new CustomRectangle((int)x,(int)y,width,height);
         }else
-            return new Rectangle(0,0,0,0);
+            return new CustomRectangle(0,0,0,0);
     }
 
     /*public ArrayList<PhysicalBoundarie> getPhysicalBoundaries(){
