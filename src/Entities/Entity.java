@@ -1,11 +1,17 @@
+package Entities;
+
+import Game.PlayGround;
+import com.sun.tools.javac.Main;
+
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 public abstract class Entity {
     protected float x,y;
     protected int width,height;
-    static final int HEIGHT=PlayGround.HEIGHT; //height of the game
-    static final int WIDTH=PlayGround.WIDTH; //width of the game
+    static final int HEIGHT= PlayGround.HEIGHT; //height of the game
+    static final int WIDTH= PlayGround.WIDTH; //width of the game
     static final int PROJECTILEBUFFER = 20; //pre allocated space for projectiles
     static final int SCROLLSPEED = 1;
     protected  float[] speed = new float[2];
@@ -14,6 +20,7 @@ public abstract class Entity {
     // objects
     public Color color = Color.BLACK;
     protected String name;
+    protected static Random random = new Random();
 
 
     public boolean isOrientation() {
@@ -25,8 +32,8 @@ public abstract class Entity {
     }
 
     public Entity(){
-        this(Main.random.nextInt(WIDTH),Main.random.nextInt(HEIGHT),
-                Main.random.nextInt(30),Main.random.nextInt(30),true);
+        this(random.nextInt(WIDTH), random.nextInt(HEIGHT),
+                random.nextInt(30), random.nextInt(30),true);
     }
 
     public Entity(int x,int y){

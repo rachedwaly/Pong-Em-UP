@@ -1,14 +1,16 @@
+package Entities;
+
 import java.util.ArrayList;
 
-public class HorizontalWall extends Wall{
-    public HorizontalWall(int x,int y,int width,int height){
+public class VerticalWall extends Wall{
+    public VerticalWall(int x,int y,int width,int height){
         super(x,y,width,height);
-        orientation=true;
-    }
+        orientation=false;
 
+    }
     @Override
     public ArrayList<PhysicalBoundarie> getPhysicalBoundaries() {
-        PhysicalBoundarie c=new PhysicalBoundarie((int)x,(int)y,width,height,true);
+        PhysicalBoundarie c=new PhysicalBoundarie((int)x,(int)y,width,height,false);
         ArrayList <PhysicalBoundarie> list=new ArrayList<>();
         list.add(c);
         return list;

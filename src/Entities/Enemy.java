@@ -1,3 +1,7 @@
+package Entities;
+
+import Game.Model;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -8,7 +12,7 @@ public class Enemy extends Entity{ //Eventuellement transformer en LineEnemy
     private int projectileIndex = 0;
     protected int innerTimer = 0;
 
-    static final String SENTRY = "SENTRY";
+    public static final String SENTRY = "SENTRY";
     private Enemy(int x0, int y0, int fX, int fY){
         x = x0;
         y = y0;

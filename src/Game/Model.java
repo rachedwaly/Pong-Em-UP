@@ -1,3 +1,7 @@
+package Game;
+
+import Entities.*;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -10,21 +14,27 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 public class Model implements ActionListener, KeyListener {
 
     public static int HEIGHT=600,WIDTH=300;
-    static final int DELAY = 8;
-
-
+    public static final int DELAY = 8;
     private Stick s1;
     private Ball b;
     private HashMap<String,Image> allImages=new HashMap<>();
     private PlayGround view;
     private Timer timer;
+    private Random random=new Random();
     private int currentLvl=1;
+    private ArrayList<Entity> drawables=new ArrayList<>();
+    public ArrayList<BackgroundObject> getBackgroundObjects() {
+        return backgroundObjects;
+    }
 
+    private ArrayList<BackgroundObject> backgroundObjects=new ArrayList<>();
     public ArrayList<Entity> physicalObjects = new ArrayList<>();
+
     private Enemy[] level1List = {
                                     new Enemy(Enemy.SENTRY,150,-50,150,200),
                                     new Enemy(Enemy.SENTRY,150,-50,200,200),
@@ -32,7 +42,7 @@ public class Model implements ActionListener, KeyListener {
                                     new Enemy(Enemy.SENTRY,150,-50,100,150),
             new Enemy(Enemy.SENTRY,150,-50,250,350),
             new Enemy(Enemy.SENTRY,150,-50,20,300),
-                                    //new Enemy(400,400,500,500)
+                                    //new Entities.Enemy(400,400,500,500)
                                 };
 
 
@@ -44,7 +54,7 @@ public class Model implements ActionListener, KeyListener {
         HorizontalWall wallUp = new HorizontalWall(10, 0, WIDTH-20, 10);
         s1 = new Stick(WIDTH / 2, HEIGHT - 20);
         b = new Ball(250, 580);
-
+        generateBackgroundObjects();
         addPhysicalObject(wallRight);
         addPhysicalObject(wallLeft);
         addPhysicalObject(wallUp);
@@ -62,18 +72,40 @@ public class Model implements ActionListener, KeyListener {
             if(entity instanceof Enemy){
                 Enemy enemy = (Enemy) entity;
                 for(Projectile projectile : enemy.projectiles)
-                    view.addDrawable(projectile);
+                    addDrawable(projectile);
             }
             else if(entity instanceof Stick){
                 Stick stick = (Stick) entity;
                 for(Projectile projectile : stick.projectiles)
-                    view.addDrawable(projectile);
+                    addDrawable(projectile);
             }
-            view.addDrawable(entity);
+            addDrawable(entity);
         }
-        view.addDrawable(b); //to remove
+        addDrawable(b); //to remove
         timer = new Timer(DELAY, this);
         timer.start();
+    }
+
+    private void generateBackgroundObjects() {
+        String name="";
+        switch (getCurrentLvl()){
+            case 1:{
+                name="cloud";
+                break;
+            }
+            case 2:{
+                break;
+            }
+        }
+
+
+        int numberOfbgos= random.nextInt(7)+1;
+
+        for (int i=0;i<numberOfbgos;i++) {
+            BackgroundObject bgo = new BackgroundObject(name, 20+50*i, 20+50*i, this);
+            addBackgroundObject(bgo);
+
+        }
     }
 
     @Override
@@ -100,6 +132,10 @@ public class Model implements ActionListener, KeyListener {
     private void update(){
 
         b.solveCollisions(physicalObjects);
+
+        for (BackgroundObject bgo: backgroundObjects){
+            bgo.update();
+        }
 
         for(Entity e : physicalObjects){
             e.update();
@@ -136,13 +172,31 @@ public class Model implements ActionListener, KeyListener {
         allImages.put("lvl1",(Image)ph1);
         BufferedImage ph2= ImageIO.read(new File("Resources/background lvl2.jpg"));
         allImages.put("lvl2",(Image)ph2);
+        BufferedImage ph3= ImageIO.read(new File("Resources/cloud.png"));
+        allImages.put("cloud",(Image) ph3);
+
     }
 
     public Image getPhoto(String name){
         return allImages.get(name);
     }
 
+    public void setCurrentLvl(int i){
+        currentLvl=i;
+        generateBackgroundObjects();
+    }
+
     public int getCurrentLvl() {
         return currentLvl;
+    }
+    public ArrayList<Entity> getDrawables() {
+        return drawables;
+    }
+    public void addBackgroundObject(BackgroundObject b){backgroundObjects.add(b);}
+    public void addDrawable(Entity e){
+        drawables.add(e);
+    }
+    public void removeDrawable(Entity e){
+        drawables.remove(e);
     }
 }

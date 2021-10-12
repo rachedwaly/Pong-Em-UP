@@ -1,8 +1,9 @@
-import javax.imageio.ImageIO;
+package Frame;
+
+import Game.Model;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 public class StatusBar extends JPanel {

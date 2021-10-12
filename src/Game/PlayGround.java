@@ -1,4 +1,8 @@
-import Sprites.Sprite;
+package Game;
+
+import Entities.BackgroundObject;
+import Entities.Entity;
+import Frame.StatusBar;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,10 +13,10 @@ import java.util.ArrayList;
 public class PlayGround extends JPanel {
     public static int HEIGHT=600;
     public static int WIDTH=300;
-    private ArrayList<Entity> drawables=new ArrayList<>();
+
     private StatusBar statusBar;
     private Model model;
-    private ArrayList<Sprite> sprites=new ArrayList<Sprite>();
+
 
 
 
@@ -29,9 +33,7 @@ public class PlayGround extends JPanel {
         super.paintComponent(g);
 
         handleLevelBackground(g);
-
-
-        for (Entity entity : drawables) {
+        for (Entity entity : model.getDrawables()) {
             entity.drawEntity(g);
         }
     }
@@ -39,28 +41,12 @@ public class PlayGround extends JPanel {
     private void handleLevelBackground(Graphics g) {
         int lvl=model.getCurrentLvl();
         g.drawImage(model.getPhoto("lvl"+lvl), 0, 0, this);
-        switch(lvl){
-            case 1:{
-                //generate sprites for lvl1
-
-                break;
-            }
-            case 2:{
-                //generate sprites for lvl2
-                break;
-            }
-            case 3:{
-                //generate sprites for lvl3
-                break;
-            }
+        for (BackgroundObject bgo:model.getBackgroundObjects()){
+            bgo.drawEntity(g);
         }
     }
-    public void addDrawable(Entity e){
-        drawables.add(e);
-    }
-    public void removeDrawable(Entity e){
-        drawables.remove(e);
-    }
+
+
     public void update(){
         repaint();
         statusBar.repaint();

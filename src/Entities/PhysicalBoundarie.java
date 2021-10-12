@@ -1,3 +1,5 @@
+package Entities;
+
 import java.awt.*;
 
 public class PhysicalBoundarie extends Rectangle {

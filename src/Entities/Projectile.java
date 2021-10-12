@@ -1,5 +1,6 @@
+package Entities;
+
 import java.awt.*;
-import java.sql.Array;
 import java.util.ArrayList;
 
 public class Projectile extends Entity {
