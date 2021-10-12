@@ -1,11 +1,13 @@
+import shape.CustomShape;
+
 import java.awt.*;
-import java.util.ArrayList;
 
 public abstract class Entity {
     protected float x,y;
     protected int width,height;
     static final int HEIGHT=PlayGround.HEIGHT; //height of the game
     static final int WIDTH=PlayGround.WIDTH; //width of the game
+
 
     static final int SCROLLSPEED = 1;
     protected float[] speed = new float[2];
@@ -70,9 +72,7 @@ public abstract class Entity {
      * @return Rectangle which defines bounds (even ball is a rectangle)
      */
     //
-    public CustomRectangle getBounds(){
-        return new CustomRectangle((int)x,(int)y,width,height);
-    }
+    public abstract CustomShape getBounds();
 
     /***
      * Entity's paint method
@@ -85,7 +85,7 @@ public abstract class Entity {
      * @return
      */
     public float[] getNormalHit(Entity e){
-        float[] center = new float[]{e.x + e.width/2, e.y + e.height/2};
+        float[] center = new float[]{e.x + e.width/2f, e.y + e.height/2f};
         if(center[0] - x < center[1] - y) {//hit vertical wall
             if(center[0] - x < 0)//Left
                 return new float[]{-1,0};

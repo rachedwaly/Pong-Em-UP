@@ -1,3 +1,5 @@
+import shape.CustomRectangle;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -18,6 +20,11 @@ public class Wall extends Entity{
     public void whenCollided(Entity entity) {
         color = Color.YELLOW;
         innerTimer = 0;
+    }
+
+    @Override
+    public CustomRectangle getBounds(){
+        return new CustomRectangle((int)x,(int)y,width,height);
     }
 
     @Override

@@ -1,3 +1,5 @@
+import shape.CustomRectangle;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -60,6 +62,11 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
     public void whenCollided(Entity entity) {
 
     }
+
+    @Override
+    public CustomRectangle getBounds(){
+        return new CustomRectangle((int)x,(int)y,width,height);
+    };
 
     @Override
     public String getEntityTypeName() {

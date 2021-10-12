@@ -1,3 +1,5 @@
+import shape.CustomRectangle;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -49,7 +51,7 @@ public class Stick extends Shooter{
         switch(entity.getEntityTypeName()){
             case "projectile":
                 Projectile p = (Projectile) entity;
-                health -= p.damage;
+                //health -= p.damage;
                 if(health <=0){
                     width = 0;
                     //play destruction animation;
@@ -78,18 +80,18 @@ public class Stick extends Shooter{
 
     public void move(){
 
-        if ((x>=10) && (x<WIDTH/2)) {
+        if ((x>=10) && (x<WIDTH/2f)) {
             this.x = max(this.x+ dx,10);
         }
         else{
             this.x=min(this.x+ dx,WIDTH-10-width);
         }
 
-        if ((y<=HEIGHT-20) && (y>HEIGHT*3/4)){
+        if ((y<=HEIGHT-20) && (y>HEIGHT*3f/4)){
             this.y=min(this.y+dy,HEIGHT-30);
         }
         else{
-            this.y=max(this.y+dy,HEIGHT*3/4);
+            this.y=max(this.y+dy,HEIGHT*3f/4);
         }
 
 
@@ -176,17 +178,8 @@ public class Stick extends Shooter{
                         (int)y + height + 5,(int)(BASE_WIDTH * (maxHealth - health)/(float)maxHealth),5);
     }
 
-    /*@Override
-    public ArrayList<PhysicalBoundarie> getPhysicalBoundaries() {
-        PhysicalBoundarie c1=new PhysicalBoundarie((int)x,(int)y,width,3); //top side
-        PhysicalBoundarie c2=new PhysicalBoundarie((int)x,(int)y+3,2,height-6); //left side
-        PhysicalBoundarie c3=new PhysicalBoundarie((int)x+width-2,(int)y+3,2,height-6); //right side
-        PhysicalBoundarie c4=new PhysicalBoundarie((int)x,(int)y+height-3,width,3); //right side
-        ArrayList <PhysicalBoundarie> list=new ArrayList<>();
-        list.add(c1);
-        list.add(c2);
-        list.add(c3);
-        list.add(c4);
-        return list;
-    }*/
+    @Override
+    public CustomRectangle getBounds(){
+        return new CustomRectangle((int)x,(int)y,width,height);
+    }
 }

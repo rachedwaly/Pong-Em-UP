@@ -1,3 +1,5 @@
+import shape.CustomRectangle;
+
 public abstract class Shooter extends Entity{
     protected int health;
     protected int maxHealth;
@@ -17,7 +19,7 @@ public abstract class Shooter extends Entity{
     public void fire(){
         projectiles[projectileIndex].fire(this);
         projectileIndex = (projectileIndex + 1) % PROJECTILEBUFFER;
-    };
+    }
 
     public void whenCollided(Entity entity){
         switch(entity.getEntityTypeName()){

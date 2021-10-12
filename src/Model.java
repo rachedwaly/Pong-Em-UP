@@ -14,7 +14,7 @@ import java.util.HashMap;
 public class Model implements ActionListener, KeyListener {
 
     public static int HEIGHT=600,WIDTH=300;
-    static final int DELAY = 50;
+    static final int DELAY = 8;
 
 
     private Entity entityBuffer1; // prevent excessive memory usage for collisions
@@ -43,23 +43,23 @@ public class Model implements ActionListener, KeyListener {
         VerticalWall wallLeft = new VerticalWall(0, 0, 10, HEIGHT);
         HorizontalWall wallUp = new HorizontalWall(10, 0, WIDTH-20, 10);
         s1 = new Stick(WIDTH / 2, HEIGHT - 20);
-        b = new Ball(250, 580);
+        b = new Ball(10, 250);
 
         wallRight.name = "wallRight";
         addPhysicalObject(b);
         addPhysicalObject(wallRight);
-        //addPhysicalObject(wallLeft);
-        //addPhysicalObject(wallUp);
-        //addPhysicalObject(s1);
+        addPhysicalObject(wallLeft);
+        addPhysicalObject(wallUp);
+        addPhysicalObject(s1);
 
-        /*for(Projectile projectile : s1.projectiles)
+        for(Projectile projectile : s1.projectiles)
             addPhysicalObject(projectile);
 
         for(Enemy enemy : level1List){
             addPhysicalObject(enemy);
             for(Projectile projectile : enemy.projectiles)
                 addPhysicalObject(projectile);
-        }*/
+        }
 
         for (Entity entity : physicalObjects) {
             if(entity instanceof Enemy){
