@@ -34,16 +34,22 @@ public class Model implements ActionListener, KeyListener {
 
     public ArrayList<Entity> physicalObjects = new ArrayList<>();
 
-
+/*
     private Enemy[] level1List = {
-                                    new Enemy(Enemy.SENTRY,150,-50,150,200),
-                                    new Enemy(Enemy.SENTRY,150,-50,200,200),
-                                    new Enemy(Enemy.SENTRY,150,-50,50,100),
-                                    new Enemy(Enemy.SENTRY,150,-50,100,150),
-            new Enemy(Enemy.SENTRY,150,-50,250,350),
-            new Enemy(Enemy.SENTRY,150,-50,20,300),
+                                    new Enemy(Enemy.SENTRY,150,-50,150,200,this),
+                                    new Enemy(Enemy.SENTRY,150,-50,200,200,this),
+                                    new Enemy(Enemy.SENTRY,150,-50,50,100,this),
+                                    new Enemy(Enemy.SENTRY,150,-50,100,150,this),
+            new Enemy(Enemy.SENTRY,150,-50,250,350,this),
+            new Enemy(Enemy.SENTRY,150,-50,20,300,this),
                                     //new Enemy(400,400,500,500)
                                 };
+
+ */
+
+    private Enemy[] level1List = {
+            new Enemy(Enemy.SENTRY,150,-50,150,200,this),
+    };
 
     public Model() throws IOException {
         loadPhotos();
@@ -112,8 +118,9 @@ public class Model implements ActionListener, KeyListener {
     }
     private void update() {
         solveCollisions();
+        System.out.println(physicalObjects.size());
         for (Entity e : physicalObjects) {
-            e.update();
+            e.superUpdate();
         }
         for (BackgroundObject backgroundObject:backgroundObjects){
             backgroundObject.update();
@@ -133,7 +140,7 @@ public class Model implements ActionListener, KeyListener {
                 if(entityBuffer1.getBounds().intersects(entityBuffer2.getBounds())){//Order of collision
                     physicalObjects.get(i).whenCollided(entityBuffer2);
                     physicalObjects.get(j).whenCollided(entityBuffer1);
-                    break; //is i++ && j = i + 1 better ?
+                     //is i++ && j = i + 1 better ?
                 }
             }
         }
@@ -204,4 +211,37 @@ public class Model implements ActionListener, KeyListener {
         backgroundObjects.add(backgroundObject);
     }
 
+    //this method is called whenever an entity is dead
+    public void removeEntity(Shooter shooter){
+        shooter.setActive(false);
+        spawnBonus(shooter.getX(),shooter.getY());
+    }
+
+    //this method is called when a bonus is deleted
+    public void removeEntity(Bonus bonus){
+        bonus.setActive(false);
+    }
+
+    private void spawnBonus(float x, float y) {
+        //int gen=random.nextInt(2);
+        int gen=0;
+        switch (gen){
+            case 0:{
+                Bonus bonus=new Bonus("bouclier",x,y,this);
+                addDrawable(bonus);
+                addPhysicalObject(bonus);
+                break;
+            }
+            case 1:{
+
+            }
+
+        }
+
+    }
+
+    public void applyBonus(Bonus bonus) {
+        removeEntity(bonus);
+        //TODO applying bonus to the stick
+    }
 }

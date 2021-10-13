@@ -38,12 +38,11 @@ public class Stick extends Shooter{
 
     @Override
     public void update() {
+        move();
         if(innerTimer > 80){
             color = Color.BLACK;
         }
-
         innerTimer += Model.DELAY;
-        move();
     }
 
     @Override
@@ -55,7 +54,6 @@ public class Stick extends Shooter{
                 //health -= p.damage;
                 if(health <=0){
                     width = 0;
-                    //play destruction animation;
                     System.out.println("Lost !");
                 }else{
                     offsetX += (int)(p.damage/(float)maxHealth * BASE_WIDTH/4);
@@ -126,7 +124,6 @@ public class Stick extends Shooter{
         }
         if (key == KeyEvent.VK_SPACE){
             if(canShoot){
-                System.out.println("isFiring");
                 fire();
                 canShoot = false;
             }

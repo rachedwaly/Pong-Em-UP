@@ -11,6 +11,15 @@ public abstract class Entity {
     public static final int WIDTH=PlayGround.WIDTH; //width of the game
     static protected Random random=new Random();
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    protected boolean active=true;
     static final int SCROLLSPEED = 1;
     protected float[] speed = new float[2];
     protected int[] lookDirection;
@@ -19,6 +28,12 @@ public abstract class Entity {
     public Color color;
     protected String name;
     protected int innerTimer = 0;
+
+    public void superUpdate(){
+        if (active){
+            update();
+        }
+    }
 
     public Entity(){
         this(random.nextInt(WIDTH),random.nextInt(HEIGHT),
@@ -75,6 +90,13 @@ public abstract class Entity {
      */
     //
     public abstract CustomShape getBounds();
+
+
+    public void superDrawEntity(Graphics g){
+        if (active){
+            drawEntity(g);
+        }
+    }
 
     /***
      * Entity's paint method

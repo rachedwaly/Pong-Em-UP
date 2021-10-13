@@ -27,13 +27,11 @@ public class PlayGround extends JPanel {
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-
         handleLevelBackground(g);
         for (Entity entity : model.getDrawables()) {
-            entity.drawEntity(g);
+            entity.superDrawEntity(g);
         }
     }
-
     private void handleLevelBackground(Graphics g) {
         int lvl=model.getCurrentLvl();
         g.drawImage(model.getPhoto("lvl"+lvl), 0, 0, this);

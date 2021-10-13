@@ -3,6 +3,7 @@ import Entities.Shooter;
 import shape.CustomRectangle;
 import Game.*;
 
+
 import java.awt.*;
 
 public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
@@ -10,8 +11,11 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
     protected boolean loopMode = false; //false : se deplace vers (fX,fY) || true : effectue sa loop de behavior
     public static final String SENTRY = "SENTRY";
 
-    private Enemy(int x0, int y0, int fX, int fY){
+
+
+    private Enemy(int x0, int y0, int fX, int fY,Model model){
         super();
+        this.model=model;
         x = x0;
         y = y0;
 
@@ -32,14 +36,15 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
 
     }
 
-    public Enemy(String name, int x0, int y0 , int fX, int fY){
-        this(x0,y0,fX,fY);
+    public Enemy(String name, int x0, int y0 , int fX, int fY,Model model){
+        this(x0,y0,fX,fY,model);
         switch(name){
             case "SENTRY":
                 width = 20;
                 height = 20;
                 speed[0] *= 2;
                 speed[1] *= 2;
+                health=1;
                 for(int i = 0; i < projectiles.length; i++)
                     projectiles[i] = new Projectile(5,20,10,new float[]{2f,2f});
                 color = Color.BLUE;
@@ -55,13 +60,33 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
 
 
     public void update(){
+        if(innerTimer > 80){
+            color = Color.BLACK;
+        }
         move();
         behaviorUpdate();
         innerTimer += Model.DELAY;
+
     }
 
     @Override
     public void whenCollided(Entity entity) {
+        switch(entity.getEntityTypeName()){
+            case "projectile":
+                color = Color.RED;
+                Projectile p = (Projectile) entity;
+                health -= p.damage;
+                if(health <=0) {
+                    width = 0;
+                    model.removeEntity(this);
+                    System.out.println("enemy is dead !");
+                }
+                break;
+            case "Enemy":
+
+            default :
+                break;
+        }
 
     }
 
@@ -76,11 +101,8 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
     }
 
     public void move(){ //eventually move to abstract
-
-
         x += speed[0];
         y += speed[1];
-
         if(!loopMode && Math.abs(fX - x) <= 2f && Math.abs(fY - y) <= 2f) { //home reached
             loopMode = true;
             innerTimer = 4000; //soft reset the timer to control the loop easily
@@ -92,19 +114,17 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
         if(loopMode){
             switch(name){
                 case "SENTRY":
-
                     if(innerTimer % 2000 < 1000){
                         speed[0] = - 1;
                         speed[1] = 0;
-
                     }else{
                         speed[0] = 1;
                         speed[1] = 0;
                     }
-
                     if(innerTimer % 400 == 0)
                         fire();
                     break;
+
                 case "JUGGERNAUT":
                     break;
                 case "SPINNER":

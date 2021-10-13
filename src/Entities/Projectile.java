@@ -32,6 +32,7 @@ public class Projectile extends Entity {
         x = -100;
         y = -100;
         active = false;
+
     }
 
     @Override

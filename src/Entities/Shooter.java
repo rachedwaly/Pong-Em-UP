@@ -1,8 +1,9 @@
 package Entities;
-
+import Game.*;
 import shape.CustomRectangle;
 
 public abstract class Shooter extends Entity{
+    protected Model model;
     protected int health;
     protected int maxHealth;
     public int projectileIndex = 0;
@@ -23,13 +24,6 @@ public abstract class Shooter extends Entity{
         projectileIndex = (projectileIndex + 1) % PROJECTILEBUFFER;
     }
 
-    public void whenCollided(Entity entity){
-        switch(entity.getEntityTypeName()){
-            case "projectile" :
-                Projectile p = (Projectile) entity;
-                this.health -= p.damage;
-                break;
-        }
-    }
+    public abstract void whenCollided(Entity entity);
 
 }
