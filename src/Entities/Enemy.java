@@ -63,7 +63,11 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
 
     @Override
     public void whenCollided(Entity entity) {
-
+        switch (entity.getEntityTypeName()){
+            case "projectile":
+                disable();
+                break;
+        }
     }
 
     @Override

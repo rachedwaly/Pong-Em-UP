@@ -19,7 +19,7 @@ import java.util.Random;
 
 public class Model implements ActionListener, KeyListener {
 
-    static final boolean DEBUGMODE = false;
+    public static final boolean DEBUGMODE = false;
     public static Random random  = new Random();
     public static int HEIGHT=600,WIDTH=300;
     public static final int DELAY = 8;
@@ -63,7 +63,7 @@ public class Model implements ActionListener, KeyListener {
         for(Projectile projectile : s1.projectiles)
             addPhysicalObject(projectile);
 
-        if(DEBUGMODE){
+        if(!DEBUGMODE){
             for(Enemy enemy : level1List){
                 addPhysicalObject(enemy);
                 for(Projectile projectile : enemy.projectiles)
@@ -119,7 +119,7 @@ public class Model implements ActionListener, KeyListener {
     private void update() {
         solveCollisions();
         for (Entity e : physicalObjects) {
-            e.update();
+            e.superUpdate();
         }
         for (BackgroundObject backgroundObject:backgroundObjects){
             backgroundObject.update();
@@ -134,12 +134,14 @@ public class Model implements ActionListener, KeyListener {
         public void solveCollisions(){
         for(int i = 0; i < physicalObjects.size() - 1; i++){
             entityBuffer1 = physicalObjects.get(i);
-            for(int j = i + 1; j < physicalObjects.size(); j++){
-                entityBuffer2 = physicalObjects.get(j);
-                if(entityBuffer1.getBounds().intersects(entityBuffer2.getBounds())){//Order of collision
-                    physicalObjects.get(i).whenCollided(entityBuffer2);
-                    physicalObjects.get(j).whenCollided(entityBuffer1);
-                    break; //is i++ && j = i + 1 better ?
+            if(entityBuffer1.isActive()){
+                for(int j = i + 1; j < physicalObjects.size(); j++){
+                    entityBuffer2 = physicalObjects.get(j);
+                    if( entityBuffer2.isActive() &&
+                            entityBuffer1.getBounds().intersects(entityBuffer2.getBounds())){//Order of collision
+                        physicalObjects.get(i).whenCollided(entityBuffer2);
+                        physicalObjects.get(j).whenCollided(entityBuffer1);
+                    }
                 }
             }
         }

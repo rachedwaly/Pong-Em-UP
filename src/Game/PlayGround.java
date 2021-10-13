@@ -32,11 +32,12 @@ public class PlayGround extends JPanel {
         super.paintComponent(g);
 
         handleLevelBackground(g);
+        int bX = (int)model.b.getX();
+        int bY = (int)model.b.getY();
+        g.drawString("(" + model.b.getX() + ", " + model.b.getY() + ")" ,50,30 );
+
         for (Entity entity : model.getDrawables()) {
-            g.drawString(Integer.toString((int)model.b.getX() + (int)model.b.getY()) ,50,30 );
-        }
-        for (Entity entity : model.getDrawables()) {
-            entity.drawEntity(g);
+            entity.superDrawEntity(g);
         }
     }
 

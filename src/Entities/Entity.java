@@ -18,6 +18,8 @@ public abstract class Entity {
     protected CustomShape shape;
     public Color color;
     protected String name;
+
+    private boolean active = true;
     protected int innerTimer = 0;
 
     public Entity(){
@@ -50,11 +52,16 @@ public abstract class Entity {
     public int getHeight(){
         return height;
     }
+    public boolean isActive(){ return active;}
 
+    public void superUpdate(){
+        if(active)
+            update();
+    }
     /***
      * Updates the entity based on the current game timer : movement, color etc
      */
-    public abstract void update();
+    protected abstract void update();
 
     /***
      * Updates the entity when colliding with another entity
@@ -76,12 +83,10 @@ public abstract class Entity {
     //
     public abstract CustomShape getBounds();
 
-    /***
-     * Entity's paint method
-     * @param g
-     */
-    public abstract void drawEntity(Graphics g);
-
+    public void superDrawEntity(Graphics g){
+        if(active)
+            drawEntity(g);
+    }
     /***
      * Defines the sides of an entity for the ball to rebound correctly when colliding with an object
      * @return
@@ -100,5 +105,21 @@ public abstract class Entity {
             else
                 return new float[]{0,1};
         }
+    }
+
+    /***
+     * Entity's paint method
+     * @param g
+     */
+    protected abstract void drawEntity(Graphics g);
+
+    public void activate(){
+        active = true;
+    }
+
+    public void disable(){
+        x = -100;
+        y = -100;
+        active = false;
     }
 }
