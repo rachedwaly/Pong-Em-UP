@@ -1,12 +1,14 @@
-import shape.CustomShape;
+package Entities;
 
+import shape.CustomShape;
+import Game.*;
 import java.awt.*;
 
 public abstract class Entity {
     protected float x,y;
     protected int width,height;
-    static final int HEIGHT= Model.HEIGHT; //height of the game
-    static final int WIDTH= Model.WIDTH; //width of the game
+    public static final int HEIGHT= Model.HEIGHT; //height of the game
+    public static final int WIDTH= Model.WIDTH; //width of the game
 
     static final int SCROLLSPEED = 1;
     protected float[] speed = new float[2];
@@ -69,7 +71,7 @@ public abstract class Entity {
 
     /***
      *
-     * @return CustomShape depending on object
+     * @return shape.CustomShape depending on object
      */
     //
     public abstract CustomShape getBounds();

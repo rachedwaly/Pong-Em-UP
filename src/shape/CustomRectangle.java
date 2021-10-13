@@ -1,4 +1,7 @@
+package shape;
+
 import java.awt.*;
+import Entities.*;
 
 public class CustomRectangle extends CustomShape {
     public int width, height;

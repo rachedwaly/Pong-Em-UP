@@ -1,3 +1,7 @@
+package shape;
+
+import Entities.*;
+
 public class CircleShape extends CustomShape{
     //here x,y is center of the circle
     public int radius;

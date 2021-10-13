@@ -19,6 +19,7 @@ import java.util.Random;
 
 public class Model implements ActionListener, KeyListener {
 
+    static final boolean DEBUGMODE = false;
     public static Random random  = new Random();
     public static int HEIGHT=600,WIDTH=300;
     public static final int DELAY = 8;
@@ -28,7 +29,6 @@ public class Model implements ActionListener, KeyListener {
     private PlayGround view;
     private Entity entityBuffer1,entityBuffer2;
     private Timer timer;
-    private Random random=new Random();
     private int currentLvl=1;
     private ArrayList<Entity> drawables=new ArrayList<>();
     private ArrayList<BackgroundObject> backgroundObjects=new ArrayList<>();
@@ -58,16 +58,20 @@ public class Model implements ActionListener, KeyListener {
 
         addPhysicalObject(wallRight);
         addPhysicalObject(wallLeft);
-        addPhysicalObject(wallUp);
+        //addPhysicalObject(wallUp);
         addPhysicalObject(s1);
         for(Projectile projectile : s1.projectiles)
             addPhysicalObject(projectile);
 
-        for(Enemy enemy : level1List){
-            addPhysicalObject(enemy);
-            for(Projectile projectile : enemy.projectiles)
-                addPhysicalObject(projectile);
+        if(DEBUGMODE){
+            for(Enemy enemy : level1List){
+                addPhysicalObject(enemy);
+                for(Projectile projectile : enemy.projectiles)
+                    addPhysicalObject(projectile);
+            }
         }
+
+
 
         for (Entity entity : physicalObjects) {
             if(entity instanceof Enemy){

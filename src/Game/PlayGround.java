@@ -33,12 +33,13 @@ public class PlayGround extends JPanel {
 
         handleLevelBackground(g);
         for (Entity entity : model.getDrawables()) {
-        g.drawString(Integer.toString((int)model.b.getX() + (int)model.b.getY()) ,50,30 );
-
-        for (Entity entity : drawables) {
+            g.drawString(Integer.toString((int)model.b.getX() + (int)model.b.getY()) ,50,30 );
+        }
+        for (Entity entity : model.getDrawables()) {
             entity.drawEntity(g);
         }
     }
+
 
     private void handleLevelBackground(Graphics g) {
         int lvl=model.getCurrentLvl();

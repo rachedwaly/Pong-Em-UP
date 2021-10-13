@@ -1,3 +1,7 @@
+package shape;
+
+import Entities.*;
+
 public abstract class CustomShape{
     public int x,y;
 
