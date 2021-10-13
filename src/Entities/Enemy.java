@@ -1,15 +1,15 @@
 package Entities;
-import Entities.Shooter;
-import shape.CustomRectangle;
+import shape.RectangleShape;
 import Game.*;
 
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
+public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
     public int fX,fY; //pos "finale" de l'objet, ou sa loop de comportement commence
     protected boolean loopMode = false; //false : se deplace vers (fX,fY) || true : effectue sa loop de behavior
     public static final String SENTRY = "SENTRY";
+    private int loopTimer = 0;
 
 
 
@@ -37,10 +37,10 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
         switch(name){
             case "SENTRY":
                 width = 40;
-                height =40;
+                height = 40;
+                health = 20;
                 speed[0] *= 2;
                 speed[1] *= 2;
-                health=1;
                 for(int i = 0; i < projectiles.length; i++)
                     projectiles[i] = new Projectile(5,20,10,new float[]{2f,2f},model);
                 color = Color.BLUE;
@@ -57,38 +57,45 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
 
 
     public void update(){
+
         if(innerTimer > 80){
             color = Color.BLACK;
         }
+
         move();
         behaviorUpdate();
         innerTimer += Model.DELAY;
-
+        loopTimer += Model.DELAY;
     }
 
     @Override
     public void whenCollided(Entity entity) {
-        switch(entity.getEntityTypeName()){
+        switch (entity.getEntityTypeName()){
+            case "ball" :
+                health -= 100;
             case "projectile":
                 color = Color.RED;
                 Projectile p = (Projectile) entity;
                 health -= p.damage;
-                if(health <=0) {
-                    setAlive(false);
-                }
+
                 break;
             case "Enemy":
 
             default :
                 break;
         }
+        if(health <=0){
+            drawDestructionAnimation();
+            model.removeEntity(this);
 
+        }
+        innerTimer = 0;
     }
 
     @Override
-    public CustomRectangle getBounds(){
-        return new CustomRectangle((int)x,(int)y,width,height);
-    };
+    public void drawDestructionAnimation() {
+
+    }
 
     @Override
     public String getEntityTypeName() {
@@ -97,14 +104,14 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
 
     public void move(){ //eventually move to abstract
 
-
         x += speed[0];
         y += speed[1];
 
         if(!loopMode && Math.abs(fX - x) <= 2f && Math.abs(fY - y) <= 2f) { //home reached
             loopMode = true;
-            innerTimer = 4000; //soft reset the timer to control the loop easily
+            loopTimer = 4000; //soft reset the timer to control the loop easily
         }
+        shape.update(this);
 
     }
 
@@ -113,7 +120,7 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
             switch(name){
                 case "SENTRY":
 
-                    if(innerTimer % 2000 < 1000){
+                    if(loopTimer % 2000 < 1000){
                         speed[0] = - 1;
                         speed[1] = 0;
 
@@ -122,7 +129,7 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
                         speed[1] = 0;
                     }
 
-                    if(innerTimer % 800 == 0)
+                    if(loopTimer % 800 == 0)
                         fire();
                     break;
                 case "JUGGERNAUT":
@@ -137,12 +144,11 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
 
     @Override
     public void drawEntity(Graphics g){
-        if (alive){
         g.setColor(this.color);
         //g.fillRect((int)x,(int)y,width,height);
         g.drawImage(photo,(int)x,(int)y,width,height,model.getView());
-        }
-        else if (animationIndex<=5){
+
+        if (animationIndex<=5){
             g.drawImage(model.getPhoto(Integer.toString(animationIndex)+"death"),(int)x-width,
                     (int)y-height,
                     width*4,
@@ -153,9 +159,6 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
             model.removeEntity(this);
         }
 
-
     }
-
-
 
 }

@@ -1,9 +1,7 @@
 package Entities;
-import shape.CustomRectangle;
 import Game.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -38,12 +36,12 @@ public class Stick extends Shooter{
 
     @Override
     public void update() {
-        move();
         if(innerTimer > 80){
             color = Color.BLACK;
         }
 
         innerTimer += Model.DELAY;
+        move();
 
     }
 
@@ -69,14 +67,26 @@ public class Stick extends Shooter{
                     //100 hp - 20 dgt : 80
                     //on bouge de 10 hp vers la droite, on perd 20 hp
 
-                    break;
-                    case "Enemy":
 
-                    default:
-                        break;
-                }
-                innerTimer = 0;
+
+                break;
+            case "Enemy":
+
+            default :
+                break;
         }
+        if(health <=0){
+            model.removeEntity(this);
+            //draw
+            System.out.println("Lost !");
+        }
+        innerTimer = 0;
+    }
+
+    @Override
+    public void drawDestructionAnimation() {
+
+    }
 
     @Override
     public String getEntityTypeName() {
@@ -98,7 +108,7 @@ public class Stick extends Shooter{
         else{
             this.y=max(this.y+dy,HEIGHT*3f/4);
         }
-
+        shape.update(this);
 
     }
 
@@ -183,8 +193,4 @@ public class Stick extends Shooter{
                         (int)y + height + 5,(int)(BASE_WIDTH * (maxHealth - health)/(float)maxHealth),5);
     }
 
-    @Override
-    public CustomRectangle getBounds(){
-        return new CustomRectangle((int)x,(int)y,width,height);
-    }
 }

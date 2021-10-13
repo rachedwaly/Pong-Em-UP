@@ -1,6 +1,7 @@
 package Entities;
 import Game.Model;
 import shape.CustomRectangle;
+import shape.RectangleShape;
 
 import java.awt.*;
 
@@ -18,7 +19,6 @@ public class Projectile extends Entity {
         height = 20;
         color = Color.RED;
         absSpeed = speed;
-        disable();
 
     }
 
@@ -26,13 +26,13 @@ public class Projectile extends Entity {
     public void update() {
         move();
         if(y < 0 || 600 < y){
-            disable();
+            active = false;
         }
     }
 
     @Override
     public void whenCollided(Entity entity) {
-        disable();
+        active = false;
     }
 
     @Override
@@ -47,7 +47,12 @@ public class Projectile extends Entity {
         // dynamically, some ships might change direction
         speed[0] = absSpeed[0] * source.lookDirection[0];
         speed[1] = absSpeed[1] * source.lookDirection[1];
-        activate();
+        active = true;
+
+        if(speed[1] > 0)
+            shape = new RectangleShape((int)x,(int)y + 2 * height/3,width,height/3);
+        else
+            shape = new RectangleShape((int)x,(int)y,width,height/3);
     }
 
     public void move(){
@@ -55,34 +60,16 @@ public class Projectile extends Entity {
         y = Math.max(-100,Math.min(1000,y + speed[1]));
     }
 
-    @Override
-    public CustomRectangle getBounds(){
-        if(speed[1] > 0)
-            return new CustomRectangle((int)x,(int)y,width,height);
-        else
-            return new CustomRectangle((int)x,(int)y,width,height);
-    }
-
-    /*public ArrayList<PhysicalBoundarie> getPhysicalBoundaries(){
-        PhysicalBoundarie square = new PhysicalBoundarie((int)x,(int)y,width,1,true);
-
-        ArrayList <PhysicalBoundarie> list=new ArrayList<>();
-        list.add(square);
-
-        return list;
-    }*/
 
     @Override
     public void drawEntity(Graphics g) {
+        g.setColor(Color.white);
+        g.fillRect((int)x + width/4,(int)y,width/2,height);
         g.setColor(this.color);
-        g.fillRect((int)x,(int)y,width,height);
-        g.setColor(Color.BLACK);
         if(speed[1] > 0)
             g.fillRect((int)x,(int)y + height*2/3,width,height/3);
         else
             g.fillRect((int)x,(int)y,width,height/3);
-
     }
-
 
 }

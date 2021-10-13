@@ -1,13 +1,13 @@
 package Entities;
-import shape.CustomRectangle;
+import shape.RectangleShape;
 import java.awt.*;
 import Game.*;
-import java.util.ArrayList;
 
 public class Wall extends Entity{
 
     public Wall(int x,int y,int w,int h,Model model){
         super(x,y,w,h,model);
+        shape = new RectangleShape(x,y,w,h);
     }
 
     @Override
@@ -21,11 +21,6 @@ public class Wall extends Entity{
     public void whenCollided(Entity entity) {
         color = Color.YELLOW;
         innerTimer = 0;
-    }
-
-    @Override
-    public CustomRectangle getBounds(){
-        return new CustomRectangle((int)x,(int)y,width,height);
     }
 
     @Override

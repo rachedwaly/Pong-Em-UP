@@ -1,6 +1,5 @@
 package Entities;
 import Game.*;
-import shape.CustomRectangle;
 
 public abstract class Shooter extends Entity{
     protected int health;
@@ -12,10 +11,6 @@ public abstract class Shooter extends Entity{
     protected int animationIndex=1; //this will be used to render the death animation or any
     // animation later on
     static final int maxAnimationIndex=9;
-
-
-
-    protected boolean alive=true;
 
     public Shooter(Model model){
         super(model);
@@ -32,8 +27,6 @@ public abstract class Shooter extends Entity{
 
     public abstract void whenCollided(Entity entity);
 
-    public void setAlive(boolean alive) {
-        this.alive = alive;
-    }
+    public abstract void drawDestructionAnimation();
 
 }

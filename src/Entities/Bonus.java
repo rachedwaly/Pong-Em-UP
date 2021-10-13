@@ -11,6 +11,8 @@ private Model model;
     public Bonus(String name, float x, float y, Model model){
         super((int)x,(int)y,model);
         this.name=name;
+        this.x=x;
+        this.y=y;
         this.width=10;
         this.height=10;
         this.speed[0]=0;
@@ -25,6 +27,8 @@ private Model model;
 
     private void move() {
         y+=speed[1];
+
+        shape.update(this);
         if (y>600){
             model.removeEntity(this);
         }
@@ -43,10 +47,7 @@ private Model model;
     public String getEntityTypeName() {
         return name;
     }
-    @Override
-    public CustomShape getBounds() {
-        return new CustomRectangle((int)x,(int)y,width,height);
-    }
+
     @Override
     public void drawEntity(Graphics g) {
         g.setColor(color);

@@ -16,7 +16,7 @@ import static java.lang.Math.*;
 public class BackGroundObject extends Entity{
     Image photo;
     String name;
-
+    Model model;
     protected float x,y;
     protected float[] speed = new float[2];
     protected int width,height;
@@ -68,6 +68,7 @@ public class BackGroundObject extends Entity{
                 break;
             }
         }
+        shape.update(this);
     }
 
 
@@ -78,11 +79,6 @@ public class BackGroundObject extends Entity{
     @Override
     public String getEntityTypeName() {
         return name;
-    }
-
-    @Override
-    public CustomRectangle getBounds(){
-        return new CustomRectangle((int)x,(int)y,width,height);
     }
 
     public void drawEntity(Graphics g) {

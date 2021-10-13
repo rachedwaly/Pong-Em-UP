@@ -1,6 +1,8 @@
 package Entities;
 import shape.CustomShape;
 import Game.*;
+import shape.RectangleShape;
+
 import java.awt.*;
 import java.util.Random;
 
@@ -10,13 +12,6 @@ public abstract class Entity {
     public static final int HEIGHT= Model.HEIGHT; //height of the game
     public static final int WIDTH= Model.WIDTH; //width of the game
     protected Image photo;
-    protected Model model;
-
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
 
     static final int SCROLLSPEED = 1;
     protected float[] speed = new float[2];
@@ -30,16 +25,9 @@ public abstract class Entity {
     private boolean active = true;
     protected int innerTimer = 0;
 
-    public void superUpdate(){
-        if (active){
-            update();
-        }
-    }
-
-    public Entity(Model model){
-        this(Model.random.nextInt(WIDTH), Model.random.nextInt(HEIGHT),Model.random.nextInt(30),
-                Model.random.nextInt(30),model);
-
+    public Entity(){
+        this(Model.random.nextInt(WIDTH), Model.random.nextInt(HEIGHT),
+                Model.random.nextInt(30), Model.random.nextInt(30));
     }
 
     public Entity(int x,int y,Model model){
@@ -54,6 +42,9 @@ public abstract class Entity {
         this.height=h;
         this.color = Color.BLACK;
         this.model=model;
+        color = Color.BLACK;
+
+        shape = new RectangleShape(x,y,w,h);
     }
 
     public float getX(){
@@ -68,7 +59,6 @@ public abstract class Entity {
     public int getHeight(){
         return height;
     }
-    public boolean isActive(){ return active;}
 
 
     /***
@@ -94,12 +84,10 @@ public abstract class Entity {
      * @return Rectangle which defines bounds (even ball is a rectangle)
      */
     //
-    public abstract CustomShape getBounds();
+    public CustomShape getShape(){
+        return shape;
+    };
 
-    public void superDrawEntity(Graphics g){
-        if(active)
-            drawEntity(g);
-    }
     /***
      * Defines the sides of an entity for the ball to rebound correctly when colliding with an object
      * @return
@@ -126,13 +114,25 @@ public abstract class Entity {
      */
     protected abstract void drawEntity(Graphics g);
 
-    public void activate(){
-        active = true;
+    public void debugLog(){
+        String entity = "type : " + getEntityTypeName() +
+                        "\npos : (" + x + ", " + y + ")" +
+                        "speed : (" + speed[0] + ", " + speed[1] + ")";
+
+        String collider = "shape type : ";
+        if(shape instanceof RectangleShape){
+            RectangleShape rs = (RectangleShape) shape;
+            collider += "rectangle";
+            collider += "\npos : (" + rs.x + ", " + rs.y + ")";
+            collider += "\nwh : (" + rs.width + ", " + rs.height + ")";
+        }else{
+            CircleShape cs = (CircleShape) shape;
+            collider += "circle";
+            collider += "\npos : (" + cs.x + ", " + cs.y + ")";
+            collider += "\nradius : " + cs.radius;
+        }
+        System.out.println(entity);
+        System.out.println(collider);
     }
 
-    public void disable(){
-        x = -100;
-        y = -100;
-        active = false;
-    }
 }
