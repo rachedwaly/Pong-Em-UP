@@ -1,7 +1,3 @@
-package Game;
-
-import Entities.*;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -14,14 +10,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 
 public class Model implements ActionListener, KeyListener {
 
     public static int HEIGHT=600,WIDTH=300;
-    public static final int DELAY = 8;
-    private Stick s1;
-    private Ball b;
+    static final int DELAY = 8;
+    public Stick s1;
+    public Ball b;
     private HashMap<String,Image> allImages=new HashMap<>();
     private PlayGround view;
     private Timer timer;
@@ -32,9 +27,8 @@ public class Model implements ActionListener, KeyListener {
         return backgroundObjects;
     }
 
-    private ArrayList<BackgroundObject> backgroundObjects=new ArrayList<>();
-    public ArrayList<Entity> physicalObjects = new ArrayList<>();
 
+    public ArrayList<Entity> physicalObjects = new ArrayList<>();
     private Enemy[] level1List = {
                                     new Enemy(Enemy.SENTRY,150,-50,150,200),
                                     new Enemy(Enemy.SENTRY,150,-50,200,200),
@@ -42,9 +36,8 @@ public class Model implements ActionListener, KeyListener {
                                     new Enemy(Enemy.SENTRY,150,-50,100,150),
             new Enemy(Enemy.SENTRY,150,-50,250,350),
             new Enemy(Enemy.SENTRY,150,-50,20,300),
-                                    //new Entities.Enemy(400,400,500,500)
+                                    //new Enemy(400,400,500,500)
                                 };
-
 
     public Model() throws IOException {
         loadPhotos();
@@ -54,7 +47,7 @@ public class Model implements ActionListener, KeyListener {
         HorizontalWall wallUp = new HorizontalWall(10, 0, WIDTH-20, 10);
         s1 = new Stick(WIDTH / 2, HEIGHT - 20);
         b = new Ball(250, 580);
-        generateBackgroundObjects();
+
         addPhysicalObject(wallRight);
         addPhysicalObject(wallLeft);
         addPhysicalObject(wallUp);
@@ -72,40 +65,18 @@ public class Model implements ActionListener, KeyListener {
             if(entity instanceof Enemy){
                 Enemy enemy = (Enemy) entity;
                 for(Projectile projectile : enemy.projectiles)
-                    addDrawable(projectile);
+                    view.addDrawable(projectile);
             }
             else if(entity instanceof Stick){
                 Stick stick = (Stick) entity;
                 for(Projectile projectile : stick.projectiles)
-                    addDrawable(projectile);
+                    view.addDrawable(projectile);
             }
-            addDrawable(entity);
+            view.addDrawable(entity);
         }
-        addDrawable(b); //to remove
+        view.addDrawable(b); //to remove
         timer = new Timer(DELAY, this);
         timer.start();
-    }
-
-    private void generateBackgroundObjects() {
-        String name="";
-        switch (getCurrentLvl()){
-            case 1:{
-                name="cloud";
-                break;
-            }
-            case 2:{
-                break;
-            }
-        }
-
-
-        int numberOfbgos= random.nextInt(7)+1;
-
-        for (int i=0;i<numberOfbgos;i++) {
-            BackgroundObject bgo = new BackgroundObject(name, 20+50*i, 20+50*i, this);
-            addBackgroundObject(bgo);
-
-        }
     }
 
     @Override
@@ -130,25 +101,28 @@ public class Model implements ActionListener, KeyListener {
     s1.keyReleased(e);
     }
     private void update(){
-
-        b.solveCollisions(physicalObjects);
-
-        for (BackgroundObject bgo: backgroundObjects){
-            bgo.update();
-        }
-
+        solveCollisions();
         for(Entity e : physicalObjects){
             e.update();
         }
 
-        b.update(); //b updated separately else it collides with itself
+    public void solveCollisions(){
+        for(int i = 0; i < physicalObjects.size() - 1; i++){
+            entityBuffer1 = physicalObjects.get(i);
+            for(int j = i + 1; j < physicalObjects.size(); j++){
+                entityBuffer2 = physicalObjects.get(j);
+                if(entityBuffer1.getBounds().intersects(entityBuffer2.getBounds())){//Order of collision
+                    physicalObjects.get(i).whenCollided(entityBuffer2);
+                    physicalObjects.get(j).whenCollided(entityBuffer1);
+                    break; //is i++ && j = i + 1 better ?
+                }
+            }
+        }
     }
-
-
-
     public PlayGround getView() {
         return view;
     }
+
     public int getPlayerHealth(){
         return s1.getHealth();
     }
@@ -181,22 +155,4 @@ public class Model implements ActionListener, KeyListener {
         return allImages.get(name);
     }
 
-    public void setCurrentLvl(int i){
-        currentLvl=i;
-        generateBackgroundObjects();
-    }
-
-    public int getCurrentLvl() {
-        return currentLvl;
-    }
-    public ArrayList<Entity> getDrawables() {
-        return drawables;
-    }
-    public void addBackgroundObject(BackgroundObject b){backgroundObjects.add(b);}
-    public void addDrawable(Entity e){
-        drawables.add(e);
-    }
-    public void removeDrawable(Entity e){
-        drawables.remove(e);
-    }
 }

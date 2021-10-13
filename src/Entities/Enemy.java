@@ -1,19 +1,15 @@
-package Entities;
-
-import Game.Model;
+import shape.CustomRectangle;
 
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Enemy extends Entity{ //Eventuellement transformer en LineEnemy
+public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
     public int fX,fY; //pos "finale" de l'objet, ou sa loop de comportement commence
     protected boolean loopMode = false; //false : se deplace vers (fX,fY) || true : effectue sa loop de behavior
-    public Projectile[] projectiles = new Projectile[Entity.PROJECTILEBUFFER];
-    private int projectileIndex = 0;
-    protected int innerTimer = 0;
+    static final String SENTRY = "SENTRY";
 
-    public static final String SENTRY = "SENTRY";
     private Enemy(int x0, int y0, int fX, int fY){
+        super();
         x = x0;
         y = y0;
 
@@ -62,6 +58,21 @@ public class Enemy extends Entity{ //Eventuellement transformer en LineEnemy
         innerTimer += Model.DELAY;
     }
 
+    @Override
+    public void whenCollided(Entity entity) {
+
+    }
+
+    @Override
+    public CustomRectangle getBounds(){
+        return new CustomRectangle((int)x,(int)y,width,height);
+    };
+
+    @Override
+    public String getEntityTypeName() {
+        return "enemy";
+    }
+
     public void move(){ //eventually move to abstract
 
 
@@ -74,12 +85,6 @@ public class Enemy extends Entity{ //Eventuellement transformer en LineEnemy
         }
 
     }
-
-    public void fire(){
-        projectiles[projectileIndex].fire(this); // shoot vertically
-        projectileIndex = (projectileIndex + 1) % PROJECTILEBUFFER;
-    }
-
 
     public void behaviorUpdate(){
         if(loopMode){
@@ -114,18 +119,18 @@ public class Enemy extends Entity{ //Eventuellement transformer en LineEnemy
         g.fillRect((int)x,(int)y,width,height);
     }
 
-    @Override
+    /*@Override
     public ArrayList<PhysicalBoundarie> getPhysicalBoundaries() {
-        PhysicalBoundarie c1=new PhysicalBoundarie((int)x,(int)y,1,height,false); //left side
-        PhysicalBoundarie c2=new PhysicalBoundarie((int)x+width-1,(int)y,1,height,false); // right side
-        PhysicalBoundarie c3=new PhysicalBoundarie((int)x + 1,(int)y,width - 2,1,true); //top side
-        PhysicalBoundarie c4=new PhysicalBoundarie((int)x + 1,(int)y+height-1,width - 2,1,true); //bottom side
+        PhysicalBoundarie c1=new PhysicalBoundarie((int)x,(int)y,1,height); //left side
+        PhysicalBoundarie c2=new PhysicalBoundarie((int)x+width-1,(int)y,1,height); // right side
+        PhysicalBoundarie c3=new PhysicalBoundarie((int)x + 1,(int)y,width - 2,1); //top side
+        PhysicalBoundarie c4=new PhysicalBoundarie((int)x + 1,(int)y+height-1,width - 2,1); //bottom side
         ArrayList <PhysicalBoundarie> list=new ArrayList<>();
         list.add(c1);
         list.add(c2);
         list.add(c3);
         list.add(c4);
         return list;
-    }
+    }*/
 
 }

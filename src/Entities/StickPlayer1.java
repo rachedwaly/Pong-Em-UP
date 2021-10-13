@@ -1,6 +1,8 @@
 package Entities;
 
 import java.awt.*;
+import shape.CustomRectangle;
+
 import java.awt.event.*;
 
 
@@ -66,8 +68,8 @@ public class StickPlayer1 extends Stick {
     }
 
     @Override
-    public Rectangle getBounds(){
-        return new Rectangle((int)x+1,(int)y,width,3);
+    public CustomRectangle getBounds(){
+        return new CustomRectangle((int)x+1,(int)y,width,3);
     }
 
 

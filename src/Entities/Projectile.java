@@ -1,40 +1,49 @@
-package Entities;
+import shape.CustomRectangle;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 public class Projectile extends Entity {
-    public int damage = 10;
+    public int damage = 1;
     public boolean active = false;
+    public float[] absSpeed;
 
     public Projectile(int w, int h, int dmg, float[] speed){
+        name = "Projectile";
         this.x = 500;
         this.y = 1000;
         width = 5;
         height = 20;
         color = Color.RED;
-        this.speed = speed;
+        absSpeed = speed;
 
-        lookDirection = new int[]{0,0};
     }
 
     @Override
     public void update() {
         move();
         if(y < 0 || 600 < y){
-            active = false; //placeholder, should deactivate when collision
-            lookDirection[0] = 0;
-            lookDirection[1] = 0;
+            active = false;
         }
     }
 
-    public void fire(Entity source){
-        x = source.getX() + source.getWidth()/2 - width/2; // centrer le projectile sur la source
-        y = source.getY() + source.lookDirection[1]*height ;
-        speed[0] = Math.abs(speed[0]) * source.lookDirection[0];
-        speed[1] = Math.abs(speed[1]) * source.lookDirection[1];
+    @Override
+    public void whenCollided(Entity entity) {
+        x = -100;
+        y = -100;
+        active = false;
+    }
+
+    @Override
+    public String getEntityTypeName() {
+        return "projectile";
+    }
+
+    public void fire(Shooter source){
+        x = source.getX() + source.getWidth()/2f - width/2f; // centrer le projectile sur la source
+        y = source.getY() + source.lookDirection[1]*height ; //grab look direction dynamically, some ships might change direction
+        speed[0] = absSpeed[0] * source.lookDirection[0];
+        speed[1] = absSpeed[1] * source.lookDirection[1];
         active = true;
-        lookDirection = source.lookDirection.clone();
     }
 
     public void move(){
@@ -42,30 +51,25 @@ public class Projectile extends Entity {
         y = Math.max(-100,Math.min(1000,y + speed[1]));
     }
 
-    public void solveCollisions(){
-        Entity entityHit;
-        //TODO
-    }
-    //TODO : add les physicial boundaries
-    public Rectangle getBounds(){
+    @Override
+    public CustomRectangle getBounds(){
         if(active){
-            if(lookDirection[1] == 1)
-                return new Rectangle((int)x,(int)y + height*3/4,width,height/3);
-            if(lookDirection[1] == -1)
-                return new Rectangle((int)x,(int)y,width,height/3);
+            if(speed[1] > 0)
+                return new CustomRectangle((int)x,(int)y,width,height);
+            else
+                return new CustomRectangle((int)x,(int)y,width,height);
         }else
-            return new Rectangle(0,0,0,0);
-        return null;
+            return new CustomRectangle(0,0,0,0);
     }
 
-    public ArrayList<PhysicalBoundarie> getPhysicalBoundaries(){
+    /*public ArrayList<PhysicalBoundarie> getPhysicalBoundaries(){
         PhysicalBoundarie square = new PhysicalBoundarie((int)x,(int)y,width,1,true);
 
         ArrayList <PhysicalBoundarie> list=new ArrayList<>();
         list.add(square);
 
         return list;
-    }
+    }*/
 
     @Override
     public void drawEntity(Graphics g) {
@@ -73,9 +77,9 @@ public class Projectile extends Entity {
             g.setColor(this.color);
             g.fillRect((int)x,(int)y,width,height);
             g.setColor(Color.BLACK);
-            if(lookDirection[1] == 1)
+            if(speed[1] > 0)
                 g.fillRect((int)x,(int)y + height*2/3,width,height/3);
-            if(lookDirection[1] == -1)
+            else
                 g.fillRect((int)x,(int)y,width,height/3);
         }
 
