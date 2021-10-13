@@ -10,9 +10,7 @@ public abstract class Entity {
     public static final int HEIGHT= Model.HEIGHT; //height of the game
     public static final int WIDTH= Model.WIDTH; //width of the game
 
-    public boolean isActive() {
-        return active;
-    }
+
 
     public void setActive(boolean active) {
         this.active = active;
@@ -69,10 +67,7 @@ public abstract class Entity {
     }
     public boolean isActive(){ return active;}
 
-    public void superUpdate(){
-        if(active)
-            update();
-    }
+
     /***
      * Updates the entity based on the current game timer : movement, color etc
      */

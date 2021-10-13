@@ -29,7 +29,6 @@ public class Model implements ActionListener, KeyListener {
     private PlayGround view;
     private Entity entityBuffer1,entityBuffer2;
     private Timer timer;
-    private Random random=new Random();
     private int currentLvl=1;
     private ArrayList<Entity> drawables=new ArrayList<>();
     private ArrayList<BackgroundObject> backgroundObjects=new ArrayList<>();
@@ -37,18 +36,20 @@ public class Model implements ActionListener, KeyListener {
     public ArrayList<Entity> physicalObjects = new ArrayList<>();
 
 
+
     private Enemy[] level1List = {
-                                    new Enemy(Enemy.SENTRY,150,-50,150,200),
-                                    new Enemy(Enemy.SENTRY,150,-50,200,200),
-                                    new Enemy(Enemy.SENTRY,150,-50,50,100),
-                                    new Enemy(Enemy.SENTRY,150,-50,100,150),
-            new Enemy(Enemy.SENTRY,150,-50,250,350),
-            new Enemy(Enemy.SENTRY,150,-50,20,300),
+                                    new Enemy(Enemy.SENTRY,150,-50,150,200,this),
+                                    new Enemy(Enemy.SENTRY,150,-50,200,200,this),
+                                    new Enemy(Enemy.SENTRY,150,-50,50,100,this),
+                                    new Enemy(Enemy.SENTRY,150,-50,100,150,this),
+            new Enemy(Enemy.SENTRY,150,-50,250,350,this),
+            new Enemy(Enemy.SENTRY,150,-50,20,300,this),
                                     //new Enemy(400,400,500,500)
                                 };
 
+
     public Model() throws IOException {
-        random = new Random();
+
         loadPhotos();
         view = new PlayGround(this);
         VerticalWall wallRight = new VerticalWall(WIDTH - 10, 0, 10, HEIGHT);

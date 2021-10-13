@@ -50,31 +50,32 @@ public class Stick extends Shooter{
     @Override
     public void whenCollided(Entity entity) {
         color = Color.RED;
-        switch(entity.getEntityTypeName()){
+        switch (entity.getEntityTypeName()) {
             case "projectile":
-                if(!Model.DEBUGMODE){
+                if (!Model.DEBUGMODE) {
                     Projectile p = (Projectile) entity;
                     health -= p.damage;
-                    if(health <=0){
+                    if (health <= 0) {
                         width = 0;
                         //play destruction animation;
                         System.out.println("Lost !");
-                    }else{
-                        offsetX += (int)(p.damage/(float)maxHealth * BASE_WIDTH/4);
-                        width = BASE_WIDTH/2 + (int)((health/(float)maxHealth) * BASE_WIDTH/2);
+                    } else {
+                        offsetX += (int) (p.damage / (float) maxHealth * BASE_WIDTH / 4);
+                        width = BASE_WIDTH / 2 + (int) ((health / (float) maxHealth) * BASE_WIDTH / 2);
                     }
+                }
 
-                //100 hp - 20 dgt : 80
-                //on bouge de 10 hp vers la droite, on perd 20 hp
+                    //100 hp - 20 dgt : 80
+                    //on bouge de 10 hp vers la droite, on perd 20 hp
 
-                break;
-            case "Enemy":
+                    break;
+                    case "Enemy":
 
-            default :
-                break;
+                    default:
+                        break;
+                }
+                innerTimer = 0;
         }
-        innerTimer = 0;
-    }
 
     @Override
     public String getEntityTypeName() {
