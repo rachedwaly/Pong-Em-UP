@@ -1,12 +1,12 @@
 package Entities;
 import Game.Model;
-import shape.CustomRectangle;
+import shape.CustomShape;
 import shape.RectangleShape;
 
 import java.awt.*;
 
 public class Projectile extends Entity {
-    public int damage = 1;
+    public int damage = 10;
     public boolean active = false;
     public float[] absSpeed;
 
@@ -16,7 +16,7 @@ public class Projectile extends Entity {
         this.x = 500;
         this.y = 1000;
         width = 5;
-        height = 20;
+        height = 5;
         color = Color.RED;
         absSpeed = speed;
 
@@ -49,27 +49,28 @@ public class Projectile extends Entity {
         speed[1] = absSpeed[1] * source.lookDirection[1];
         active = true;
 
-        if(speed[1] > 0)
-            shape = new RectangleShape((int)x,(int)y + 2 * height/3,width,height/3);
-        else
-            shape = new RectangleShape((int)x,(int)y,width,height/3);
     }
 
     public void move(){
         x = Math.max(-100,Math.min(500, x + speed[0])); //pas trop aller out of bounds
         y = Math.max(-100,Math.min(1000,y + speed[1]));
+        shape.update(this);
     }
 
+    @Override
+    public CustomShape getShape() {
+        if(active)
+            return shape;
+        else
+            return new RectangleShape(0,0,0,0);
+    }
 
     @Override
     public void drawEntity(Graphics g) {
-        g.setColor(Color.white);
-        g.fillRect((int)x + width/4,(int)y,width/2,height);
+        g.setColor(Color.RED);
+        g.fillRect((int)x,(int)y,width,height);
         g.setColor(this.color);
-        if(speed[1] > 0)
-            g.fillRect((int)x,(int)y + height*2/3,width,height/3);
-        else
-            g.fillRect((int)x,(int)y,width,height/3);
+
     }
 
 }

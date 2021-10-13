@@ -2,7 +2,7 @@ package Game;
 
 
 import Entities.*;
-
+import Frame.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -43,17 +43,6 @@ public class Model implements ActionListener, KeyListener {
 
     public ArrayList<Entity> physicalObjects = new ArrayList<>();
 
-    private Enemy[] level1list = {
-                                    new Enemy(Enemy.SENTRY,150,-50,150,200,this),
-                                    new Enemy(Enemy.SENTRY,150,-50,200,200,this),
-                                    new Enemy(Enemy.SENTRY,150,-50,50,100,this),
-                                    new Enemy(Enemy.SENTRY,150,-50,100,150,this),
-            new Enemy(Enemy.SENTRY,150,-50,250,350,this),
-            new Enemy(Enemy.SENTRY,150,-50,20,300,this),
-                                    //new Enemy(400,400,500,500)
-                                };
-    */
-
     //il faut qu'on genere les ennemis après loadphotos()
     private ArrayList<Enemy> ennemies = new ArrayList<>();
 
@@ -77,7 +66,7 @@ public class Model implements ActionListener, KeyListener {
             addPhysicalObject(projectile);
 
         if(!DEBUGMODE){
-            for(Enemy enemy : level1list){
+            for(Enemy enemy : ennemies){
                 addPhysicalObject(enemy);
                 for(Projectile projectile : enemy.projectiles)
                     addPhysicalObject(projectile);
@@ -105,8 +94,8 @@ public class Model implements ActionListener, KeyListener {
     }
 
     private void generateEnemies() {
-        ennemies.add(new Enemy(Enemy.SENTRY,150,-50,150,200,this));
-        ennemies.add(new Enemy(Enemy.SENTRY,150,-50,200,200,this));
+        ennemies.add(new Enemy(Enemy.SENTRY,100,0,150,200,this));
+        ennemies.add(new Enemy(Enemy.SENTRY,250,0,200,200,this));
     }
 
 
@@ -133,8 +122,8 @@ public class Model implements ActionListener, KeyListener {
     }
     private void update() {
         solveCollisions();
-        for (Entity e : physicalObjects) {
-            e.superUpdate();
+        for (int i = 0; i < physicalObjects.size(); i++) {
+            physicalObjects.get(i).update();
         }
         for (BackGroundObject backGroundObject:backgroundObjects){
             backGroundObject.update();
@@ -148,11 +137,14 @@ public class Model implements ActionListener, KeyListener {
     }
 
     public void solveCollisions(){
-    for(int i = 0; i < physicalObjects.size() - 1; i++){
-        entityBuffer1 = physicalObjects.get(i);
+        for(int i = 0; i < physicalObjects.size() - 1; i++){
+            entityBuffer1 = physicalObjects.get(i);
             for(int j = i + 1; j < physicalObjects.size(); j++){
                 entityBuffer2 = physicalObjects.get(j);
                 if(entityBuffer1.getShape().intersects(entityBuffer2.getShape())){//Order of collision
+                    entityBuffer1.debugLog();
+                    System.out.println("with");
+                    entityBuffer2.debugLog();
                     physicalObjects.get(i).whenCollided(entityBuffer2);
                     physicalObjects.get(j).whenCollided(entityBuffer1);
                 }
@@ -208,6 +200,8 @@ public class Model implements ActionListener, KeyListener {
         allImages.put("9death",(Image) ph12);
         BufferedImage ph13= ImageIO.read(new File("Resources/sentry.png"));
         allImages.put("sentry",(Image) ph13);
+        BufferedImage ph13r = ImageIO.read(new File("Resources/sentryDamaged.png"));
+        allImages.put("sentryRed",(Image) ph13r);
         BufferedImage ph14= ImageIO.read(new File("Resources/plane.png"));
         allImages.put("plane",(Image) ph14);
 

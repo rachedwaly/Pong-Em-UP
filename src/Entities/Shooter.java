@@ -25,8 +25,6 @@ public abstract class Shooter extends Entity{
         projectileIndex = (projectileIndex + 1) % PROJECTILEBUFFER;
     }
 
-    public abstract void whenCollided(Entity entity);
-
     public abstract void drawDestructionAnimation();
 
 }

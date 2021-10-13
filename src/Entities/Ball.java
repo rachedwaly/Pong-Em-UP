@@ -7,9 +7,7 @@ import java.util.Random;
 
 
 public class Ball extends Entity {
-    static int ROLLBACK_FRAMES = 10;
     private float scalarSpeed;
-    private ArrayList<Float[]> lastValidPositions = new ArrayList<>();
 
     private Random r=new Random();
 
@@ -42,12 +40,12 @@ public class Ball extends Entity {
             x=250;
             y=150;
         }
-
+        shape.update(this);
     }
 
     public void update(){
         move();
-        shape.update(this);
+
     }
 
     @Override
@@ -65,8 +63,6 @@ public class Ball extends Entity {
         speed[0] = speed[0] * scalarSpeed;
         speed[1] = speed[1] * scalarSpeed;
 
-        //debugLog();
-        //entity.debugLog();
         while(this.getShape().intersects(entity.getShape())){
             update();
             scalarSpeed = Math.max(scalarSpeed,CustomShape.distance(entity.speed));

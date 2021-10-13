@@ -1,15 +1,15 @@
 package Entities;
 
 import Game.Model;
-import shape.CustomRectangle;
-import shape.CustomShape;
 
 import java.awt.*;
 
 public class Bonus extends Entity {
-private Model model;
+    private Model model;
+
     public Bonus(String name, float x, float y, Model model){
         super((int)x,(int)y,model);
+        this.model = model;
         this.name=name;
         this.x=x;
         this.y=y;

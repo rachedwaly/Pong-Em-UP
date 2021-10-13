@@ -7,7 +7,6 @@ public class Wall extends Entity{
 
     public Wall(int x,int y,int w,int h,Model model){
         super(x,y,w,h,model);
-        shape = new RectangleShape(x,y,w,h);
     }
 
     @Override

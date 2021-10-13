@@ -1,5 +1,5 @@
 package Entities;
-import shape.CustomShape;
+import shape.*;
 import Game.*;
 import shape.RectangleShape;
 
@@ -7,6 +7,7 @@ import java.awt.*;
 import java.util.Random;
 
 public abstract class Entity {
+    public Model model;
     protected float x,y;
     protected int width,height;
     public static final int HEIGHT= Model.HEIGHT; //height of the game
@@ -23,11 +24,11 @@ public abstract class Entity {
     protected String name;
 
     private boolean active = true;
-    protected int innerTimer = 0;
+    protected int innerTimer;
 
-    public Entity(){
+    public Entity(Model model){
         this(Model.random.nextInt(WIDTH), Model.random.nextInt(HEIGHT),
-                Model.random.nextInt(30), Model.random.nextInt(30));
+                Model.random.nextInt(30), Model.random.nextInt(30), model);
     }
 
     public Entity(int x,int y,Model model){
@@ -41,9 +42,10 @@ public abstract class Entity {
         this.width=w;
         this.height=h;
         this.color = Color.BLACK;
-        this.model=model;
+        this.model = model;
         color = Color.BLACK;
 
+        innerTimer = 80; //0 -> 80 is reserved for blinking animations
         shape = new RectangleShape(x,y,w,h);
     }
 
@@ -112,7 +114,7 @@ public abstract class Entity {
      * Entity's paint method
      * @param g
      */
-    protected abstract void drawEntity(Graphics g);
+    public abstract void drawEntity(Graphics g);
 
     public void debugLog(){
         String entity = "type : " + getEntityTypeName() +

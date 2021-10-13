@@ -1,17 +1,8 @@
 package Entities;
 
-import Entities.Entity;
 import Game.Model;
-import shape.CustomRectangle;
-import shape.CustomShape;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-
-import static java.lang.Math.*;
 
 public class BackGroundObject extends Entity{
     Image photo;

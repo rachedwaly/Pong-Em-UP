@@ -21,6 +21,9 @@ public class CircleShape extends CustomShape{
     //Code taken from https://stackoverflow.com/questions/401847/circle-rectangle-collision-detection-intersection
     @Override
     public boolean intersects(RectangleShape rect){
+        if(rect.width == 0 || rect.height == 0){
+            return false;
+        }
         if(rect.x <= x && x <= rect.x + rect.width &&
             rect.y <= y && y <= rect.y + rect.height)
             return true;

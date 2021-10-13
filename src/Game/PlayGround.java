@@ -40,7 +40,7 @@ public class PlayGround extends JPanel {
         // la liste  des drawables dynamiquement (sinon ça throw une exception)
         for (int i=0;i<drawingList.size();i++){
             Entity entity=drawingList.get(i);
-            entity.superDrawEntity(g);
+            entity.drawEntity(g);
         }
 
         if (!model.isPlaying()){
