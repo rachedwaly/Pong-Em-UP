@@ -1,9 +1,7 @@
 package Entities;
-import shape.CustomRectangle;
 import Game.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -38,12 +36,14 @@ public class Stick extends Shooter{
 
     @Override
     public void update() {
+
         if(innerTimer > 80){
             color = Color.BLACK;
         }
 
         innerTimer += Model.DELAY;
         move();
+        shape.update(this);
     }
 
     @Override
@@ -54,14 +54,9 @@ public class Stick extends Shooter{
                 if(!Model.DEBUGMODE){
                     Projectile p = (Projectile) entity;
                     health -= p.damage;
-                    if(health <=0){
-                        width = 0;
-                        //play destruction animation;
-                        System.out.println("Lost !");
-                    }else{
-                        offsetX += (int)(p.damage/(float)maxHealth * BASE_WIDTH/4);
-                        width = BASE_WIDTH/2 + (int)((health/(float)maxHealth) * BASE_WIDTH/2);
-                    }
+                    offsetX += (int)(p.damage/(float)maxHealth * BASE_WIDTH/4);
+                    width = BASE_WIDTH/2 + (int)((health/(float)maxHealth) * BASE_WIDTH/2);
+
 
                     //100 hp - 20 dgt : 80
                     //on bouge de 10 hp vers la droite, on perd 20 hp
@@ -73,6 +68,11 @@ public class Stick extends Shooter{
 
             default :
                 break;
+        }
+        if(health <=0){
+            disable();
+            //play destruction animation;
+            System.out.println("Lost !");
         }
         innerTimer = 0;
     }
@@ -180,10 +180,5 @@ public class Stick extends Shooter{
         g.setColor(damageColor);
         g.fillRect(     (int)(x - offsetX) + (int)(BASE_WIDTH * health/(float)maxHealth),
                         (int)y + height + 5,(int)(BASE_WIDTH * (maxHealth - health)/(float)maxHealth),5);
-    }
-
-    @Override
-    public CustomRectangle getBounds(){
-        return new CustomRectangle((int)x,(int)y,width,height);
     }
 }

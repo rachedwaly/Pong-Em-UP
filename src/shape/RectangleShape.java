@@ -3,10 +3,10 @@ package shape;
 import java.awt.*;
 import Entities.*;
 
-public class CustomRectangle extends CustomShape {
+public class RectangleShape extends CustomShape {
     public int width, height;
     public Rectangle shapeToRec;
-    public CustomRectangle(int x, int y, int width, int height){
+    public RectangleShape(int x, int y, int width, int height){
         super(x,y);
         this.width = width;
         this.height = height;
@@ -16,17 +16,21 @@ public class CustomRectangle extends CustomShape {
 
     @Override
     public void update(Entity source) {
-        x = (int)source.getX();
-        y = (int)source.getY();
-        width = source.getWidth();
-        height = source.getHeight();
+        x = shapeToRec.x = (int)source.getX();
+        y = shapeToRec.y = (int)source.getY();
+        width = shapeToRec.width = source.getWidth();
+        height = shapeToRec.height = source.getHeight();
+
+
     }
 
-    public boolean intersects(CustomRectangle r){
+    public boolean intersects(RectangleShape r){
+
         return shapeToRec.intersects(r.shapeToRec);
     }
 
     public boolean intersects(CircleShape cs){
+
         return cs.intersects(this);
     }
 

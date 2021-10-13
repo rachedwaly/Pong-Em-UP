@@ -1,7 +1,6 @@
 package Entities;
 
-import java.awt.*;
-import shape.CustomRectangle;
+import shape.RectangleShape;
 
 import java.awt.event.*;
 
@@ -65,11 +64,6 @@ public class StickPlayer1 extends Stick {
             dy = 0;
             speed[1] =0;
         }
-    }
-
-    @Override
-    public CustomRectangle getBounds(){
-        return new CustomRectangle((int)x+1,(int)y,width,3);
     }
 
 

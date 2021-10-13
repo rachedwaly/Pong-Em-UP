@@ -41,8 +41,8 @@ public class Model implements ActionListener, KeyListener {
                                     new Enemy(Enemy.SENTRY,150,-50,200,200),
                                     new Enemy(Enemy.SENTRY,150,-50,50,100),
                                     new Enemy(Enemy.SENTRY,150,-50,100,150),
-            new Enemy(Enemy.SENTRY,150,-50,250,350),
-            new Enemy(Enemy.SENTRY,150,-50,20,300),
+                                    new Enemy(Enemy.SENTRY,150,-50,250,350),
+                                    new Enemy(Enemy.SENTRY,150,-50,20,300),
                                     //new Enemy(400,400,500,500)
                                 };
 
@@ -58,7 +58,7 @@ public class Model implements ActionListener, KeyListener {
 
         addPhysicalObject(wallRight);
         addPhysicalObject(wallLeft);
-        //addPhysicalObject(wallUp);
+        addPhysicalObject(wallUp);
         addPhysicalObject(s1);
         for(Projectile projectile : s1.projectiles)
             addPhysicalObject(projectile);
@@ -66,6 +66,7 @@ public class Model implements ActionListener, KeyListener {
         if(!DEBUGMODE){
             for(Enemy enemy : level1List){
                 addPhysicalObject(enemy);
+                System.out.println("???");
                 for(Projectile projectile : enemy.projectiles)
                     addPhysicalObject(projectile);
             }
@@ -138,7 +139,7 @@ public class Model implements ActionListener, KeyListener {
                 for(int j = i + 1; j < physicalObjects.size(); j++){
                     entityBuffer2 = physicalObjects.get(j);
                     if( entityBuffer2.isActive() &&
-                            entityBuffer1.getBounds().intersects(entityBuffer2.getBounds())){//Order of collision
+                            entityBuffer1.getShape().intersects(entityBuffer2.getShape())){//Order of collision
                         physicalObjects.get(i).whenCollided(entityBuffer2);
                         physicalObjects.get(j).whenCollided(entityBuffer1);
                     }

@@ -1,7 +1,11 @@
 package Entities;
 
+import org.w3c.dom.css.Rect;
+import shape.CircleShape;
 import shape.CustomShape;
 import Game.*;
+import shape.RectangleShape;
+
 import java.awt.*;
 
 public abstract class Entity {
@@ -38,6 +42,8 @@ public abstract class Entity {
         this.width=w;
         this.height=h;
         color = Color.BLACK;
+
+        shape = new RectangleShape(x,y,w,h);
     }
 
     public float getX(){
@@ -81,7 +87,9 @@ public abstract class Entity {
      * @return shape.CustomShape depending on object
      */
     //
-    public abstract CustomShape getBounds();
+    public CustomShape getShape(){
+        return shape;
+    };
 
     public void superDrawEntity(Graphics g){
         if(active)
@@ -113,6 +121,26 @@ public abstract class Entity {
      */
     protected abstract void drawEntity(Graphics g);
 
+    public void debugLog(){
+        String entity = "type : " + getEntityTypeName() +
+                        "\npos : (" + x + ", " + y + ")" +
+                        "speed : (" + speed[0] + ", " + speed[1] + ")";
+
+        String collider = "shape type : ";
+        if(shape instanceof RectangleShape){
+            RectangleShape rs = (RectangleShape) shape;
+            collider += "rectangle";
+            collider += "\npos : (" + rs.x + ", " + rs.y + ")";
+            collider += "\nwh : (" + rs.width + ", " + rs.height + ")";
+        }else{
+            CircleShape cs = (CircleShape) shape;
+            collider += "circle";
+            collider += "\npos : (" + cs.x + ", " + cs.y + ")";
+            collider += "\nradius : " + cs.radius;
+        }
+        System.out.println(entity);
+        System.out.println(collider);
+    }
     public void activate(){
         active = true;
     }

@@ -1,10 +1,8 @@
 package Entities;
-import Entities.Shooter;
-import shape.CustomRectangle;
+import shape.RectangleShape;
 import Game.*;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
     public int fX,fY; //pos "finale" de l'objet, ou sa loop de comportement commence
@@ -37,6 +35,7 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
         this(x0,y0,fX,fY);
         switch(name){
             case "SENTRY":
+                health = 20;
                 width = 20;
                 height = 20;
                 speed[0] *= 2;
@@ -56,6 +55,7 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
 
 
     public void update(){
+        shape.update(this);
         move();
         behaviorUpdate();
         innerTimer += Model.DELAY;
@@ -65,15 +65,17 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
     public void whenCollided(Entity entity) {
         switch (entity.getEntityTypeName()){
             case "projectile":
-                disable();
+                Projectile p = (Projectile) entity;
+                health -= p.damage;
+                color = Color.RED;
                 break;
         }
+        if(health <=0){
+            disable();
+            //play destruction animation;
+        }
+        innerTimer = 0;
     }
-
-    @Override
-    public CustomRectangle getBounds(){
-        return new CustomRectangle((int)x,(int)y,width,height);
-    };
 
     @Override
     public String getEntityTypeName() {
@@ -81,7 +83,6 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
     }
 
     public void move(){ //eventually move to abstract
-
 
         x += speed[0];
         y += speed[1];

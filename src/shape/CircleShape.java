@@ -13,14 +13,14 @@ public class CircleShape extends CustomShape{
     @Override
     public void update(Entity source) {
         radius = source.getWidth()/2;
-        x = (int)source.getX()/2 + radius;
-        y = (int)source.getY()/2 + radius;
+        x = (int)source.getX() + radius;
+        y = (int)source.getY() + radius;
 
     }
 
     //Code taken from https://stackoverflow.com/questions/401847/circle-rectangle-collision-detection-intersection
     @Override
-    public boolean intersects(CustomRectangle rect){
+    public boolean intersects(RectangleShape rect){
         if(rect.x <= x && x <= rect.x + rect.width &&
             rect.y <= y && y <= rect.y + rect.height)
             return true;

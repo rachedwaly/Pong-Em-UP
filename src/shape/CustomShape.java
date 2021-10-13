@@ -18,15 +18,15 @@ public abstract class CustomShape{
      * @return
      */
     public boolean intersects(CustomShape cs) {
-        if(cs instanceof CustomRectangle)
-            return intersects((CustomRectangle) cs);
+        if(cs instanceof RectangleShape)
+            return intersects((RectangleShape) cs);
         if(cs instanceof CircleShape)
             return intersects((CircleShape) cs);
         System.out.println("Unidentified shape");
         return false;
     }
 
-    public abstract boolean intersects(CustomRectangle cs);
+    public abstract boolean intersects(RectangleShape cs);
 
     public abstract boolean intersects(CircleShape cs);
 
