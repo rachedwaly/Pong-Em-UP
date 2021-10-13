@@ -1,6 +1,5 @@
 package Entities;
 import Game.*;
-import shape.CustomRectangle;
 
 public abstract class Shooter extends Entity{
     protected Model model;

@@ -1,6 +1,5 @@
 package Game;
 
-import Background.BackgroundObject;
 import Entities.*;
 
 import javax.imageio.ImageIO;

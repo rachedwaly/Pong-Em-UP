@@ -1,8 +1,6 @@
 package Entities;
 
 import Game.Model;
-import shape.CustomRectangle;
-import shape.CustomShape;
 
 import java.awt.*;
 
@@ -45,10 +43,7 @@ private Model model;
     public String getEntityTypeName() {
         return name;
     }
-    @Override
-    public CustomShape getBounds() {
-        return new CustomRectangle((int)x,(int)y,width,height);
-    }
+
     @Override
     public void drawEntity(Graphics g) {
         g.setColor(color);
