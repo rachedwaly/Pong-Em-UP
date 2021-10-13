@@ -2,13 +2,14 @@ package Entities;
 import shape.CustomShape;
 import Game.*;
 import java.awt.*;
+import java.util.Random;
 
 public abstract class Entity {
     protected float x,y;
     protected int width,height;
-    static final int HEIGHT=PlayGround.HEIGHT; //height of the game
-    static final int WIDTH=PlayGround.WIDTH; //width of the game
-
+    public static final int HEIGHT=PlayGround.HEIGHT; //height of the game
+    public static final int WIDTH=PlayGround.WIDTH; //width of the game
+    static protected Random random=new Random();
 
     static final int SCROLLSPEED = 1;
     protected float[] speed = new float[2];
@@ -20,8 +21,8 @@ public abstract class Entity {
     protected int innerTimer = 0;
 
     public Entity(){
-        this(Main.random.nextInt(WIDTH),Main.random.nextInt(HEIGHT),
-                Main.random.nextInt(30),Main.random.nextInt(30));
+        this(random.nextInt(WIDTH),random.nextInt(HEIGHT),
+                random.nextInt(30),random.nextInt(30));
     }
 
     public Entity(int x,int y){

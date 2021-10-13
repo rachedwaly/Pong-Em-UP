@@ -1,13 +1,12 @@
 package Game;
 
-import Entities.BackgroundObject;
+import Background.BackgroundObject;
 import Entities.Entity;
 import Frame.StatusBar;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
 
 
 public class PlayGround extends JPanel {

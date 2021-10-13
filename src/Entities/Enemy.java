@@ -1,6 +1,7 @@
 package Entities;
 import Entities.Shooter;
 import shape.CustomRectangle;
+import Game.*;
 
 import java.awt.*;
 

@@ -1,6 +1,7 @@
 package Entities;
 import shape.CustomRectangle;
 import java.awt.*;
+import Game.*;
 import java.util.ArrayList;
 
 public class Wall extends Entity{
@@ -38,11 +39,5 @@ public class Wall extends Entity{
         g.fillRect((int)x,(int)y,width,height);
 
     }
-
-    /*@Override
-    public ArrayList<PhysicalBoundarie> getPhysicalBoundaries() {
-        return null;
-    }*/
-
 
 }
