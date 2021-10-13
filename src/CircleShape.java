@@ -1,13 +1,17 @@
-package shape;
-
-import java.awt.*;
-
 public class CircleShape extends CustomShape{
     //here x,y is center of the circle
     public int radius;
     public CircleShape(int x, int y, int radius){
         super(x,y);
         this.radius = radius;
+    }
+
+    @Override
+    public void update(Entity source) {
+        radius = source.getWidth()/2;
+        x = (int)source.getX()/2 + radius;
+        y = (int)source.getY()/2 + radius;
+
     }
 
     //Code taken from https://stackoverflow.com/questions/401847/circle-rectangle-collision-detection-intersection
@@ -18,7 +22,6 @@ public class CircleShape extends CustomShape{
             return true;
 
         else{
-            float[] center = new float[]{x,y};
             //can do minDistance(p(i),p(i + 1), center) for all polygons
             float[] topleft = new float[]{rect.x, rect.y};
             float[] topright = new float[]{rect.x + rect.width, rect.y};
@@ -46,13 +49,11 @@ public class CircleShape extends CustomShape{
         float[] center = new float[]{x,y};
         float[] projection;
 
-        if(Math.abs(p2[0] - p1[0])  <= 0.01 && Math.abs(p2[1] - p1[1])  <= 0.01){
+        if(Math.abs(p2[0] - p1[0])  <= 0.01 && Math.abs(p2[1] - p1[1])  <= 0.01){ //p1 == p2
             return pointInCircle(p1);
         }
-        if(Math.abs(p2[0] - p1[0])  <= 0.01){ //
-            projection = new float[]{p1[0],center[1]}; //div by 0 exception
-        }else if(Math.abs(p2[1] - p1[1])  <= 0.01){
-            projection = new float[]{center[0],p1[1]};
+        if(Math.abs(p2[0] - p1[0])  <= 0.01){ //div by 0 exception
+            projection = new float[]{p1[0],center[1]};
         }else{
             float m = (p2[1] - p1[1]) / (p2[0] - p1[0]);
             float b = p1[1] - (m * p1[0]);

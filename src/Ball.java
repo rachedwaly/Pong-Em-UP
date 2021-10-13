@@ -1,6 +1,3 @@
-import shape.CircleShape;
-import shape.CustomShape;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
@@ -59,24 +56,27 @@ public class Ball extends Entity {
 
     @Override
     public CircleShape getBounds(){
-        //return new CircleShape((int)(x + width/2f), (int)(y + height/2f), (int)(width/2f));
-        //return new Rectangle((int)x, (int)y, width,height);
         return new CircleShape((int)x + width/2, (int)y + height/2,width/2);
     }
 
     @Override
     public void whenCollided(Entity entity) {
+        scalarSpeed = Math.max(2,scalarSpeed * 3/4);
         float[] normal = entity.getNormalHit(entity);
 
         speed = CustomShape.reflectVector(speed,normal);
-        speed[0] *= scalarSpeed;
-        speed[1] *= scalarSpeed;
+        //influence trajectory
+        speed[0] = speed[0] + entity.speed[0];
+        speed[1] = speed[1] + entity.speed[1];
 
-        int rollbackIndex = lastValidPositions.size() - 1;
-        while(this.getBounds().intersects(entity.getBounds()) && rollbackIndex >= 0){
-            x = lastValidPositions.get(rollbackIndex)[0];
-            y = lastValidPositions.get(rollbackIndex)[1];
-            rollbackIndex--;
+        speed = CustomShape.normalize(speed);
+
+        speed[0] = speed[0] * scalarSpeed;
+        speed[1] = speed[1] * scalarSpeed;
+
+        while(this.getBounds().intersects(entity.getBounds())){
+            move();
+            scalarSpeed = Math.max(scalarSpeed,CustomShape.distance(entity.speed));
         }
 
     }

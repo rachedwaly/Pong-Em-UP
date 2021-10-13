@@ -1,8 +1,5 @@
-import shape.CustomRectangle;
-
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;

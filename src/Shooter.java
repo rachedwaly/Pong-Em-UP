@@ -1,5 +1,3 @@
-import shape.CustomRectangle;
-
 public abstract class Shooter extends Entity{
     protected int health;
     protected int maxHealth;

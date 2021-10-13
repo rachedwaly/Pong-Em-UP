@@ -1,7 +1,4 @@
-import shape.CustomRectangle;
-
 import java.awt.*;
-import java.util.ArrayList;
 
 public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
     public int fX,fY; //pos "finale" de l'objet, ou sa loop de comportement commence

@@ -10,9 +10,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 public class Model implements ActionListener, KeyListener {
 
+    public static Random random  = new Random();
     public static int HEIGHT=600,WIDTH=300;
     static final int DELAY = 8;
 
@@ -37,6 +39,7 @@ public class Model implements ActionListener, KeyListener {
                                 };
 
     public Model() throws IOException {
+        random = new Random();
         loadPhotos();
         view = new PlayGround(this);
         VerticalWall wallRight = new VerticalWall(WIDTH - 10, 0, 10, HEIGHT);

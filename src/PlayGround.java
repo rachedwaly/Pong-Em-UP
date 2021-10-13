@@ -24,7 +24,8 @@ public class PlayGround extends JPanel {
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        g.drawString(Integer.toString((int)model.b.x + (int)model.b.y) ,50,30 );
+        g.drawString(Integer.toString((int)model.b.getX() + (int)model.b.getY()) ,50,30 );
+
         for (Entity entity : drawables) {
             entity.drawEntity(g);
         }

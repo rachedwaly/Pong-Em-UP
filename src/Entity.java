@@ -1,26 +1,24 @@
-import shape.CustomShape;
-
 import java.awt.*;
 
 public abstract class Entity {
     protected float x,y;
     protected int width,height;
-    static final int HEIGHT=PlayGround.HEIGHT; //height of the game
-    static final int WIDTH=PlayGround.WIDTH; //width of the game
-
+    static final int HEIGHT= Model.HEIGHT; //height of the game
+    static final int WIDTH= Model.WIDTH; //width of the game
 
     static final int SCROLLSPEED = 1;
     protected float[] speed = new float[2];
     protected int[] lookDirection;
 
     // objects
+    protected CustomShape shape;
     public Color color;
     protected String name;
     protected int innerTimer = 0;
 
     public Entity(){
-        this(Main.random.nextInt(WIDTH),Main.random.nextInt(HEIGHT),
-                Main.random.nextInt(30),Main.random.nextInt(30));
+        this(Model.random.nextInt(WIDTH), Model.random.nextInt(HEIGHT),
+                Model.random.nextInt(30), Model.random.nextInt(30));
     }
 
     public Entity(int x,int y){
@@ -69,9 +67,8 @@ public abstract class Entity {
 
     /***
      *
-     * @return Rectangle which defines bounds (even ball is a rectangle)
+     * @return CustomShape depending on object
      */
-    //
     public abstract CustomShape getBounds();
 
     /***

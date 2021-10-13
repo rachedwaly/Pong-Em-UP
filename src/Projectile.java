@@ -1,5 +1,3 @@
-import shape.CustomRectangle;
-
 import java.awt.*;
 
 public class Projectile extends Entity {
