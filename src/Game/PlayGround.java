@@ -18,9 +18,6 @@ public class PlayGround extends JPanel {
     private Model model;
 
 
-
-
-
     public PlayGround(Model model) throws IOException {
         super(new BorderLayout()); //BorderLayout instead ?
         this.model=model;

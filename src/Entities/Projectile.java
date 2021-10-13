@@ -1,3 +1,4 @@
+package Entities;
 import shape.CustomRectangle;
 
 import java.awt.*;

@@ -1,5 +1,6 @@
+package Entities;
 import shape.CustomRectangle;
-
+import Game.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;

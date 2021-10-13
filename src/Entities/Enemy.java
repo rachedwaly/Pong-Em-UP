@@ -1,12 +1,13 @@
+package Entities;
+import Entities.Shooter;
 import shape.CustomRectangle;
 
 import java.awt.*;
-import java.util.ArrayList;
 
-public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
+public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
     public int fX,fY; //pos "finale" de l'objet, ou sa loop de comportement commence
     protected boolean loopMode = false; //false : se deplace vers (fX,fY) || true : effectue sa loop de behavior
-    static final String SENTRY = "SENTRY";
+    public static final String SENTRY = "SENTRY";
 
     private Enemy(int x0, int y0, int fX, int fY){
         super();

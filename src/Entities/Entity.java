@@ -1,5 +1,6 @@
+package Entities;
 import shape.CustomShape;
-
+import Game.*;
 import java.awt.*;
 
 public abstract class Entity {

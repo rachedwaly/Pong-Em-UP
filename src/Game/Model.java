@@ -1,3 +1,7 @@
+package Game;
+
+import Entities.*;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -10,11 +14,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 public class Model implements ActionListener, KeyListener {
 
     public static int HEIGHT=600,WIDTH=300;
-    static final int DELAY = 8;
+    public static final int DELAY = 8;
     public Stick s1;
     public Ball b;
     private HashMap<String,Image> allImages=new HashMap<>();
@@ -23,6 +28,8 @@ public class Model implements ActionListener, KeyListener {
     private Random random=new Random();
     private int currentLvl=1;
     private ArrayList<Entity> drawables=new ArrayList<>();
+    private ArrayList<BackgroundObject> backgroundObjects=new ArrayList<>();
+
     public ArrayList<BackgroundObject> getBackgroundObjects() {
         return backgroundObjects;
     }
@@ -100,13 +107,16 @@ public class Model implements ActionListener, KeyListener {
     public void keyReleased(KeyEvent e) {
     s1.keyReleased(e);
     }
-    private void update(){
+    private void update() {
         solveCollisions();
-        for(Entity e : physicalObjects){
+        for (Entity e : physicalObjects) {
             e.update();
         }
 
-    public void solveCollisions(){
+    }
+
+
+        public void solveCollisions(){
         for(int i = 0; i < physicalObjects.size() - 1; i++){
             entityBuffer1 = physicalObjects.get(i);
             for(int j = i + 1; j < physicalObjects.size(); j++){

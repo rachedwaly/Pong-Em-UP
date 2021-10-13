@@ -1,3 +1,5 @@
+package Entities;
+
 import shape.CustomRectangle;
 
 public abstract class Shooter extends Entity{
