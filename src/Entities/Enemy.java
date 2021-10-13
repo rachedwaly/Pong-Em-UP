@@ -3,8 +3,8 @@ import Entities.Shooter;
 import shape.CustomRectangle;
 import Game.*;
 
-
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
     public int fX,fY; //pos "finale" de l'objet, ou sa loop de comportement commence
@@ -101,8 +101,11 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
     }
 
     public void move(){ //eventually move to abstract
+
+
         x += speed[0];
         y += speed[1];
+
         if(!loopMode && Math.abs(fX - x) <= 2f && Math.abs(fY - y) <= 2f) { //home reached
             loopMode = true;
             innerTimer = 4000; //soft reset the timer to control the loop easily
@@ -114,17 +117,19 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
         if(loopMode){
             switch(name){
                 case "SENTRY":
+
                     if(innerTimer % 2000 < 1000){
                         speed[0] = - 1;
                         speed[1] = 0;
+
                     }else{
                         speed[0] = 1;
                         speed[1] = 0;
                     }
+
                     if(innerTimer % 400 == 0)
                         fire();
                     break;
-
                 case "JUGGERNAUT":
                     break;
                 case "SPINNER":
@@ -141,18 +146,6 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
         g.fillRect((int)x,(int)y,width,height);
     }
 
-    /*@Override
-    public ArrayList<PhysicalBoundarie> getPhysicalBoundaries() {
-        PhysicalBoundarie c1=new PhysicalBoundarie((int)x,(int)y,1,height); //left side
-        PhysicalBoundarie c2=new PhysicalBoundarie((int)x+width-1,(int)y,1,height); // right side
-        PhysicalBoundarie c3=new PhysicalBoundarie((int)x + 1,(int)y,width - 2,1); //top side
-        PhysicalBoundarie c4=new PhysicalBoundarie((int)x + 1,(int)y+height-1,width - 2,1); //bottom side
-        ArrayList <PhysicalBoundarie> list=new ArrayList<>();
-        list.add(c1);
-        list.add(c2);
-        list.add(c3);
-        list.add(c4);
-        return list;
-    }*/
+
 
 }

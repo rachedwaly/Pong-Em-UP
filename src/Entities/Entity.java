@@ -7,9 +7,8 @@ import java.util.Random;
 public abstract class Entity {
     protected float x,y;
     protected int width,height;
-    public static final int HEIGHT=PlayGround.HEIGHT; //height of the game
-    public static final int WIDTH=PlayGround.WIDTH; //width of the game
-    static protected Random random=new Random();
+    public static final int HEIGHT= Model.HEIGHT; //height of the game
+    public static final int WIDTH= Model.WIDTH; //width of the game
 
     public boolean isActive() {
         return active;
@@ -19,14 +18,17 @@ public abstract class Entity {
         this.active = active;
     }
 
-    protected boolean active=true;
+
     static final int SCROLLSPEED = 1;
     protected float[] speed = new float[2];
     protected int[] lookDirection;
 
     // objects
+    protected CustomShape shape;
     public Color color;
     protected String name;
+
+    private boolean active = true;
     protected int innerTimer = 0;
 
     public void superUpdate(){
@@ -36,8 +38,8 @@ public abstract class Entity {
     }
 
     public Entity(){
-        this(random.nextInt(WIDTH),random.nextInt(HEIGHT),
-                random.nextInt(30),random.nextInt(30));
+        this(Model.random.nextInt(WIDTH), Model.random.nextInt(HEIGHT),
+                Model.random.nextInt(30), Model.random.nextInt(30));
     }
 
     public Entity(int x,int y){
@@ -65,7 +67,12 @@ public abstract class Entity {
     public int getHeight(){
         return height;
     }
+    public boolean isActive(){ return active;}
 
+    public void superUpdate(){
+        if(active)
+            update();
+    }
     /***
      * Updates the entity based on the current game timer : movement, color etc
      */
@@ -91,19 +98,10 @@ public abstract class Entity {
     //
     public abstract CustomShape getBounds();
 
-
     public void superDrawEntity(Graphics g){
-        if (active){
+        if(active)
             drawEntity(g);
-        }
     }
-
-    /***
-     * Entity's paint method
-     * @param g
-     */
-    public abstract void drawEntity(Graphics g);
-
     /***
      * Defines the sides of an entity for the ball to rebound correctly when colliding with an object
      * @return
@@ -122,5 +120,21 @@ public abstract class Entity {
             else
                 return new float[]{0,1};
         }
+    }
+
+    /***
+     * Entity's paint method
+     * @param g
+     */
+    protected abstract void drawEntity(Graphics g);
+
+    public void activate(){
+        active = true;
+    }
+
+    public void disable(){
+        x = -100;
+        y = -100;
+        active = false;
     }
 }

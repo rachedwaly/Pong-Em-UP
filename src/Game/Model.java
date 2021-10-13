@@ -19,6 +19,8 @@ import java.util.Random;
 
 public class Model implements ActionListener, KeyListener {
 
+    public static final boolean DEBUGMODE = false;
+    public static Random random  = new Random();
     public static int HEIGHT=600,WIDTH=300;
     public static final int DELAY = 8;
     public Stick s1;
@@ -34,24 +36,19 @@ public class Model implements ActionListener, KeyListener {
 
     public ArrayList<Entity> physicalObjects = new ArrayList<>();
 
-/*
+
     private Enemy[] level1List = {
-                                    new Enemy(Enemy.SENTRY,150,-50,150,200,this),
-                                    new Enemy(Enemy.SENTRY,150,-50,200,200,this),
-                                    new Enemy(Enemy.SENTRY,150,-50,50,100,this),
-                                    new Enemy(Enemy.SENTRY,150,-50,100,150,this),
-            new Enemy(Enemy.SENTRY,150,-50,250,350,this),
-            new Enemy(Enemy.SENTRY,150,-50,20,300,this),
+                                    new Enemy(Enemy.SENTRY,150,-50,150,200),
+                                    new Enemy(Enemy.SENTRY,150,-50,200,200),
+                                    new Enemy(Enemy.SENTRY,150,-50,50,100),
+                                    new Enemy(Enemy.SENTRY,150,-50,100,150),
+            new Enemy(Enemy.SENTRY,150,-50,250,350),
+            new Enemy(Enemy.SENTRY,150,-50,20,300),
                                     //new Enemy(400,400,500,500)
                                 };
 
- */
-
-    private Enemy[] level1List = {
-            new Enemy(Enemy.SENTRY,150,-50,150,200,this),
-    };
-
     public Model() throws IOException {
+        random = new Random();
         loadPhotos();
         view = new PlayGround(this);
         VerticalWall wallRight = new VerticalWall(WIDTH - 10, 0, 10, HEIGHT);
@@ -67,10 +64,12 @@ public class Model implements ActionListener, KeyListener {
         for(Projectile projectile : s1.projectiles)
             addPhysicalObject(projectile);
 
-        for(Enemy enemy : level1List){
-            addPhysicalObject(enemy);
-            for(Projectile projectile : enemy.projectiles)
-                addPhysicalObject(projectile);
+        if(!DEBUGMODE){
+            for(Enemy enemy : level1List){
+                addPhysicalObject(enemy);
+                for(Projectile projectile : enemy.projectiles)
+                    addPhysicalObject(projectile);
+            }
         }
 
         for (Entity entity : physicalObjects) {
@@ -118,7 +117,6 @@ public class Model implements ActionListener, KeyListener {
     }
     private void update() {
         solveCollisions();
-        System.out.println(physicalObjects.size());
         for (Entity e : physicalObjects) {
             e.superUpdate();
         }
@@ -135,12 +133,14 @@ public class Model implements ActionListener, KeyListener {
         public void solveCollisions(){
         for(int i = 0; i < physicalObjects.size() - 1; i++){
             entityBuffer1 = physicalObjects.get(i);
-            for(int j = i + 1; j < physicalObjects.size(); j++){
-                entityBuffer2 = physicalObjects.get(j);
-                if(entityBuffer1.getBounds().intersects(entityBuffer2.getBounds())){//Order of collision
-                    physicalObjects.get(i).whenCollided(entityBuffer2);
-                    physicalObjects.get(j).whenCollided(entityBuffer1);
-                     //is i++ && j = i + 1 better ?
+            if(entityBuffer1.isActive()){
+                for(int j = i + 1; j < physicalObjects.size(); j++){
+                    entityBuffer2 = physicalObjects.get(j);
+                    if( entityBuffer2.isActive() &&
+                            entityBuffer1.getBounds().intersects(entityBuffer2.getBounds())){//Order of collision
+                        physicalObjects.get(i).whenCollided(entityBuffer2);
+                        physicalObjects.get(j).whenCollided(entityBuffer1);
+                    }
                 }
             }
         }

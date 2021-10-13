@@ -1,8 +1,8 @@
 package shape;
 
-import java.awt.*;
+import Entities.*;
 
-public abstract class CustomShape {
+public abstract class CustomShape{
     public int x,y;
 
     public CustomShape(int x, int y){
@@ -10,6 +10,13 @@ public abstract class CustomShape {
         this.y = y;
     }
 
+    public abstract void update(Entity source);
+
+    /***
+     * Tests if another shape intersects with it
+     * @param cs
+     * @return
+     */
     public boolean intersects(CustomShape cs) {
         if(cs instanceof CustomRectangle)
             return intersects((CustomRectangle) cs);

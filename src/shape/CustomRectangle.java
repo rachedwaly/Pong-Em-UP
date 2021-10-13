@@ -1,6 +1,7 @@
 package shape;
 
 import java.awt.*;
+import Entities.*;
 
 public class CustomRectangle extends CustomShape {
     public int width, height;
@@ -11,6 +12,14 @@ public class CustomRectangle extends CustomShape {
         this.height = height;
 
         shapeToRec = new Rectangle(x,y,width,height);
+    }
+
+    @Override
+    public void update(Entity source) {
+        x = (int)source.getX();
+        y = (int)source.getY();
+        width = source.getWidth();
+        height = source.getHeight();
     }
 
     public boolean intersects(CustomRectangle r){

@@ -7,6 +7,7 @@ import Frame.StatusBar;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class PlayGround extends JPanel {
@@ -15,6 +16,8 @@ public class PlayGround extends JPanel {
 
     private StatusBar statusBar;
     private Model model;
+
+
 
 
     public PlayGround(Model model) throws IOException {
@@ -27,11 +30,17 @@ public class PlayGround extends JPanel {
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
+
         handleLevelBackground(g);
+        int bX = (int)model.b.getX();
+        int bY = (int)model.b.getY();
+        g.drawString("(" + model.b.getX() + ", " + model.b.getY() + ")" ,50,30 );
+
         for (Entity entity : model.getDrawables()) {
             entity.superDrawEntity(g);
         }
     }
+
     private void handleLevelBackground(Graphics g) {
         int lvl=model.getCurrentLvl();
         g.drawImage(model.getPhoto("lvl"+lvl), 0, 0, this);

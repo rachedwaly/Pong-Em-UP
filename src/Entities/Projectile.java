@@ -9,6 +9,7 @@ public class Projectile extends Entity {
     public float[] absSpeed;
 
     public Projectile(int w, int h, int dmg, float[] speed){
+        super();
         name = "Projectile";
         this.x = 500;
         this.y = 1000;
@@ -16,6 +17,7 @@ public class Projectile extends Entity {
         height = 20;
         color = Color.RED;
         absSpeed = speed;
+        disable();
 
     }
 
@@ -23,16 +25,13 @@ public class Projectile extends Entity {
     public void update() {
         move();
         if(y < 0 || 600 < y){
-            active = false;
+            disable();
         }
     }
 
     @Override
     public void whenCollided(Entity entity) {
-        x = -100;
-        y = -100;
-        active = false;
-
+        disable();
     }
 
     @Override
@@ -45,7 +44,7 @@ public class Projectile extends Entity {
         y = source.getY() + source.lookDirection[1]*height ; //grab look direction dynamically, some ships might change direction
         speed[0] = absSpeed[0] * source.lookDirection[0];
         speed[1] = absSpeed[1] * source.lookDirection[1];
-        active = true;
+        activate();
     }
 
     public void move(){
@@ -55,13 +54,10 @@ public class Projectile extends Entity {
 
     @Override
     public CustomRectangle getBounds(){
-        if(active){
-            if(speed[1] > 0)
-                return new CustomRectangle((int)x,(int)y,width,height);
-            else
-                return new CustomRectangle((int)x,(int)y,width,height);
-        }else
-            return new CustomRectangle(0,0,0,0);
+        if(speed[1] > 0)
+            return new CustomRectangle((int)x,(int)y,width,height);
+        else
+            return new CustomRectangle((int)x,(int)y,width,height);
     }
 
     /*public ArrayList<PhysicalBoundarie> getPhysicalBoundaries(){
@@ -75,15 +71,13 @@ public class Projectile extends Entity {
 
     @Override
     public void drawEntity(Graphics g) {
-        if(active){
-            g.setColor(this.color);
-            g.fillRect((int)x,(int)y,width,height);
-            g.setColor(Color.BLACK);
-            if(speed[1] > 0)
-                g.fillRect((int)x,(int)y + height*2/3,width,height/3);
-            else
-                g.fillRect((int)x,(int)y,width,height/3);
-        }
+        g.setColor(this.color);
+        g.fillRect((int)x,(int)y,width,height);
+        g.setColor(Color.BLACK);
+        if(speed[1] > 0)
+            g.fillRect((int)x,(int)y + height*2/3,width,height/3);
+        else
+            g.fillRect((int)x,(int)y,width,height/3);
 
     }
 
