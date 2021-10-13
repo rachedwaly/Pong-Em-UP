@@ -9,7 +9,7 @@ public abstract class Entity {
     protected int width,height;
     public static final int HEIGHT= Model.HEIGHT; //height of the game
     public static final int WIDTH= Model.WIDTH; //width of the game
-
+    protected Image photo;
 
 
     public void setActive(boolean active) {
@@ -19,7 +19,7 @@ public abstract class Entity {
 
     static final int SCROLLSPEED = 1;
     protected float[] speed = new float[2];
-    protected int[] lookDirection;
+    protected int[] lookDirection=new int[2];
 
     // objects
     protected CustomShape shape;

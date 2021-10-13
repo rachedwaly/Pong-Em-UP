@@ -40,8 +40,8 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
         this(x0,y0,fX,fY,model);
         switch(name){
             case "SENTRY":
-                width = 20;
-                height = 20;
+                width = 40;
+                height =40;
                 speed[0] *= 2;
                 speed[1] *= 2;
                 health=1;
@@ -49,6 +49,7 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
                     projectiles[i] = new Projectile(5,20,10,new float[]{2f,2f});
                 color = Color.BLUE;
                 this.name = name;
+                this.photo=model.getPhoto("sentry");
                 break;
             case "JUGGERNAUT":
                 break;
@@ -77,9 +78,7 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
                 Projectile p = (Projectile) entity;
                 health -= p.damage;
                 if(health <=0) {
-                    width = 0;
-                    model.removeEntity(this);
-                    System.out.println("enemy is dead !");
+                    setAlive(false);
                 }
                 break;
             case "Enemy":
@@ -127,7 +126,7 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
                         speed[1] = 0;
                     }
 
-                    if(innerTimer % 400 == 0)
+                    if(innerTimer % 800 == 0)
                         fire();
                     break;
                 case "JUGGERNAUT":
@@ -142,8 +141,23 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
 
     @Override
     public void drawEntity(Graphics g){
+        if (alive){
         g.setColor(this.color);
-        g.fillRect((int)x,(int)y,width,height);
+        //g.fillRect((int)x,(int)y,width,height);
+        g.drawImage(photo,(int)x,(int)y,width,height,model.getView());
+        }
+        else if (animationIndex<=5){
+            g.drawImage(model.getPhoto(Integer.toString(animationIndex)+"death"),(int)x-width,
+                    (int)y-height,
+                    width*4,
+                    height*4,model.getView());
+            animationIndex++;
+        }
+        else{
+            model.removeEntity(this);
+        }
+
+
     }
 
 
