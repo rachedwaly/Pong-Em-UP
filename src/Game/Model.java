@@ -30,25 +30,38 @@ public class Model implements ActionListener, KeyListener {
     private Entity entityBuffer1,entityBuffer2;
     private Timer timer;
     private int currentLvl=1;
+
+    //on sépare les backgroundobjects des drawables vu qu'ils doivent etre dessinés avant ces
+    // derniers
     private ArrayList<Entity> drawables=new ArrayList<>();
-    private ArrayList<BackgroundObject> backgroundObjects=new ArrayList<>();
+    private ArrayList<BackGroundObject> backgroundObjects=new ArrayList<>();
+
 
     public ArrayList<Entity> physicalObjects = new ArrayList<>();
 
 
-    private Enemy[] level1List = {
-                                    new Enemy(Enemy.SENTRY,150,-50,150,200),
-                                    new Enemy(Enemy.SENTRY,150,-50,200,200),
-                                    new Enemy(Enemy.SENTRY,150,-50,50,100),
-                                    new Enemy(Enemy.SENTRY,150,-50,100,150),
-                                    new Enemy(Enemy.SENTRY,150,-50,250,350),
-                                    new Enemy(Enemy.SENTRY,150,-50,20,300),
+
+    /*
+    private Enemy[] ennemies = {
+                                    new Enemy(Enemy.SENTRY,150,-50,150,200,this),
+                                    new Enemy(Enemy.SENTRY,150,-50,200,200,this),
+                                    new Enemy(Enemy.SENTRY,150,-50,50,100,this),
+                                    new Enemy(Enemy.SENTRY,150,-50,100,150,this),
+            new Enemy(Enemy.SENTRY,150,-50,250,350,this),
+            new Enemy(Enemy.SENTRY,150,-50,20,300,this),
                                     //new Enemy(400,400,500,500)
                                 };
+    */
+
+    //il faut qu'on genere les ennemis après loadphotos()
+    private ArrayList<Enemy> ennemies =new ArrayList<>();
+
 
     public Model() throws IOException {
-        random = new Random();
+
         loadPhotos();
+
+        generateEnemies();
         view = new PlayGround(this);
         VerticalWall wallRight = new VerticalWall(WIDTH - 10, 0, 10, HEIGHT);
         VerticalWall wallLeft = new VerticalWall(0, 0, 10, HEIGHT);
@@ -64,9 +77,8 @@ public class Model implements ActionListener, KeyListener {
             addPhysicalObject(projectile);
 
         if(!DEBUGMODE){
-            for(Enemy enemy : level1List){
+            for(Enemy enemy : ennemies){
                 addPhysicalObject(enemy);
-                System.out.println("???");
                 for(Projectile projectile : enemy.projectiles)
                     addPhysicalObject(projectile);
             }
@@ -94,6 +106,10 @@ public class Model implements ActionListener, KeyListener {
         timer.start();
     }
 
+    private void generateEnemies() {
+        ennemies.add(new Enemy(Enemy.SENTRY,150,-50,150,200,this));
+        ennemies.add(new Enemy(Enemy.SENTRY,150,-50,200,200,this));
+    }
 
 
     @Override
@@ -122,8 +138,8 @@ public class Model implements ActionListener, KeyListener {
         for (Entity e : physicalObjects) {
             e.superUpdate();
         }
-        for (BackgroundObject backgroundObject:backgroundObjects){
-            backgroundObject.update();
+        for (BackGroundObject backGroundObject:backgroundObjects){
+            backGroundObject.update();
         }
 
 
@@ -176,6 +192,30 @@ public class Model implements ActionListener, KeyListener {
         allImages.put("lvl2",(Image)ph2);
         BufferedImage ph3= ImageIO.read(new File("Resources/cloud.png"));
         allImages.put("cloud",(Image) ph3);
+        BufferedImage ph4= ImageIO.read(new File("Resources/explosion_animation/1death.png"));
+        allImages.put("1death",(Image) ph4);
+        BufferedImage ph5= ImageIO.read(new File("Resources/explosion_animation/2death.png"));
+        allImages.put("2death",(Image) ph5);
+        BufferedImage ph6= ImageIO.read(new File("Resources/explosion_animation/3death.png"));
+        allImages.put("3death",(Image) ph6);
+        BufferedImage ph7= ImageIO.read(new File("Resources/explosion_animation/4death.png"));
+        allImages.put("4death",(Image) ph7);
+        BufferedImage ph8= ImageIO.read(new File("Resources/explosion_animation/5death.png"));
+        allImages.put("5death",(Image) ph8);
+        BufferedImage ph9= ImageIO.read(new File("Resources/explosion_animation/6death.png"));
+        allImages.put("6death",(Image) ph9);
+        BufferedImage ph10= ImageIO.read(new File("Resources/explosion_animation/7death.png"));
+        allImages.put("7death",(Image) ph10);
+        BufferedImage ph11= ImageIO.read(new File("Resources/explosion_animation/8death.png"));
+        allImages.put("8death",(Image) ph11);
+        BufferedImage ph12= ImageIO.read(new File("Resources/explosion_animation/9death.png"));
+        allImages.put("9death",(Image) ph12);
+        BufferedImage ph13= ImageIO.read(new File("Resources/sentry.png"));
+        allImages.put("sentry",(Image) ph13);
+        BufferedImage ph14= ImageIO.read(new File("Resources/plane.png"));
+        allImages.put("plane",(Image) ph14);
+
+
 
     }
 
@@ -198,19 +238,62 @@ public class Model implements ActionListener, KeyListener {
     private void setUpBackgroundObjects() {
         switch(getCurrentLvl()){
             case 1:{
-                addBackGroundObject(new BackgroundObject("cloud",50,60,this));
+                addBackGroundObject(new BackGroundObject("cloud",50,60,this,new float[]{0.5f,
+                        0.0f}));
+                addBackGroundObject(new BackGroundObject("cloud",200,80,this,new float[]{-0.5f,
+                        0.0f}));
+                addBackGroundObject(new BackGroundObject("cloud",150,105,this,new float[]{1f,
+                        0.0f}));
+                addBackGroundObject(new BackGroundObject("plane",100,200,this,new float[]{-0.5f,
+                        0.0f}));
                 break;
             }
         }
 
     }
 
-    public ArrayList<BackgroundObject> getBackgroundObjects() {
+    public ArrayList<BackGroundObject> getBackgroundObjects() {
         return backgroundObjects;
     }
 
-    private void addBackGroundObject(BackgroundObject backgroundObject){
+    private void addBackGroundObject(BackGroundObject backgroundObject){
         backgroundObjects.add(backgroundObject);
     }
 
+    //this method is called whenever an entity is dead
+    public void removeEntity(Shooter shooter){
+        ennemies.remove(shooter);
+        physicalObjects.remove(shooter);
+        drawables.remove(shooter);
+        spawnBonus(shooter.getX(),shooter.getY());
+        shooter=null;
+    }
+
+    //this method is called when a bonus is deleted
+    public void removeEntity(Bonus bonus){
+        bonus.setActive(false);
+    }
+
+    private void spawnBonus(float x, float y) {
+        //int gen=random.nextInt(2);
+        int gen=0;
+        switch (gen){
+            case 0:{
+                Bonus bonus=new Bonus("bouclier",x,y,this);
+                addDrawable(bonus);
+                addPhysicalObject(bonus);
+                break;
+            }
+            case 1:{
+
+            }
+
+        }
+
+    }
+
+    public void applyBonus(Bonus bonus) {
+        removeEntity(bonus);
+        //TODO applying bonus to the stick
+    }
 }

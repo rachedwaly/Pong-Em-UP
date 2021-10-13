@@ -1,6 +1,7 @@
 package Game;
 
-import Background.BackgroundObject;
+
+import Entities.BackGroundObject;
 import Entities.Entity;
 import Frame.StatusBar;
 
@@ -35,17 +36,20 @@ public class PlayGround extends JPanel {
         int bX = (int)model.b.getX();
         int bY = (int)model.b.getY();
         g.drawString("(" + model.b.getX() + ", " + model.b.getY() + ")" ,50,30 );
+        ArrayList<Entity> drawingList=new ArrayList<>(model.getDrawables());
 
-        for (Entity entity : model.getDrawables()) {
+        for (int i=0;i<drawingList.size();i++){
+            Entity entity=drawingList.get(i);
             entity.superDrawEntity(g);
         }
     }
 
-
     private void handleLevelBackground(Graphics g) {
         int lvl=model.getCurrentLvl();
         g.drawImage(model.getPhoto("lvl"+lvl), 0, 0, this);
-        for (BackgroundObject bgo:model.getBackgroundObjects()){
+        ArrayList<BackGroundObject> drawingList=new ArrayList<>(model.getBackgroundObjects());
+        for (int i=0;i<drawingList.size();i++){
+            BackGroundObject bgo=drawingList.get(i);
             bgo.drawEntity(g);
         }
     }

@@ -5,6 +5,7 @@ import java.awt.*;
 
 public class Projectile extends Entity {
     public int damage = 1;
+    public boolean active = false;
     public float[] absSpeed;
 
     public Projectile(int w, int h, int dmg, float[] speed){
@@ -42,7 +43,9 @@ public class Projectile extends Entity {
 
     public void fire(Shooter source){
         x = source.getX() + source.getWidth()/2f - width/2f; // centrer le projectile sur la source
-        y = source.getY() + source.lookDirection[1]*height ; //grab look direction dynamically, some ships might change direction
+        y = source.getY() + source.lookDirection[1]*(source.height+10) ; //grab look direction
+        //y = source.getY() + source.lookDirection[1]*height;
+        // dynamically, some ships might change direction
         speed[0] = absSpeed[0] * source.lookDirection[0];
         speed[1] = absSpeed[1] * source.lookDirection[1];
         activate();

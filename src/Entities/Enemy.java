@@ -3,14 +3,18 @@ import shape.RectangleShape;
 import Game.*;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
     public int fX,fY; //pos "finale" de l'objet, ou sa loop de comportement commence
     protected boolean loopMode = false; //false : se deplace vers (fX,fY) || true : effectue sa loop de behavior
     public static final String SENTRY = "SENTRY";
 
-    private Enemy(int x0, int y0, int fX, int fY){
+
+
+    private Enemy(int x0, int y0, int fX, int fY,Model model){
         super();
+        this.model=model;
         x = x0;
         y = y0;
 
@@ -31,19 +35,19 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
 
     }
 
-    public Enemy(String name, int x0, int y0 , int fX, int fY){
-        this(x0,y0,fX,fY);
+    public Enemy(String name, int x0, int y0 , int fX, int fY,Model model){
+        this(x0,y0,fX,fY,model);
         switch(name){
             case "SENTRY":
-                health = 20;
-                width = 20;
-                height = 20;
+                width = 40;
+                height =40;
                 speed[0] *= 2;
                 speed[1] *= 2;
                 for(int i = 0; i < projectiles.length; i++)
                     projectiles[i] = new Projectile(5,20,10,new float[]{2f,2f});
                 color = Color.BLUE;
                 this.name = name;
+                this.photo=model.getPhoto("sentry");
                 break;
             case "JUGGERNAUT":
                 break;
@@ -55,7 +59,9 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
 
 
     public void update(){
-        shape.update(this);
+        if(innerTimer > 80){
+            color = Color.BLACK;
+        }
         move();
         behaviorUpdate();
         innerTimer += Model.DELAY;
@@ -65,9 +71,16 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
     public void whenCollided(Entity entity) {
         switch (entity.getEntityTypeName()){
             case "projectile":
+                color = Color.RED;
                 Projectile p = (Projectile) entity;
                 health -= p.damage;
-                color = Color.RED;
+                if(health <=0) {
+                    setAlive(false);
+                }
+                break;
+            case "Enemy":
+
+            default :
                 break;
         }
         if(health <=0){
@@ -83,6 +96,7 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
     }
 
     public void move(){ //eventually move to abstract
+
 
         x += speed[0];
         y += speed[1];
@@ -108,7 +122,7 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
                         speed[1] = 0;
                     }
 
-                    if(innerTimer % 400 == 0)
+                    if(innerTimer % 800 == 0)
                         fire();
                     break;
                 case "JUGGERNAUT":
@@ -123,8 +137,23 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
 
     @Override
     public void drawEntity(Graphics g){
+        if (alive){
         g.setColor(this.color);
-        g.fillRect((int)x,(int)y,width,height);
+        //g.fillRect((int)x,(int)y,width,height);
+        g.drawImage(photo,(int)x,(int)y,width,height,model.getView());
+        }
+        else if (animationIndex<=5){
+            g.drawImage(model.getPhoto(Integer.toString(animationIndex)+"death"),(int)x-width,
+                    (int)y-height,
+                    width*4,
+                    height*4,model.getView());
+            animationIndex++;
+        }
+        else{
+            model.removeEntity(this);
+        }
+
+
     }
 
     /*@Override
