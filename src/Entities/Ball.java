@@ -1,3 +1,5 @@
+package Entities;
+import shape.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
@@ -56,6 +58,8 @@ public class Ball extends Entity {
 
     @Override
     public CircleShape getBounds(){
+        //return new CircleShape((int)(x + width/2f), (int)(y + height/2f), (int)(width/2f));
+        //return new Rectangle((int)x, (int)y, width,height);
         return new CircleShape((int)x + width/2, (int)y + height/2,width/2);
     }
 

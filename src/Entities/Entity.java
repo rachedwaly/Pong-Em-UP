@@ -1,3 +1,5 @@
+import shape.CustomShape;
+
 import java.awt.*;
 
 public abstract class Entity {
@@ -69,6 +71,7 @@ public abstract class Entity {
      *
      * @return CustomShape depending on object
      */
+    //
     public abstract CustomShape getBounds();
 
     /***

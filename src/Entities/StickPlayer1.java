@@ -1,3 +1,8 @@
+package Entities;
+
+import java.awt.*;
+import shape.CustomRectangle;
+
 import java.awt.event.*;
 
 

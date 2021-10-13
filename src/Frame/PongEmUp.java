@@ -1,3 +1,8 @@
+package Frame;
+
+import Game.Model;
+import Game.PlayGround;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -49,12 +54,12 @@ public class PongEmUp extends JFrame {
     public void pauseGame(){
         pausePane.setOpaque(false);
         pausePane.setVisible(true);
-        model.timer.stop();
+        model.stopTimer();
     }
 
     public void resumeGame(){
         containerPane.requestFocusInWindow();
-        model.timer.start();
+        model.startTimer();
     }
 
     public void goToOptions(){
@@ -141,7 +146,7 @@ public class PongEmUp extends JFrame {
     public void stopTheGame(){
         if (running){
             playground=null;
-            model.timer.stop();
+            model.stopTimer();
             model=null;
         }
     }

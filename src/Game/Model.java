@@ -1,3 +1,8 @@
+package Game;
+
+import Background.BackgroundObject;
+import Entities.*;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -16,26 +21,29 @@ public class Model implements ActionListener, KeyListener {
 
     public static Random random  = new Random();
     public static int HEIGHT=600,WIDTH=300;
-    static final int DELAY = 8;
-
-
-    private Entity entityBuffer1; // prevent excessive memory usage for collisions
-    private Entity entityBuffer2;
+    public static final int DELAY = 8;
     public Stick s1;
     public Ball b;
     private HashMap<String,Image> allImages=new HashMap<>();
     private PlayGround view;
-    public Timer timer;
+    private Entity entityBuffer1,entityBuffer2;
+    private Timer timer;
+    private Random random=new Random();
+    private int currentLvl=1;
+    private ArrayList<Entity> drawables=new ArrayList<>();
+    private ArrayList<BackgroundObject> backgroundObjects=new ArrayList<>();
 
     public ArrayList<Entity> physicalObjects = new ArrayList<>();
-    private Enemy[] level1List = {
-                                    new Enemy(Enemy.SENTRY,450,-50,450,200),
-                                    new Enemy(Enemy.SENTRY,150,-50,300,200),
-                                    new Enemy(Enemy.SENTRY,150,-50,500,100),
-                                    new Enemy(Enemy.SENTRY,250,-50,400,150),
-                                    new Enemy(Enemy.SENTRY,150,-50,250,350),
-                                    new Enemy(Enemy.SENTRY,400,-50,550,300),
 
+
+    private Enemy[] level1List = {
+                                    new Enemy(Enemy.SENTRY,150,-50,150,200),
+                                    new Enemy(Enemy.SENTRY,150,-50,200,200),
+                                    new Enemy(Enemy.SENTRY,150,-50,50,100),
+                                    new Enemy(Enemy.SENTRY,150,-50,100,150),
+            new Enemy(Enemy.SENTRY,150,-50,250,350),
+            new Enemy(Enemy.SENTRY,150,-50,20,300),
+                                    //new Enemy(400,400,500,500)
                                 };
 
     public Model() throws IOException {
@@ -46,15 +54,12 @@ public class Model implements ActionListener, KeyListener {
         VerticalWall wallLeft = new VerticalWall(0, 0, 10, HEIGHT);
         HorizontalWall wallUp = new HorizontalWall(10, 0, WIDTH-20, 10);
         s1 = new Stick(WIDTH / 2, HEIGHT - 20);
-        b = new Ball(10, 250);
+        b = new Ball(250, 580);
 
-        wallRight.name = "wallRight";
-        addPhysicalObject(b);
         addPhysicalObject(wallRight);
         addPhysicalObject(wallLeft);
         addPhysicalObject(wallUp);
         addPhysicalObject(s1);
-
         for(Projectile projectile : s1.projectiles)
             addPhysicalObject(projectile);
 
@@ -68,22 +73,23 @@ public class Model implements ActionListener, KeyListener {
             if(entity instanceof Enemy){
                 Enemy enemy = (Enemy) entity;
                 for(Projectile projectile : enemy.projectiles)
-                    view.addDrawable(projectile);
+                    addDrawable(projectile);
             }
             else if(entity instanceof Stick){
                 Stick stick = (Stick) entity;
                 for(Projectile projectile : stick.projectiles)
-                    view.addDrawable(projectile);
+                    addDrawable(projectile);
             }
-            view.addDrawable(entity);
+            addDrawable(entity);
         }
-        view.addDrawable(b); //to remove
-
+        addDrawable(b);
+        addPhysicalObject(b);
+        setUpBackgroundObjects();
         timer = new Timer(DELAY, this);
-
         timer.start();
-
     }
+
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -106,14 +112,22 @@ public class Model implements ActionListener, KeyListener {
     public void keyReleased(KeyEvent e) {
     s1.keyReleased(e);
     }
-    private void update(){
+    private void update() {
         solveCollisions();
-        for(Entity e : physicalObjects){
+        for (Entity e : physicalObjects) {
             e.update();
         }
+        for (BackgroundObject backgroundObject:backgroundObjects){
+            backgroundObject.update();
+        }
+
+
     }
 
-    public void solveCollisions(){
+    private void addDrawable(Entity e){
+        drawables.add(e);
+    }
+        public void solveCollisions(){
         for(int i = 0; i < physicalObjects.size() - 1; i++){
             entityBuffer1 = physicalObjects.get(i);
             for(int j = i + 1; j < physicalObjects.size(); j++){
@@ -136,14 +150,60 @@ public class Model implements ActionListener, KeyListener {
     public int getPlayerScore(){
         return s1.getScore();
     }
+
+
+    public void stopTimer(){
+        timer.stop();
+    }
+    public void startTimer(){
+        timer.start();
+    }
+
     private void loadPhotos() throws IOException {
         //This method will import all the photos needed for our game
         BufferedImage ph= ImageIO.read(new File("Resources/health.png"));
         allImages.put("health",(Image) ph);
+        BufferedImage ph1= ImageIO.read(new File("Resources/background lvl1.jpg"));
+        allImages.put("lvl1",(Image)ph1);
+        BufferedImage ph2= ImageIO.read(new File("Resources/background lvl2.jpg"));
+        allImages.put("lvl2",(Image)ph2);
+        BufferedImage ph3= ImageIO.read(new File("Resources/cloud.png"));
+        allImages.put("cloud",(Image) ph3);
+
     }
 
     public Image getPhoto(String name){
         return allImages.get(name);
+    }
+
+    public ArrayList<Entity> getDrawables() {
+        return drawables;
+    }
+
+    public int getCurrentLvl() {
+        return currentLvl;
+    }
+
+    public void setCurrentLvl(int currentLvl) {
+        this.currentLvl = currentLvl;
+    }
+
+    private void setUpBackgroundObjects() {
+        switch(getCurrentLvl()){
+            case 1:{
+                addBackGroundObject(new BackgroundObject("cloud",50,60,this));
+                break;
+            }
+        }
+
+    }
+
+    public ArrayList<BackgroundObject> getBackgroundObjects() {
+        return backgroundObjects;
+    }
+
+    private void addBackGroundObject(BackgroundObject backgroundObject){
+        backgroundObjects.add(backgroundObject);
     }
 
 }
