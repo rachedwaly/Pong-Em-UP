@@ -7,6 +7,7 @@ import java.awt.*;
 public class Bonus extends Entity {
 private Model model;
     public Bonus(String name, float x, float y, Model model){
+        super((int)x,(int)y);
         this.model=model;
         this.name=name;
         this.x=x;
@@ -25,11 +26,11 @@ private Model model;
 
     private void move() {
         y+=speed[1];
+
+        shape.update(this);
         if (y>600){
             model.removeEntity(this);
         }
-
-
     }
 
     @Override

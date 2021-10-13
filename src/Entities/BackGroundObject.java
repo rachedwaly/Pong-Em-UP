@@ -14,6 +14,7 @@ public class BackGroundObject extends Entity{
     protected int width,height;
 
     public BackGroundObject(String name, int x, int y, Model model,float[] initialSpeed){
+        super(x,y);
         this.x=x;
         this.y=y;
         this.name=name;
@@ -59,6 +60,7 @@ public class BackGroundObject extends Entity{
                 break;
             }
         }
+        shape.update(this);
     }
 
 

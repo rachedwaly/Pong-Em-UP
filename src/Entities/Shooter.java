@@ -13,10 +13,6 @@ public abstract class Shooter extends Entity{
     // animation later on
     static final int maxAnimationIndex=9;
 
-
-
-    protected boolean alive=true;
-
     public Shooter(){
         super();
     }
@@ -32,8 +28,6 @@ public abstract class Shooter extends Entity{
 
     public abstract void whenCollided(Entity entity);
 
-    public void setAlive(boolean alive) {
-        this.alive = alive;
-    }
+    public abstract void drawDestructionAnimation();
 
 }

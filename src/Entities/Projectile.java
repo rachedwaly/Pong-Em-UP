@@ -17,7 +17,6 @@ public class Projectile extends Entity {
         height = 20;
         color = Color.RED;
         absSpeed = speed;
-        disable();
 
     }
 
@@ -27,13 +26,13 @@ public class Projectile extends Entity {
         move();
         shape.update(this);
         if(y < 0 || 600 < y){
-            disable();
+            active = false;
         }
     }
 
     @Override
     public void whenCollided(Entity entity) {
-        disable();
+        active = false;
     }
 
     @Override
@@ -48,7 +47,7 @@ public class Projectile extends Entity {
         // dynamically, some ships might change direction
         speed[0] = absSpeed[0] * source.lookDirection[0];
         speed[1] = absSpeed[1] * source.lookDirection[1];
-        activate();
+        active = true;
 
         if(speed[1] > 0)
             shape = new RectangleShape((int)x,(int)y + 2 * height/3,width,height/3);
@@ -71,8 +70,6 @@ public class Projectile extends Entity {
             g.fillRect((int)x,(int)y + height*2/3,width,height/3);
         else
             g.fillRect((int)x,(int)y,width,height/3);
-
     }
-
 
 }

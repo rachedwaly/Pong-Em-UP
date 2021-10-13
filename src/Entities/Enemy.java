@@ -9,6 +9,7 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
     public int fX,fY; //pos "finale" de l'objet, ou sa loop de comportement commence
     protected boolean loopMode = false; //false : se deplace vers (fX,fY) || true : effectue sa loop de behavior
     public static final String SENTRY = "SENTRY";
+    private int loopTimer = 0;
 
 
 
@@ -40,7 +41,8 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
         switch(name){
             case "SENTRY":
                 width = 40;
-                height =40;
+                height = 40;
+                health = 20;
                 speed[0] *= 2;
                 speed[1] *= 2;
                 for(int i = 0; i < projectiles.length; i++)
@@ -59,24 +61,27 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
 
 
     public void update(){
+
         if(innerTimer > 80){
             color = Color.BLACK;
         }
+
         move();
         behaviorUpdate();
         innerTimer += Model.DELAY;
+        loopTimer += Model.DELAY;
     }
 
     @Override
     public void whenCollided(Entity entity) {
         switch (entity.getEntityTypeName()){
+            case "ball" :
+                health -= 100;
             case "projectile":
                 color = Color.RED;
                 Projectile p = (Projectile) entity;
                 health -= p.damage;
-                if(health <=0) {
-                    setAlive(false);
-                }
+
                 break;
             case "Enemy":
 
@@ -84,10 +89,16 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
                 break;
         }
         if(health <=0){
-            disable();
-            //play destruction animation;
+            drawDestructionAnimation();
+            model.removeEntity(this);
+
         }
         innerTimer = 0;
+    }
+
+    @Override
+    public void drawDestructionAnimation() {
+
     }
 
     @Override
@@ -97,14 +108,14 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
 
     public void move(){ //eventually move to abstract
 
-
         x += speed[0];
         y += speed[1];
 
         if(!loopMode && Math.abs(fX - x) <= 2f && Math.abs(fY - y) <= 2f) { //home reached
             loopMode = true;
-            innerTimer = 4000; //soft reset the timer to control the loop easily
+            loopTimer = 4000; //soft reset the timer to control the loop easily
         }
+        shape.update(this);
 
     }
 
@@ -113,7 +124,7 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
             switch(name){
                 case "SENTRY":
 
-                    if(innerTimer % 2000 < 1000){
+                    if(loopTimer % 2000 < 1000){
                         speed[0] = - 1;
                         speed[1] = 0;
 
@@ -122,7 +133,7 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
                         speed[1] = 0;
                     }
 
-                    if(innerTimer % 800 == 0)
+                    if(loopTimer % 800 == 0)
                         fire();
                     break;
                 case "JUGGERNAUT":
@@ -137,12 +148,11 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
 
     @Override
     public void drawEntity(Graphics g){
-        if (alive){
         g.setColor(this.color);
         //g.fillRect((int)x,(int)y,width,height);
         g.drawImage(photo,(int)x,(int)y,width,height,model.getView());
-        }
-        else if (animationIndex<=5){
+
+        if (animationIndex<=5){
             g.drawImage(model.getPhoto(Integer.toString(animationIndex)+"death"),(int)x-width,
                     (int)y-height,
                     width*4,
@@ -153,21 +163,6 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
             model.removeEntity(this);
         }
 
-
     }
-
-    /*@Override
-    public ArrayList<PhysicalBoundarie> getPhysicalBoundaries() {
-        PhysicalBoundarie c1=new PhysicalBoundarie((int)x,(int)y,1,height); //left side
-        PhysicalBoundarie c2=new PhysicalBoundarie((int)x+width-1,(int)y,1,height); // right side
-        PhysicalBoundarie c3=new PhysicalBoundarie((int)x + 1,(int)y,width - 2,1); //top side
-        PhysicalBoundarie c4=new PhysicalBoundarie((int)x + 1,(int)y+height-1,width - 2,1); //bottom side
-        ArrayList <PhysicalBoundarie> list=new ArrayList<>();
-        list.add(c1);
-        list.add(c2);
-        list.add(c3);
-        list.add(c4);
-        return list;
-    }*/
 
 }

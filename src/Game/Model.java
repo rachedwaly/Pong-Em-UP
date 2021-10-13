@@ -38,10 +38,7 @@ public class Model implements ActionListener, KeyListener {
 
     public ArrayList<Entity> physicalObjects = new ArrayList<>();
 
-
-
-    /*
-    private Enemy[] ennemies = {
+    private Enemy[] level1list = {
                                     new Enemy(Enemy.SENTRY,150,-50,150,200,this),
                                     new Enemy(Enemy.SENTRY,150,-50,200,200,this),
                                     new Enemy(Enemy.SENTRY,150,-50,50,100,this),
@@ -50,10 +47,9 @@ public class Model implements ActionListener, KeyListener {
             new Enemy(Enemy.SENTRY,150,-50,20,300,this),
                                     //new Enemy(400,400,500,500)
                                 };
-    */
 
     //il faut qu'on genere les ennemis après loadphotos()
-    private ArrayList<Enemy> ennemies =new ArrayList<>();
+    private ArrayList<Enemy> ennemies = new ArrayList<>();
 
 
     public Model() throws IOException {
@@ -76,7 +72,7 @@ public class Model implements ActionListener, KeyListener {
             addPhysicalObject(projectile);
 
         if(!DEBUGMODE){
-            for(Enemy enemy : ennemies){
+            for(Enemy enemy : level1list){
                 addPhysicalObject(enemy);
                 for(Projectile projectile : enemy.projectiles)
                     addPhysicalObject(projectile);
@@ -147,21 +143,20 @@ public class Model implements ActionListener, KeyListener {
     private void addDrawable(Entity e){
         drawables.add(e);
     }
-        public void solveCollisions(){
-        for(int i = 0; i < physicalObjects.size() - 1; i++){
-            entityBuffer1 = physicalObjects.get(i);
-            if(entityBuffer1.isActive()){
-                for(int j = i + 1; j < physicalObjects.size(); j++){
-                    entityBuffer2 = physicalObjects.get(j);
-                    if( entityBuffer2.isActive() &&
-                            entityBuffer1.getShape().intersects(entityBuffer2.getShape())){//Order of collision
-                        physicalObjects.get(i).whenCollided(entityBuffer2);
-                        physicalObjects.get(j).whenCollided(entityBuffer1);
-                    }
+
+    public void solveCollisions(){
+    for(int i = 0; i < physicalObjects.size() - 1; i++){
+        entityBuffer1 = physicalObjects.get(i);
+            for(int j = i + 1; j < physicalObjects.size(); j++){
+                entityBuffer2 = physicalObjects.get(j);
+                if(entityBuffer1.getShape().intersects(entityBuffer2.getShape())){//Order of collision
+                    physicalObjects.get(i).whenCollided(entityBuffer2);
+                    physicalObjects.get(j).whenCollided(entityBuffer1);
                 }
             }
         }
     }
+
     public PlayGround getView() {
         return view;
     }
@@ -265,12 +260,14 @@ public class Model implements ActionListener, KeyListener {
         physicalObjects.remove(shooter);
         drawables.remove(shooter);
         spawnBonus(shooter.getX(),shooter.getY());
-        shooter=null;
+        shooter = null;
     }
 
     //this method is called when a bonus is deleted
     public void removeEntity(Bonus bonus){
-        bonus.setActive(false);
+        physicalObjects.remove(bonus);
+        drawables.remove(bonus);
+        bonus = null;
     }
 
     private void spawnBonus(float x, float y) {
@@ -295,4 +292,5 @@ public class Model implements ActionListener, KeyListener {
         removeEntity(bonus);
         //TODO applying bonus to the stick
     }
+
 }

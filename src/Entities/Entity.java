@@ -16,12 +16,6 @@ public abstract class Entity {
     public static final int WIDTH= Model.WIDTH; //width of the game
     protected Image photo;
 
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-
     static final int SCROLLSPEED = 1;
     protected float[] speed = new float[2];
     protected int[] lookDirection=new int[2];
@@ -31,7 +25,6 @@ public abstract class Entity {
     public Color color;
     protected String name;
 
-    private boolean active = true;
     protected int innerTimer = 0;
 
     public Entity(){
@@ -50,6 +43,8 @@ public abstract class Entity {
         this.width=w;
         this.height=h;
         color = Color.BLACK;
+
+        shape = new RectangleShape(x,y,w,h);
     }
 
     public float getX(){
@@ -64,11 +59,9 @@ public abstract class Entity {
     public int getHeight(){
         return height;
     }
-    public boolean isActive(){ return active;}
 
     public void superUpdate(){
-        if(active)
-            update();
+        update();
     }
     /***
      * Updates the entity based on the current game timer : movement, color etc
@@ -98,8 +91,7 @@ public abstract class Entity {
     };
 
     public void superDrawEntity(Graphics g){
-        if(active)
-            drawEntity(g);
+        drawEntity(g);
     }
     /***
      * Defines the sides of an entity for the ball to rebound correctly when colliding with an object
@@ -147,13 +139,5 @@ public abstract class Entity {
         System.out.println(entity);
         System.out.println(collider);
     }
-    public void activate(){
-        active = true;
-    }
 
-    public void disable(){
-        x = -100;
-        y = -100;
-        active = false;
-    }
 }

@@ -42,7 +42,7 @@ public class Stick extends Shooter{
 
         innerTimer += Model.DELAY;
         move();
-        shape.update(this);
+
     }
 
     @Override
@@ -75,11 +75,16 @@ public class Stick extends Shooter{
                 break;
         }
         if(health <=0){
-            disable();
-            //play destruction animation;
+            model.removeEntity(this);
+            //draw
             System.out.println("Lost !");
         }
         innerTimer = 0;
+    }
+
+    @Override
+    public void drawDestructionAnimation() {
+
     }
 
     @Override
@@ -102,7 +107,7 @@ public class Stick extends Shooter{
         else{
             this.y=max(this.y+dy,HEIGHT*3f/4);
         }
-
+        shape.update(this);
 
     }
 
