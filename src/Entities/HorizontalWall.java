@@ -1,10 +1,12 @@
 package Entities;
 
+import Game.Model;
+
 import java.util.ArrayList;
 
 public class HorizontalWall extends Wall{
-    public HorizontalWall(int x,int y,int width,int height){
-        super(x,y,width,height);
+    public HorizontalWall(int x, int y, int width, int height, Model model){
+        super(x,y,width,height,model);
     }
 
     /*@Override

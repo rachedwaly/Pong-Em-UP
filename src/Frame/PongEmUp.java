@@ -23,6 +23,7 @@ public class PongEmUp extends JFrame {
     private JPanel optionsMenu;
     private PausePane pausePane;
     private MainMenuPane mainMenuPane;
+    private ButtonsPane buttonsPanel;
 
 
     public PongEmUp(){
@@ -111,7 +112,7 @@ public class PongEmUp extends JFrame {
 
     public void goBackToMainMenu(){
 
-        containerPane.removeAll();
+
         stopTheGame();
         showMainMenu();
 
@@ -132,12 +133,12 @@ public class PongEmUp extends JFrame {
         running=true;
         //put this inside a gamePane class maybe?
         containerPane.removeAll();
-        model= new Model();
+        model= new Model(this);
         playground = model.getView();
         containerPane.add(playground,BorderLayout.CENTER);
         containerPane.addKeyListener(model);
         containerPane.requestFocusInWindow();
-        JPanel buttonsPanel=new ButtonsPane(this);
+        buttonsPanel=new ButtonsPane(this);
         containerPane.add(buttonsPanel,BorderLayout.EAST);
         revalidate();
         repaint();
@@ -145,10 +146,19 @@ public class PongEmUp extends JFrame {
 
     public void stopTheGame(){
         if (running){
+            containerPane.removeAll();
+            buttonsPanel.removeAll();
             playground=null;
+            buttonsPanel=null;
             model.stopTimer();
             model=null;
         }
+    }
+
+    public void gameOver(){
+        buttonsPanel.addRetryButton();
+        revalidate();
+        repaint();
     }
 
 

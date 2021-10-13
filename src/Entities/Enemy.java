@@ -14,11 +14,7 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
 
 
     private Enemy(int x0, int y0, int fX, int fY,Model model){
-        super();
-        this.model=model;
-        x = x0;
-        y = y0;
-
+        super(x0,y0,model);
         this.fX = fX;
         this.fY = fY;
 
@@ -46,7 +42,7 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
                 speed[1] *= 2;
                 health=1;
                 for(int i = 0; i < projectiles.length; i++)
-                    projectiles[i] = new Projectile(5,20,10,new float[]{2f,2f});
+                    projectiles[i] = new Projectile(5,20,10,new float[]{2f,2f},model);
                 color = Color.BLUE;
                 this.name = name;
                 this.photo=model.getPhoto("sentry");

@@ -1,4 +1,5 @@
 package Entities;
+import Game.Model;
 import shape.CustomRectangle;
 
 import java.awt.*;
@@ -8,8 +9,8 @@ public class Projectile extends Entity {
     public boolean active = false;
     public float[] absSpeed;
 
-    public Projectile(int w, int h, int dmg, float[] speed){
-        super();
+    public Projectile(int w, int h, int dmg, float[] speed, Model model){
+        super(model);
         name = "Projectile";
         this.x = 500;
         this.y = 1000;

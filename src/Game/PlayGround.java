@@ -31,17 +31,22 @@ public class PlayGround extends JPanel {
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-
         handleLevelBackground(g);
         int bX = (int)model.b.getX();
         int bY = (int)model.b.getY();
         g.drawString("(" + model.b.getX() + ", " + model.b.getY() + ")" ,50,30 );
         ArrayList<Entity> drawingList=new ArrayList<>(model.getDrawables());
-
+        //on doit impérativement utiliser ce type de boucle four sinon on peut pas mettre à jour
+        // la liste  des drawables dynamiquement (sinon ça throw une exception)
         for (int i=0;i<drawingList.size();i++){
             Entity entity=drawingList.get(i);
             entity.superDrawEntity(g);
         }
+
+        if (!model.isPlaying()){
+            g.drawImage(model.getPhoto("gameover"),20,120,model.getView());
+        }
+
     }
 
     private void handleLevelBackground(Graphics g) {

@@ -2,7 +2,7 @@ package Game;
 
 
 import Entities.*;
-
+import Frame.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -30,6 +30,10 @@ public class Model implements ActionListener, KeyListener {
     private Entity entityBuffer1,entityBuffer2;
     private Timer timer;
     private int currentLvl=1;
+    private PongEmUp pongEmUp;
+
+
+    public boolean playing=true;
 
     //on sépare les backgroundobjects des drawables vu qu'ils doivent etre dessinés avant ces
     // derniers
@@ -57,18 +61,16 @@ public class Model implements ActionListener, KeyListener {
     private ArrayList<Enemy> ennemies =new ArrayList<>();
 
 
-    public Model() throws IOException {
-
+    public Model(PongEmUp pongEmUp) throws IOException {
+        this.pongEmUp=pongEmUp;
         loadPhotos();
-
         generateEnemies();
         view = new PlayGround(this);
-        VerticalWall wallRight = new VerticalWall(WIDTH - 10, 0, 10, HEIGHT);
-        VerticalWall wallLeft = new VerticalWall(0, 0, 10, HEIGHT);
-        HorizontalWall wallUp = new HorizontalWall(10, 0, WIDTH-20, 10);
-        s1 = new Stick(WIDTH / 2, HEIGHT - 20);
-        b = new Ball(250, 580);
-
+        VerticalWall wallRight = new VerticalWall(WIDTH - 10, 0, 10, HEIGHT,this);
+        VerticalWall wallLeft = new VerticalWall(0, 0, 10, HEIGHT,this);
+        HorizontalWall wallUp = new HorizontalWall(10, 0, WIDTH-20, 10,this);
+        s1 = new Stick(WIDTH / 2, HEIGHT - 20,this);
+        b = new Ball(250, 580,this);
         addPhysicalObject(wallRight);
         addPhysicalObject(wallLeft);
         addPhysicalObject(wallUp);
@@ -212,6 +214,8 @@ public class Model implements ActionListener, KeyListener {
         allImages.put("sentry",(Image) ph13);
         BufferedImage ph14= ImageIO.read(new File("Resources/plane.png"));
         allImages.put("plane",(Image) ph14);
+        BufferedImage ph15= ImageIO.read(new File("Resources/gameover.png"));
+        allImages.put("gameover",(Image) ph15);
 
 
 
@@ -294,4 +298,24 @@ public class Model implements ActionListener, KeyListener {
         removeEntity(bonus);
         //TODO applying bonus to the stick
     }
+
+    public boolean isPlaying() {
+        return playing;
+    }
+
+    public void setPlaying(boolean playing) {
+        this.playing = playing;
+    }
+
+
+
+    public void stopTheGame(){
+        setPlaying(false);
+        this.update();
+        view.update();
+        timer.stop();
+        //TODO add retry button on the left side of the frame
+        pongEmUp.gameOver();
+    }
+
 }

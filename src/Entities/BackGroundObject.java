@@ -16,12 +16,13 @@ import static java.lang.Math.*;
 public class BackGroundObject extends Entity{
     Image photo;
     String name;
-    Model model;
+
     protected float x,y;
     protected float[] speed = new float[2];
     protected int width,height;
 
     public BackGroundObject(String name, int x, int y, Model model,float[] initialSpeed){
+        super(x,y,model);
         this.x=x;
         this.y=y;
         this.name=name;

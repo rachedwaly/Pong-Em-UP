@@ -1,4 +1,5 @@
 package Entities;
+import Game.Model;
 import shape.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -12,9 +13,9 @@ public class Ball extends Entity {
 
     private Random r=new Random();
 
-    public Ball(int x, int y) {
+    public Ball(int x, int y, Model model) {
 
-        super(x, y);
+        super(x, y,model);
         this.width = 10;
         this.height = 10;
         name = "ball";

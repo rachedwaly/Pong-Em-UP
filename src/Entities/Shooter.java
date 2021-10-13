@@ -3,7 +3,6 @@ import Game.*;
 import shape.CustomRectangle;
 
 public abstract class Shooter extends Entity{
-    protected Model model;
     protected int health;
     protected int maxHealth;
     public int projectileIndex = 0;
@@ -18,12 +17,12 @@ public abstract class Shooter extends Entity{
 
     protected boolean alive=true;
 
-    public Shooter(){
-        super();
+    public Shooter(Model model){
+        super(model);
     }
 
-    public Shooter(int x, int y){
-        super(x,y);
+    public Shooter(int x, int y,Model model){
+        super(x,y,model);
     }
 
     public void fire(){

@@ -9,10 +9,8 @@ import java.awt.*;
 public class Bonus extends Entity {
 private Model model;
     public Bonus(String name, float x, float y, Model model){
-        this.model=model;
+        super((int)x,(int)y,model);
         this.name=name;
-        this.x=x;
-        this.y=y;
         this.width=10;
         this.height=10;
         this.speed[0]=0;

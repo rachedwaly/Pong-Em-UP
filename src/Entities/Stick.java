@@ -17,8 +17,8 @@ public class Stick extends Shooter{
     protected float dx,dy;
     private int score;
 
-    public Stick(int x, int y){
-        super(x,y);
+    public Stick(int x, int y,Model model){
+        super(x,y,model);
 
         name = "Stick";
         canShoot = true;
@@ -33,7 +33,7 @@ public class Stick extends Shooter{
 
         lookDirection = new int[]{0,-1};
         for(int i = 0; i < projectiles.length; i++)
-            projectiles[i] = new Projectile(5,20,10,new float[]{5f,5f});
+            projectiles[i] = new Projectile(5,20,10,new float[]{5f,5f},model);
     }
 
     @Override
@@ -59,6 +59,7 @@ public class Stick extends Shooter{
                         width = 0;
                         //play destruction animation;
                         System.out.println("Lost !");
+                        model.stopTheGame();
                     } else {
                         offsetX += (int) (p.damage / (float) maxHealth * BASE_WIDTH / 4);
                         width = BASE_WIDTH / 2 + (int) ((health / (float) maxHealth) * BASE_WIDTH / 2);

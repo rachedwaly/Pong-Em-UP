@@ -6,8 +6,8 @@ import java.util.ArrayList;
 
 public class Wall extends Entity{
 
-    public Wall(int x,int y,int w,int h){
-        super(x,y,w,h);
+    public Wall(int x,int y,int w,int h,Model model){
+        super(x,y,w,h,model);
     }
 
     @Override

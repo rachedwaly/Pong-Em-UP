@@ -10,6 +10,7 @@ public abstract class Entity {
     public static final int HEIGHT= Model.HEIGHT; //height of the game
     public static final int WIDTH= Model.WIDTH; //width of the game
     protected Image photo;
+    protected Model model;
 
 
     public void setActive(boolean active) {
@@ -35,22 +36,24 @@ public abstract class Entity {
         }
     }
 
-    public Entity(){
-        this(Model.random.nextInt(WIDTH), Model.random.nextInt(HEIGHT),
-                Model.random.nextInt(30), Model.random.nextInt(30));
-    }
-
-    public Entity(int x,int y){
-        this(x,y,0,0);
+    public Entity(Model model){
+        this(Model.random.nextInt(WIDTH), Model.random.nextInt(HEIGHT),Model.random.nextInt(30),
+                Model.random.nextInt(30),model);
 
     }
 
-    public Entity(int x,int y, int w, int h){
+    public Entity(int x,int y,Model model){
+        this(x,y,0,0,model);
+
+    }
+
+    public Entity(int x,int y, int w, int h,Model model){
         this.x=x;
         this.y=y;
         this.width=w;
         this.height=h;
-        color = Color.BLACK;
+        this.color = Color.BLACK;
+        this.model=model;
     }
 
     public float getX(){
