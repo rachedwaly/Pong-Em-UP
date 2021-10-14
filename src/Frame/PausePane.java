@@ -57,7 +57,6 @@ public class PausePane extends JPanel {
             discardPanel();
         });
 
-
         menu.add(resumeButton,gbc);
         menu.add(options,gbc);
         menu.add(goBackToMainMenu,gbc);
@@ -65,7 +64,6 @@ public class PausePane extends JPanel {
 
         gbc.weighty=1;
         add(menu,gbc);
-
 
     }
 

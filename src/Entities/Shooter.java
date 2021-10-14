@@ -15,7 +15,7 @@ public abstract class Shooter extends Entity{
 
 
 
-    protected boolean alive=true;
+
 
     public Shooter(Model model){
         super(model);
@@ -32,8 +32,6 @@ public abstract class Shooter extends Entity{
 
     public abstract void whenCollided(Entity entity);
 
-    public void setAlive(boolean alive) {
-        this.alive = alive;
-    }
+
 
 }

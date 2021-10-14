@@ -74,7 +74,7 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
                 Projectile p = (Projectile) entity;
                 health -= p.damage;
                 if(health <=0) {
-                    setAlive(false);
+                    //setAlive(false);
                 }
                 break;
             case "Enemy":
@@ -137,16 +137,16 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
 
     @Override
     public void drawEntity(Graphics g){
-        if (alive){
+        if (health>0){
         g.setColor(this.color);
         //g.fillRect((int)x,(int)y,width,height);
         g.drawImage(photo,(int)x,(int)y,width,height,model.getView());
         }
-        else if (animationIndex<=5){
-            g.drawImage(model.getPhoto(Integer.toString(animationIndex)+"death"),(int)x-width,
-                    (int)y-height,
-                    width*4,
-                    height*4,model.getView());
+        else if (animationIndex<=maxAnimationIndex){
+            g.drawImage(model.getPhoto(Integer.toString(animationIndex)+"death"),(int)x,
+                    (int)y,
+                    width,
+                    height,model.getView());
             animationIndex++;
         }
         else{

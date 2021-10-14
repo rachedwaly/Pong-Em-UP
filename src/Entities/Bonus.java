@@ -15,6 +15,7 @@ private Model model;
         this.height=10;
         this.speed[0]=0;
         this.speed[1]=2;
+        this.model=model;
         color=Color.PINK;
     }
 
