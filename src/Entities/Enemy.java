@@ -1,7 +1,7 @@
 package Entities;
 import Entities.Shooter;
-import shape.CustomRectangle;
 import Game.*;
+import shape.RectangleShape;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -91,8 +91,8 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
     }
 
     @Override
-    public CustomRectangle getBounds(){
-        return new CustomRectangle((int)x,(int)y,width,height);
+    public RectangleShape getShape(){
+        return new RectangleShape((int)x,(int)y,width,height);
     };
 
     @Override

@@ -74,10 +74,7 @@ public class Stick extends Shooter{
         innerTimer = 0;
     }
 
-    @Override
-    public void drawDestructionAnimation() {
 
-    }
 
     @Override
     public String getEntityTypeName() {
