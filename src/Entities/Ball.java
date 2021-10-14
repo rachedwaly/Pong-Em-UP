@@ -33,10 +33,11 @@ public class Ball extends Entity {
     }
 
     public void move(){
-        this.x+=speed[0];
-        this.y+=speed[1];
 
-        if (y>HEIGHT){ //ball passes stick
+        this.x += speed[0] * scalarSpeed;
+        this.y += speed[1] * scalarSpeed;
+
+        if (y>HEIGHT || y < 0){ //ball passes stick or glitches out
             x=250;
             y=150;
         }
@@ -44,28 +45,47 @@ public class Ball extends Entity {
     }
 
     public void update(){
-        move();
 
+        if(innerTimer > 8080)
+            scalarSpeed = Math.max(2,scalarSpeed - 1f / 750 * Model.DELAY); //loses 1 speed every 6 seconds
+        innerTimer += Model.DELAY;
+        move();
     }
 
     @Override
     public void whenCollided(Entity entity) {
-        scalarSpeed = Math.max(2,scalarSpeed * 9f/10);
-        float[] normal = entity.getNormalHit(entity);
+        switch(entity.getEntityTypeName()){
+            case "stick":
+            case "wall":
+                break;
+            case "enemy":
+            case "bonus":
+            case "projectile": //hitting something other than wall maintains speed for 8 seconds
+                innerTimer = 81;
+                break;
+        }
 
-        speed = CustomShape.reflectVector(speed,normal);
+        float[] normal = ((CircleShape)shape).getNormalHit();
+        if(normal[0] == 0 && normal[1] == 0)
+            System.out.println("bad normal");
+
+
         //influence trajectory
-        speed[0] = speed[0] + entity.speed[0];
-        speed[1] = speed[1] + entity.speed[1];
+        float[] normSpeed = CustomShape.normalize(entity.speed);
+        if(CustomShape.dot(speed,normal) > 0){
+            speed[0] = speed[0] + normSpeed[0]/2;
+            speed[1] = speed[1] + normSpeed[1];
+        }else{
+            speed = CustomShape.reflectVector(speed,normal); //is normalized
+        }
 
         speed = CustomShape.normalize(speed);
 
-        speed[0] = speed[0] * scalarSpeed;
-        speed[1] = speed[1] * scalarSpeed;
-
         while(this.getShape().intersects(entity.getShape())){
-            update();
+            //TODO : if hit two objects at once, self destruct
+            //TODO : if stuck too long, self destruct
             scalarSpeed = Math.max(scalarSpeed,CustomShape.distance(entity.speed));
+            update();
         }
 
     }

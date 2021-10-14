@@ -6,7 +6,7 @@ import shape.RectangleShape;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
+public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
     public int fX,fY; //pos "finale" de l'objet, ou sa loop de comportement commence
     protected boolean loopMode = false; //false : se deplace vers (fX,fY) || true : effectue sa loop de behavior
     public static final String SENTRY = "SENTRY";
@@ -45,10 +45,13 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
                 health=1;
                 for(int i = 0; i < projectiles.length; i++)
                     projectiles[i] = new Projectile(5,20,10,new float[]{2f,2f},model);
+
                 color = Color.BLUE;
+
                 this.name = name;
                 this.photo=model.getPhoto("sentry");
                 photoDamaged = model.getPhoto("sentryRed");
+
                 shape = new RectangleShape((int)x,(int)y,width,height);
                 break;
             case "JUGGERNAUT":
@@ -70,30 +73,22 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
 
     @Override
     public void whenCollided(Entity entity) {
-        System.out.println("le collision");
         switch (entity.getEntityTypeName()){
             case "ball" :
-                health -= 100;
+                health -= 10;
+                innerTimer = 0;
+
                 break;
             case "projectile":
                 Projectile p = (Projectile) entity;
                 health -= p.damage;
-
+                innerTimer = 0;
                 break;
-            case "Enemy":
-
             default :
                 break;
         }
 
-
-        innerTimer = 0;
     }
-
-    @Override
-    public RectangleShape getShape(){
-        return new RectangleShape((int)x,(int)y,width,height);
-    };
 
     @Override
     public String getEntityTypeName() {
@@ -101,7 +96,6 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
     }
 
     public void move(){ //eventually move to abstract
-
 
         x += speed[0];
         y += speed[1];
@@ -163,7 +157,5 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
 
 
     }
-
-
 
 }

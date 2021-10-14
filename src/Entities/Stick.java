@@ -61,11 +61,16 @@ public class Stick extends Shooter{
 
                 break;
             case "enemy":
+                health = 0;
+                break;
+            case "ball":
+                //TODO : play bong effect
                 break;
             default :
                 break;
         }
         if(health <=0){
+            //TODO: implement lives system
             //model.removeEntity(this);
             //play destruction animation;
             model.stopTheGame();
@@ -170,6 +175,8 @@ public class Stick extends Shooter{
     }
     @Override
     public void drawEntity(Graphics g){
+
+
         g.setColor(this.color);
         g.fillRect((int)x,(int)y,width,height);
         g.setColor(healthColor);
@@ -179,8 +186,5 @@ public class Stick extends Shooter{
                         (int)y + height + 5,
                 (int)(BASE_WIDTH * (maxHealth - health)/(float)maxHealth),5);
     }
-
-
-
 
 }

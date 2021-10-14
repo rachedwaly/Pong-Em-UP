@@ -39,11 +39,11 @@ public class Bonus extends Entity {
 
     @Override
     public void whenCollided(Entity entity) {
-
         if (entity instanceof Stick){
             model.applyBonus(this);
         }
     }
+
     @Override
     public String getEntityTypeName() {
         return name;
