@@ -10,6 +10,8 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
     public int fX,fY; //pos "finale" de l'objet, ou sa loop de comportement commence
     protected boolean loopMode = false; //false : se deplace vers (fX,fY) || true : effectue sa loop de behavior
     public static final String SENTRY = "SENTRY";
+    private int loopTimer = 0;
+    private Image photoDamaged;
 
 
 
@@ -46,6 +48,8 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
                 color = Color.BLUE;
                 this.name = name;
                 this.photo=model.getPhoto("sentry");
+                photoDamaged = model.getPhoto("sentryRed");
+                shape = new RectangleShape((int)x,(int)y,width,height);
                 break;
             case "JUGGERNAUT":
                 break;
@@ -57,25 +61,24 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
 
 
     public void update(){
-        if(innerTimer > 80){
-            color = Color.BLACK;
-        }
+
         move();
         behaviorUpdate();
         innerTimer += Model.DELAY;
-
+        loopTimer += Model.DELAY;
     }
 
     @Override
     public void whenCollided(Entity entity) {
-        switch(entity.getEntityTypeName()){
+        System.out.println("le collision");
+        switch (entity.getEntityTypeName()){
+            case "ball" :
+                health -= 100;
+                break;
             case "projectile":
-                color = Color.RED;
                 Projectile p = (Projectile) entity;
                 health -= p.damage;
-                if(health <=0) {
-                    //setAlive(false);
-                }
+
                 break;
             case "Enemy":
 
@@ -83,6 +86,8 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
                 break;
         }
 
+
+        innerTimer = 0;
     }
 
     @Override
@@ -103,8 +108,9 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
 
         if(!loopMode && Math.abs(fX - x) <= 2f && Math.abs(fY - y) <= 2f) { //home reached
             loopMode = true;
-            innerTimer = 4000; //soft reset the timer to control the loop easily
+            loopTimer = 4000; //soft reset the timer to control the loop easily
         }
+        shape.update(this);
 
     }
 
@@ -113,7 +119,7 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
             switch(name){
                 case "SENTRY":
 
-                    if(innerTimer % 2000 < 1000){
+                    if(loopTimer % 2000 < 1000){
                         speed[0] = - 1;
                         speed[1] = 0;
 
@@ -122,7 +128,7 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
                         speed[1] = 0;
                     }
 
-                    if(innerTimer % 800 == 0)
+                    if(loopTimer % 800 == 0)
                         fire();
                     break;
                 case "JUGGERNAUT":
@@ -138,15 +144,17 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
     @Override
     public void drawEntity(Graphics g){
         if (health>0){
-        g.setColor(this.color);
-        //g.fillRect((int)x,(int)y,width,height);
-        g.drawImage(photo,(int)x,(int)y,width,height,model.getView());
+            if(innerTimer > 80)
+                g.drawImage(photo,(int)x,(int)y,width,height,model.getView());
+            else
+                g.drawImage(photoDamaged,(int)x,(int)y,width,height,model.getView());
+            g.drawString(Integer.toString(health),(int)x + width/2,(int)y - 10);
         }
         else if (animationIndex<=maxAnimationIndex){
-            g.drawImage(model.getPhoto(Integer.toString(animationIndex)+"death"),(int)x,
-                    (int)y,
-                    width,
-                    height,model.getView());
+            g.drawImage(model.getPhoto(Integer.toString(animationIndex)+"death"),(int)x-width,
+                    (int)y-height,
+                    width*4,
+                    height*4,model.getView());
             animationIndex++;
         }
         else{

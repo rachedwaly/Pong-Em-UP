@@ -1,11 +1,12 @@
 package Entities;
 import Game.Model;
-import shape.CustomRectangle;
+import shape.CustomShape;
+import shape.RectangleShape;
 
 import java.awt.*;
 
 public class Projectile extends Entity {
-    public int damage = 1;
+    public int damage = 10;
     public boolean active = false;
     public float[] absSpeed;
 
@@ -15,10 +16,9 @@ public class Projectile extends Entity {
         this.x = 500;
         this.y = 1000;
         width = 5;
-        height = 20;
+        height = 5;
         color = Color.RED;
         absSpeed = speed;
-        disable();
 
     }
 
@@ -26,13 +26,13 @@ public class Projectile extends Entity {
     public void update() {
         move();
         if(y < 0 || 600 < y){
-            disable();
+            active = false;
         }
     }
 
     @Override
     public void whenCollided(Entity entity) {
-        disable();
+        active = false;
     }
 
     @Override
@@ -47,42 +47,30 @@ public class Projectile extends Entity {
         // dynamically, some ships might change direction
         speed[0] = absSpeed[0] * source.lookDirection[0];
         speed[1] = absSpeed[1] * source.lookDirection[1];
-        activate();
+        active = true;
+
     }
 
     public void move(){
         x = Math.max(-100,Math.min(500, x + speed[0])); //pas trop aller out of bounds
         y = Math.max(-100,Math.min(1000,y + speed[1]));
+        shape.update(this);
     }
 
     @Override
-    public CustomRectangle getBounds(){
-        if(speed[1] > 0)
-            return new CustomRectangle((int)x,(int)y,width,height);
+    public CustomShape getShape() {
+        if(active)
+            return shape;
         else
-            return new CustomRectangle((int)x,(int)y,width,height);
+            return new RectangleShape(0,0,0,0);
     }
-
-    /*public ArrayList<PhysicalBoundarie> getPhysicalBoundaries(){
-        PhysicalBoundarie square = new PhysicalBoundarie((int)x,(int)y,width,1,true);
-
-        ArrayList <PhysicalBoundarie> list=new ArrayList<>();
-        list.add(square);
-
-        return list;
-    }*/
 
     @Override
     public void drawEntity(Graphics g) {
-        g.setColor(this.color);
+        g.setColor(Color.RED);
         g.fillRect((int)x,(int)y,width,height);
-        g.setColor(Color.BLACK);
-        if(speed[1] > 0)
-            g.fillRect((int)x,(int)y + height*2/3,width,height/3);
-        else
-            g.fillRect((int)x,(int)y,width,height/3);
+        g.setColor(this.color);
 
     }
-
 
 }

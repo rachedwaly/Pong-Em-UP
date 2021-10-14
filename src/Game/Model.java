@@ -43,27 +43,14 @@ public class Model implements ActionListener, KeyListener {
 
     public ArrayList<Entity> physicalObjects = new ArrayList<>();
 
-
-
-    /*
-    private Enemy[] ennemies = {
-                                    new Enemy(Enemy.SENTRY,150,-50,150,200,this),
-                                    new Enemy(Enemy.SENTRY,150,-50,200,200,this),
-                                    new Enemy(Enemy.SENTRY,150,-50,50,100,this),
-                                    new Enemy(Enemy.SENTRY,150,-50,100,150,this),
-            new Enemy(Enemy.SENTRY,150,-50,250,350,this),
-            new Enemy(Enemy.SENTRY,150,-50,20,300,this),
-                                    //new Enemy(400,400,500,500)
-                                };
-    */
-
     //il faut qu'on genere les ennemis après loadphotos()
-    private ArrayList<Enemy> ennemies =new ArrayList<>();
+    private ArrayList<Enemy> ennemies = new ArrayList<>();
 
 
     public Model(PongEmUp pongEmUp) throws IOException {
         this.pongEmUp=pongEmUp;
         loadPhotos();
+
         generateEnemies();
         view = new PlayGround(this);
         VerticalWall wallRight = new VerticalWall(WIDTH - 10, 0, 10, HEIGHT,this);
@@ -107,8 +94,8 @@ public class Model implements ActionListener, KeyListener {
     }
 
     private void generateEnemies() {
-        ennemies.add(new Enemy(Enemy.SENTRY,150,-50,150,200,this));
-        ennemies.add(new Enemy(Enemy.SENTRY,150,-50,200,200,this));
+        ennemies.add(new Enemy(Enemy.SENTRY,100,0,150,200,this));
+        ennemies.add(new Enemy(Enemy.SENTRY,250,0,200,200,this));
     }
 
 
@@ -135,8 +122,8 @@ public class Model implements ActionListener, KeyListener {
     }
     private void update() {
         solveCollisions();
-        for (Entity e : physicalObjects) {
-            e.superUpdate();
+        for (int i = 0; i < physicalObjects.size(); i++) {
+            physicalObjects.get(i).update();
         }
         for (BackGroundObject backGroundObject:backgroundObjects){
             backGroundObject.update();
@@ -148,17 +135,18 @@ public class Model implements ActionListener, KeyListener {
     private void addDrawable(Entity e){
         drawables.add(e);
     }
-        public void solveCollisions(){
+
+    public void solveCollisions(){
         for(int i = 0; i < physicalObjects.size() - 1; i++){
             entityBuffer1 = physicalObjects.get(i);
-            if(entityBuffer1.isActive()){
-                for(int j = i + 1; j < physicalObjects.size(); j++){
-                    entityBuffer2 = physicalObjects.get(j);
-                    if( entityBuffer2.isActive() &&
-                            entityBuffer1.getBounds().intersects(entityBuffer2.getBounds())){//Order of collision
-                        physicalObjects.get(i).whenCollided(entityBuffer2);
-                        physicalObjects.get(j).whenCollided(entityBuffer1);
-                    }
+            for(int j = i + 1; j < physicalObjects.size(); j++){
+                entityBuffer2 = physicalObjects.get(j);
+                if(entityBuffer1.getShape().intersects(entityBuffer2.getShape())){//Order of collision
+                    entityBuffer1.debugLog();
+                    System.out.println("with");
+                    entityBuffer2.debugLog();
+                    physicalObjects.get(i).whenCollided(entityBuffer2);
+                    physicalObjects.get(j).whenCollided(entityBuffer1);
                 }
             }
         }
@@ -212,10 +200,10 @@ public class Model implements ActionListener, KeyListener {
         allImages.put("9death",(Image) ph12);
         BufferedImage ph13= ImageIO.read(new File("Resources/sentry.png"));
         allImages.put("sentry",(Image) ph13);
+        BufferedImage ph13r = ImageIO.read(new File("Resources/sentryDamaged.png"));
+        allImages.put("sentryRed",(Image) ph13r);
         BufferedImage ph14= ImageIO.read(new File("Resources/plane.png"));
         allImages.put("plane",(Image) ph14);
-        BufferedImage ph15= ImageIO.read(new File("Resources/gameover.png"));
-        allImages.put("gameover",(Image) ph15);
 
 
 
@@ -268,12 +256,14 @@ public class Model implements ActionListener, KeyListener {
         physicalObjects.remove(shooter);
         drawables.remove(shooter);
         spawnBonus(shooter.getX(),shooter.getY());
-        shooter=null;
+        shooter = null;
     }
 
     //this method is called when a bonus is deleted
     public void removeEntity(Bonus bonus){
-        bonus.setActive(false);
+        physicalObjects.remove(bonus);
+        drawables.remove(bonus);
+        bonus = null;
     }
 
     private void spawnBonus(float x, float y) {

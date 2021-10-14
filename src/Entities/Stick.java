@@ -1,9 +1,7 @@
 package Entities;
-import shape.CustomRectangle;
 import Game.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -38,45 +36,48 @@ public class Stick extends Shooter{
 
     @Override
     public void update() {
-        move();
         if(innerTimer > 80){
             color = Color.BLACK;
         }
 
         innerTimer += Model.DELAY;
+        move();
 
     }
 
     @Override
     public void whenCollided(Entity entity) {
-        color = Color.RED;
+
         switch (entity.getEntityTypeName()) {
             case "projectile":
+                color = Color.RED;
                 if (!Model.DEBUGMODE) {
                     Projectile p = (Projectile) entity;
                     health -= p.damage;
-                    if (health <= 0) {
-                        width = 0;
-                        //play destruction animation;
-                        System.out.println("Lost !");
-                        model.stopTheGame();
-                    } else {
-                        offsetX += (int) (p.damage / (float) maxHealth * BASE_WIDTH / 4);
-                        width = BASE_WIDTH / 2 + (int) ((health / (float) maxHealth) * BASE_WIDTH / 2);
-                    }
+                    offsetX += (int) (p.damage / (float) maxHealth * BASE_WIDTH / 4);
+                    width = BASE_WIDTH / 2 + (int) ((health / (float) maxHealth) * BASE_WIDTH / 2);
+
                 }
 
-                    //100 hp - 20 dgt : 80
-                    //on bouge de 10 hp vers la droite, on perd 20 hp
-
-                    break;
-                    case "Enemy":
-
-                    default:
-                        break;
-                }
-                innerTimer = 0;
+                break;
+            case "enemy":
+                break;
+            default :
+                break;
         }
+        if(health <=0){
+            model.removeEntity(this);
+            //play destruction animation;
+            model.stopTheGame();
+            System.out.println("Lost !");
+        }
+        innerTimer = 0;
+    }
+
+    @Override
+    public void drawDestructionAnimation() {
+
+    }
 
     @Override
     public String getEntityTypeName() {
@@ -98,7 +99,7 @@ public class Stick extends Shooter{
         else{
             this.y=max(this.y+dy,HEIGHT*3f/4);
         }
-
+        shape.update(this);
 
     }
 
@@ -183,8 +184,4 @@ public class Stick extends Shooter{
                         (int)y + height + 5,(int)(BASE_WIDTH * (maxHealth - health)/(float)maxHealth),5);
     }
 
-    @Override
-    public CustomRectangle getBounds(){
-        return new CustomRectangle((int)x,(int)y,width,height);
-    }
 }
