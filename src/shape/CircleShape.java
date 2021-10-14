@@ -81,11 +81,14 @@ public class CircleShape extends CustomShape{
             normalHit[0] = - p1[1] + p2[1]; //-b
             normalHit[1] = p1[0] - p2[0]; //a
             //TODO : gerer les cas ou l'objet va vers la balle
-            if(dot(new float[]{(float)x - poly.getCenter()[0],(float)y - poly.getCenter()[1]},normalHit) <= 0){
-                //if normal is not pointing opposite of Poly -> circle vector, then we want the opposite normal
+            /*if(dot(new float[]{(float)x - poly.getCenter()[0],(float)y - poly.getCenter()[1]},normalHit) <= 0){
+
+            }*/
+            if(dot(p1,poly.getCenter()) < 0){
+                //making sure we get the outward normal
                 normalHit[0] = -normalHit[0];
                 normalHit[1] = -normalHit[1];
-            }
+            };
             return true;
         }
         return pointInCircle(p1) || pointInCircle(p2);
