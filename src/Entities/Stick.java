@@ -15,6 +15,10 @@ public class Stick extends Shooter{
     protected float dx,dy;
     private int score;
 
+
+
+    private int lives =3;
+
     public Stick(int x, int y,Model model){
         super(x,y,model);
 
@@ -70,16 +74,42 @@ public class Stick extends Shooter{
                 break;
         }
         if(health <=0){
-            //TODO: implement lives system
-            //model.removeEntity(this);
+            if (lives==0){
             //play destruction animation;
             model.stopTheGame();
             System.out.println("Lost !");
+            }
+            else {
+
+                lives-=1;
+            }
         }
         innerTimer = 0;
     }
 
-
+    @Override
+    public void startDestructionSequence(Graphics g) {
+        if (lives > 0){
+            if (animationIndex <= maxAnimationIndex){
+                g.drawImage(model.getPhoto(Integer.toString(animationIndex)+"death"),
+                        (int)x-BASE_WIDTH,
+                        (int)y-height*4,
+                        BASE_WIDTH*4,
+                        height*8,model.getView());
+                animationIndex++;
+            }
+            else{
+                resetStick();
+            }
+        }else{
+            //dessiner une image de destruction intermédiaire
+            g.drawImage(model.getPhoto(Integer.toString(5)+"death"),(int)x-BASE_WIDTH,
+                    (int)y-height*4,
+                    BASE_WIDTH*4,
+                    height*8,model.getView());
+            model.stopTheGame();
+        }
+    }
 
     @Override
     public String getEntityTypeName() {
@@ -175,8 +205,7 @@ public class Stick extends Shooter{
     }
     @Override
     public void drawEntity(Graphics g){
-
-
+        if (health>0){
         g.setColor(this.color);
         g.fillRect((int)x,(int)y,width,height);
         g.setColor(healthColor);
@@ -185,6 +214,30 @@ public class Stick extends Shooter{
         g.fillRect(     (int)(x - offsetX) + (int)(BASE_WIDTH * health/(float)maxHealth),
                         (int)y + height + 5,
                 (int)(BASE_WIDTH * (maxHealth - health)/(float)maxHealth),5);
+        }
+        else {
+            startDestructionSequence(g);
+
+        }
+
     }
+
+    private void resetStick() {
+        offsetX=0;
+        width=BASE_WIDTH;
+        health=maxHealth;
+        animationIndex=1;
+    }
+
+    public int getLives() {
+        return lives;
+    }
+
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
+
+
+
 
 }

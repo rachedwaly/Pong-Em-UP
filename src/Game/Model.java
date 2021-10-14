@@ -142,6 +142,9 @@ public class Model implements ActionListener, KeyListener {
             for(int j = i + 1; j < physicalObjects.size(); j++){
                 entityBuffer2 = physicalObjects.get(j);
                 if(entityBuffer1.getShape().intersects(entityBuffer2.getShape())){//Order of collision
+                    //entityBuffer1.debugLog();
+                    //System.out.println("with");
+                    //entityBuffer2.debugLog();
                     physicalObjects.get(i).whenCollided(entityBuffer2);
                     physicalObjects.get(j).whenCollided(entityBuffer1);
                 }
@@ -152,8 +155,8 @@ public class Model implements ActionListener, KeyListener {
         return view;
     }
 
-    public int getPlayerHealth(){
-        return s1.getHealth();
+    public int getPlayerSpawnLeft(){
+        return s1.getLives();
     }
     public int getPlayerScore(){
         return s1.getScore();
@@ -203,7 +206,8 @@ public class Model implements ActionListener, KeyListener {
         allImages.put("plane",(Image) ph14);
         BufferedImage ph15= ImageIO.read(new File("Resources/gameover.png"));
         allImages.put("gameover",(Image) ph15);
-
+        BufferedImage ph16= ImageIO.read(new File("Resources/shield.png"));
+        allImages.put("shield",(Image) ph16);
 
 
 
@@ -251,12 +255,13 @@ public class Model implements ActionListener, KeyListener {
     }
 
     //this method is called whenever an entity is dead
-    public void removeEntity(Shooter shooter){
-        ennemies.remove(shooter);
-        physicalObjects.remove(shooter);
-        drawables.remove(shooter);
-        spawnBonus(shooter.getX(),shooter.getY());
-        shooter = null;
+    public void removeEntity(Enemy enemy){
+        ennemies.remove(enemy);
+        physicalObjects.remove(enemy);
+        drawables.remove(enemy);
+        spawnBonus(enemy.getX(), enemy.getY());
+
+        enemy = null;
     }
 
     //this method is called when a bonus is deleted
@@ -300,9 +305,9 @@ public class Model implements ActionListener, KeyListener {
 
 
     public void stopTheGame(){
-        timer.stop();
         setPlaying(false);
-        view.update();
+        timer.stop();
+
         //TODO add retry button on the left side of the frame
         pongEmUp.gameOver();
     }
