@@ -94,8 +94,8 @@ public class Model implements ActionListener, KeyListener {
     }
 
     private void generateEnemies() {
-        ennemies.add(new Enemy(Enemy.SENTRY,100,0,150,200,this));
-        ennemies.add(new Enemy(Enemy.SENTRY,250,0,200,200,this));
+        ennemies.add(new Enemy(Enemy.SENTRY,100,0,100,200,this));
+        ennemies.add(new Enemy(Enemy.SENTRY,250,0,250,200,this));
     }
 
 
@@ -142,9 +142,6 @@ public class Model implements ActionListener, KeyListener {
             for(int j = i + 1; j < physicalObjects.size(); j++){
                 entityBuffer2 = physicalObjects.get(j);
                 if(entityBuffer1.getShape().intersects(entityBuffer2.getShape())){//Order of collision
-                    entityBuffer1.debugLog();
-                    System.out.println("with");
-                    entityBuffer2.debugLog();
                     physicalObjects.get(i).whenCollided(entityBuffer2);
                     physicalObjects.get(j).whenCollided(entityBuffer1);
                 }
@@ -301,9 +298,8 @@ public class Model implements ActionListener, KeyListener {
 
     public void stopTheGame(){
         setPlaying(false);
-        this.update();
-        view.update();
         timer.stop();
+
         //TODO add retry button on the left side of the frame
         pongEmUp.gameOver();
     }

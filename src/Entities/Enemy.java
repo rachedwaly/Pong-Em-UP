@@ -30,7 +30,6 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
         else
             speed[1] = 0;
 
-
     }
 
     public Enemy(String name, int x0, int y0 , int fX, int fY,Model model){
@@ -39,7 +38,7 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
             case "SENTRY":
                 width = 40;
                 height = 40;
-                health = 20;
+                health = 2;
                 speed[0] *= 2;
                 speed[1] *= 2;
 
@@ -51,6 +50,7 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
                 this.name = name;
                 this.photo=model.getPhoto("sentry");
                 photoDamaged = model.getPhoto("sentryRed");
+
                 shape = new RectangleShape((int)x,(int)y,width,height);
                 break;
             case "JUGGERNAUT":
@@ -72,27 +72,26 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
 
     @Override
     public void whenCollided(Entity entity) {
-        System.out.println("le collision");
         switch (entity.getEntityTypeName()){
             case "ball" :
-                health -= 100;
+                health -= 10;
+                innerTimer = 0;
+
                 break;
             case "projectile":
                 Projectile p = (Projectile) entity;
                 health -= p.damage;
-
-                break;
-            case "Enemy":
+                innerTimer = 0;
                 break;
             default :
                 break;
         }
         if(health <=0){
-            drawDestructionAnimation();
-            model.removeEntity(this);
+            //drawDestructionAnimation();
+            //model.removeEntity(this);
 
         }
-        innerTimer = 0;
+
     }
 
     @Override
@@ -115,7 +114,6 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
             loopTimer = 4000; //soft reset the timer to control the loop easily
         }
         shape.update(this);
-
     }
 
     public void behaviorUpdate(){
@@ -154,16 +152,6 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
         else
             g.drawImage(photoDamaged,(int)x,(int)y,width,height,model.getView());
         g.drawString(Integer.toString(health),(int)x + width/2,(int)y - 10);
-        /*if (animationIndex<=5){
-            g.drawImage(model.getPhoto(Integer.toString(animationIndex)+"death"),(int)x-width,
-                    (int)y-height,
-                    width*4,
-                    height*4,model.getView());
-            animationIndex++;
-        }
-        else{
-            model.removeEntity(this);
-        }*/
 
     }
 

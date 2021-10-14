@@ -30,6 +30,8 @@ public abstract class CustomShape{
 
     public abstract boolean intersects(CircleShape cs);
 
+    public abstract float[] getCenter();
+
     public static float dot(float[] a, float[] b){
 
         return a[0] * b[0] + a[1] * b[1];
@@ -45,6 +47,9 @@ public abstract class CustomShape{
 
     public static float[] normalize(float[] v){
         float distance = distance(v);
+        if(distance == 0){
+            return new float[]{0,0};
+        }
         return new float[]{v[0] / distance,v[1] / distance};
     }
 

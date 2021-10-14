@@ -13,6 +13,7 @@ public class Stick extends Shooter{
     static int BASE_WIDTH = 50;
     public float offsetX;
     protected float dx,dy;
+    protected int lives;
     private int score;
 
     public Stick(int x, int y,Model model){
@@ -20,6 +21,7 @@ public class Stick extends Shooter{
 
         name = "Stick";
         canShoot = true;
+        lives = 3;
         maxHealth = 5;
         health = maxHealth;
         healthColor = Color.GREEN;
@@ -27,7 +29,7 @@ public class Stick extends Shooter{
 
         offsetX = 0;
         this.width = BASE_WIDTH;
-        this.height = 10;
+        this.height = 15;
 
         lookDirection = new int[]{0,-1};
         for(int i = 0; i < projectiles.length; i++)
@@ -61,16 +63,23 @@ public class Stick extends Shooter{
 
                 break;
             case "enemy":
+                health = 0;
+                break;
+            case "ball":
+                //TODO : play bong effect
                 break;
             default :
                 break;
         }
         if(health <=0){
+            //TODO: implement lives system
             model.removeEntity(this);
             //play destruction animation;
             model.stopTheGame();
             System.out.println("Lost !");
+
         }
+
         innerTimer = 0;
     }
 

@@ -1,13 +1,18 @@
 package shape;
 
 import Entities.*;
+import org.w3c.dom.css.Rect;
+
+import java.util.Vector;
 
 public class CircleShape extends CustomShape{
     //here x,y is center of the circle
     public int radius;
+    private float[] normalHit; //Ball only attribute
     public CircleShape(int x, int y, int radius){
         super(x,y);
         this.radius = radius;
+        normalHit = new float[]{0,0};
     }
 
     @Override
@@ -34,10 +39,10 @@ public class CircleShape extends CustomShape{
             float[] topright = new float[]{rect.x + rect.width, rect.y};
             float[] botleft = new float[]{rect.x, rect.y + rect.height};
             float[] botright = new float[]{rect.x + rect.width, rect.y + rect.height};
-            return  segmentInCircle(topleft,topright) ||
-                    segmentInCircle(topright,botright)||
-                    segmentInCircle(botright,botleft)||
-                    segmentInCircle(botleft,topleft);
+            return  segmentInCircle(topleft,topright,rect) ||
+                    segmentInCircle(topright,botright,rect)||
+                    segmentInCircle(botright,botleft,rect)||
+                    segmentInCircle(botleft,topleft,rect);
         }
 
     }
@@ -52,7 +57,7 @@ public class CircleShape extends CustomShape{
      * @param p2
      * @return
      */
-    public boolean segmentInCircle(float[] p1, float[] p2){
+    public boolean segmentInCircle(float[] p1, float[] p2, CustomShape poly){
         float[] center = new float[]{x,y};
         float[] projection;
 
@@ -73,7 +78,14 @@ public class CircleShape extends CustomShape{
         if(Math.min(p1[0],p2[0]) <= projection[0] && projection[0] <= Math.max(p1[0],p2[0]) &&
            Math.min(p1[1],p2[1]) <= projection[1] && projection[1] <= Math.max(p1[1],p2[1]) &&
                 pointInCircle(projection)){
-
+            normalHit[0] = - p1[1] + p2[1]; //-b
+            normalHit[1] = p1[0] - p2[0]; //a
+            //TODO : gerer les cas ou l'objet va vers la balle
+            if(dot(new float[]{(float)x - poly.getCenter()[0],(float)y - poly.getCenter()[1]},normalHit) <= 0){
+                //if normal is not pointing opposite of Poly -> circle vector, then we want the opposite normal
+                normalHit[0] = -normalHit[0];
+                normalHit[1] = -normalHit[1];
+            }
             return true;
         }
         return pointInCircle(p1) || pointInCircle(p2);
@@ -82,8 +94,17 @@ public class CircleShape extends CustomShape{
 
     public boolean intersects(CircleShape cs){
         double distance = Math.sqrt(Math.pow(this.x - cs.x,2) + Math.pow(this.y - cs.y,2));
+        normalHit[0] = x - cs.x;
+        normalHit[1] = y - cs.y;
         return distance <= this.radius + cs.radius;
     }
 
+    public float[] getCenter(){
+        return new float[]{x,y};
+    }
+
+    public float[] getNormalHit(){
+        return normalHit;
+    }
 
 }
