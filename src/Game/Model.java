@@ -156,7 +156,7 @@ public class Model implements ActionListener, KeyListener {
     }
 
     public int getPlayerSpawnLeft(){
-        return s1.getSpawnLeft();
+        return s1.getLives();
     }
     public int getPlayerScore(){
         return s1.getScore();

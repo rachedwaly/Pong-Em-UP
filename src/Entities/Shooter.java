@@ -37,5 +37,4 @@ public abstract class Shooter extends Entity{
     public abstract void startDestructionSequence(Graphics g);
 
 
-
 }

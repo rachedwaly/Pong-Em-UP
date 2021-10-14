@@ -17,7 +17,7 @@ public class Stick extends Shooter{
 
 
 
-    private int spawnLeft=3;
+    private int lives =3;
 
     public Stick(int x, int y,Model model){
         super(x,y,model);
@@ -31,7 +31,7 @@ public class Stick extends Shooter{
 
         offsetX = 0;
         this.width = BASE_WIDTH;
-        this.height = 15;
+        this.height = 10;
 
         lookDirection = new int[]{0,-1};
         for(int i = 0; i < projectiles.length; i++)
@@ -74,14 +74,14 @@ public class Stick extends Shooter{
                 break;
         }
         if(health <=0){
-            if (spawnLeft==0){
+            if (lives==0){
             //play destruction animation;
             model.stopTheGame();
             System.out.println("Lost !");
             }
             else {
 
-                spawnLeft-=1;
+                lives-=1;
             }
         }
         innerTimer = 0;
@@ -89,7 +89,7 @@ public class Stick extends Shooter{
 
     @Override
     public void startDestructionSequence(Graphics g) {
-        if (spawnLeft > 0){
+        if (lives > 0){
             if (animationIndex <= maxAnimationIndex){
                 g.drawImage(model.getPhoto(Integer.toString(animationIndex)+"death"),
                         (int)x-BASE_WIDTH,
@@ -229,12 +229,12 @@ public class Stick extends Shooter{
         animationIndex=1;
     }
 
-    public int getSpawnLeft() {
-        return spawnLeft;
+    public int getLives() {
+        return lives;
     }
 
-    public void setSpawnLeft(int spawnLeft) {
-        this.spawnLeft = spawnLeft;
+    public void setLives(int lives) {
+        this.lives = lives;
     }
 
 
