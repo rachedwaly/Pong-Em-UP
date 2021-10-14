@@ -91,6 +91,20 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
     }
 
     @Override
+    public void startDestructionSequence(Graphics g) {
+        if (animationIndex<=maxAnimationIndex){
+            g.drawImage(model.getPhoto(Integer.toString(animationIndex)+"death"),(int)x-width,
+                    (int)y-height,
+                    width*4,
+                    height*4,model.getView());
+            animationIndex++;
+        }
+        else{
+            model.removeEntity(this);
+        }
+    }
+
+    @Override
     public String getEntityTypeName() {
         return "enemy";
     }
@@ -145,16 +159,7 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
             g.setColor(color);
             g.drawString(Integer.toString(health),(int)x + width/2,(int)y - 10);
         }
-        else if (animationIndex<=maxAnimationIndex){
-            g.drawImage(model.getPhoto(Integer.toString(animationIndex)+"death"),(int)x-width,
-                    (int)y-height,
-                    width*4,
-                    height*4,model.getView());
-            animationIndex++;
-        }
-        else{
-            model.removeEntity(this);
-        }
+        else startDestructionSequence(g);
 
 
     }
