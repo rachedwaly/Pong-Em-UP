@@ -34,4 +34,7 @@ public class RectangleShape extends CustomShape {
         return cs.intersects(this);
     }
 
+    public float[] getCenter(){
+        return new float[]{x + width/2,y + height/2};
+    }
 }

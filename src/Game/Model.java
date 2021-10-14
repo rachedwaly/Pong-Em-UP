@@ -94,8 +94,8 @@ public class Model implements ActionListener, KeyListener {
     }
 
     private void generateEnemies() {
-        ennemies.add(new Enemy(Enemy.SENTRY,100,0,150,200,this));
-        ennemies.add(new Enemy(Enemy.SENTRY,250,0,200,200,this));
+        ennemies.add(new Enemy(Enemy.SENTRY,100,0,100,200,this));
+        ennemies.add(new Enemy(Enemy.SENTRY,250,0,250,200,this));
     }
 
 
@@ -131,8 +131,6 @@ public class Model implements ActionListener, KeyListener {
 
 
     }
-
-
 
     private void addDrawable(Entity e){
         drawables.add(e);
@@ -273,10 +271,8 @@ public class Model implements ActionListener, KeyListener {
         bonus = null;
     }
 
-
-
     private void spawnBonus(float x, float y) {
-        // int gen=random.nextInt(3);
+        //int gen=random.nextInt(2);
         int gen=0;
         switch (gen){
             case 0:{
@@ -288,7 +284,6 @@ public class Model implements ActionListener, KeyListener {
             case 1:{
 
             }
-
 
         }
 

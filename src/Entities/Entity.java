@@ -23,7 +23,6 @@ public abstract class Entity {
     public Color color;
     protected String name;
 
-    private boolean active = true;
     protected int innerTimer;
 
     public Entity(Model model){
@@ -45,7 +44,7 @@ public abstract class Entity {
         this.model = model;
         color = Color.BLACK;
 
-        innerTimer = 80; //0 -> 80 is reserved for blinking animations
+        innerTimer = 81; //0 -> 80 is reserved for blinking animations
         shape = new RectangleShape(x,y,w,h);
     }
 
@@ -89,26 +88,6 @@ public abstract class Entity {
     public CustomShape getShape(){
         return shape;
     };
-
-    /***
-     * Defines the sides of an entity for the ball to rebound correctly when colliding with an object
-     * @return
-     */
-    public float[] getNormalHit(Entity e){
-        float[] center = new float[]{e.x + e.width/2f, e.y + e.height/2f};
-        if(center[0] - x < center[1] - y) {//hit vertical wall
-            if(center[0] - x < 0)//Left
-                return new float[]{-1,0};
-            else
-                return new float[]{1,0};
-
-        }else{//Horizontal
-            if(center[1] - y < 0)//Up
-                return new float[]{0,-1};
-            else
-                return new float[]{0,1};
-        }
-    }
 
     /***
      * Entity's paint method

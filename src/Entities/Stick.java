@@ -24,14 +24,14 @@ public class Stick extends Shooter{
 
         name = "Stick";
         canShoot = true;
-        maxHealth = 20;
+        maxHealth = 5;
         health = maxHealth;
         healthColor = Color.GREEN;
         damageColor = Color.RED;
 
         offsetX = 0;
         this.width = BASE_WIDTH;
-        this.height = 10;
+        this.height = 15;
 
         lookDirection = new int[]{0,-1};
         for(int i = 0; i < projectiles.length; i++)
@@ -65,6 +65,10 @@ public class Stick extends Shooter{
 
                 break;
             case "enemy":
+                health = 0;
+                break;
+            case "ball":
+                //TODO : play bong effect
                 break;
             default :
                 break;
@@ -106,7 +110,6 @@ public class Stick extends Shooter{
             model.stopTheGame();
         }
     }
-
 
     @Override
     public String getEntityTypeName() {

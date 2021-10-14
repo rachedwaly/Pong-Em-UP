@@ -6,7 +6,7 @@ import shape.RectangleShape;
 import java.awt.*;
 
 public class Projectile extends Entity {
-    public int damage = 20;
+    public int damage = 1;
     public boolean active = false;
     public float[] absSpeed;
 
@@ -32,6 +32,8 @@ public class Projectile extends Entity {
 
     @Override
     public void whenCollided(Entity entity) {
+        x = 500;
+        y = 1000;
         active = false;
     }
 
@@ -67,9 +69,12 @@ public class Projectile extends Entity {
 
     @Override
     public void drawEntity(Graphics g) {
-        g.setColor(Color.RED);
-        g.fillRect((int)x,(int)y,width,height);
-        g.setColor(this.color);
+        if(active){
+            g.setColor(Color.RED);
+            g.fillRect((int)x,(int)y,width,height);
+            g.setColor(this.color);
+        }
+
 
     }
 

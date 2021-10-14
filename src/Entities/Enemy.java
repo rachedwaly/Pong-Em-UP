@@ -1,10 +1,9 @@
 package Entities;
 import Game.*;
-import shape.RectangleShape;
 
 import java.awt.*;
 
-public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
+public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
     public int fX,fY; //pos "finale" de l'objet, ou sa loop de comportement commence
     protected boolean loopMode = false; //false : se deplace vers (fX,fY) || true : effectue sa loop de behavior
     public static final String SENTRY = "SENTRY";
@@ -37,13 +36,16 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
         switch(name){
             case "SENTRY":
                 width = 40;
-                height =40;
+                height = 40;
+                health = 20;
                 speed[0] *= 2;
                 speed[1] *= 2;
-                health=1;
+
                 for(int i = 0; i < projectiles.length; i++)
                     projectiles[i] = new Projectile(5,20,10,new float[]{2f,2f},model);
+
                 color = Color.BLUE;
+
                 this.name = name;
                 this.photo=model.getPhoto("sentry");
                 photoDamaged = model.getPhoto("sentryRed");
@@ -79,7 +81,7 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
 
                 break;
             case "Enemy":
-
+                break;
             default :
                 break;
         }
@@ -100,6 +102,7 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
         else{
             model.removeEntity(this);
         }
+        innerTimer = 0;
     }
 
     @Override
@@ -167,7 +170,5 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
 
 
     }
-
-
 
 }
