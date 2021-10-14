@@ -15,12 +15,16 @@ public class Stick extends Shooter{
     protected float dx,dy;
     private int score;
 
+
+
+    private int spawnLeft=3;
+
     public Stick(int x, int y,Model model){
         super(x,y,model);
 
         name = "Stick";
         canShoot = true;
-        maxHealth = 5;
+        maxHealth = 20;
         health = maxHealth;
         healthColor = Color.GREEN;
         damageColor = Color.RED;
@@ -66,14 +70,42 @@ public class Stick extends Shooter{
                 break;
         }
         if(health <=0){
-            //model.removeEntity(this);
+            if (spawnLeft==0){
             //play destruction animation;
             model.stopTheGame();
             System.out.println("Lost !");
+            }
+            else {
+
+                spawnLeft-=1;
+            }
         }
         innerTimer = 0;
     }
 
+    @Override
+    public void startDestructionSequence(Graphics g) {
+        if (spawnLeft > 0){
+            if (animationIndex <= maxAnimationIndex){
+                g.drawImage(model.getPhoto(Integer.toString(animationIndex)+"death"),
+                        (int)x-BASE_WIDTH,
+                        (int)y-height*4,
+                        BASE_WIDTH*4,
+                        height*8,model.getView());
+                animationIndex++;
+            }
+            else{
+                resetStick();
+            }
+        }else{
+            //dessiner une image de destruction intermédiaire
+            g.drawImage(model.getPhoto(Integer.toString(5)+"death"),(int)x-BASE_WIDTH,
+                    (int)y-height*4,
+                    BASE_WIDTH*4,
+                    height*8,model.getView());
+            model.stopTheGame();
+        }
+    }
 
 
     @Override
@@ -170,6 +202,7 @@ public class Stick extends Shooter{
     }
     @Override
     public void drawEntity(Graphics g){
+        if (health>0){
         g.setColor(this.color);
         g.fillRect((int)x,(int)y,width,height);
         g.setColor(healthColor);
@@ -178,6 +211,27 @@ public class Stick extends Shooter{
         g.fillRect(     (int)(x - offsetX) + (int)(BASE_WIDTH * health/(float)maxHealth),
                         (int)y + height + 5,
                 (int)(BASE_WIDTH * (maxHealth - health)/(float)maxHealth),5);
+        }
+        else {
+            startDestructionSequence(g);
+
+        }
+
+    }
+
+    private void resetStick() {
+        offsetX=0;
+        width=BASE_WIDTH;
+        health=maxHealth;
+        animationIndex=1;
+    }
+
+    public int getSpawnLeft() {
+        return spawnLeft;
+    }
+
+    public void setSpawnLeft(int spawnLeft) {
+        this.spawnLeft = spawnLeft;
     }
 
 

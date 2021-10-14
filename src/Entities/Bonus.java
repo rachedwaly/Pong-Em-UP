@@ -13,8 +13,8 @@ public class Bonus extends Entity {
         this.name=name;
         this.x=x;
         this.y=y;
-        this.width=10;
-        this.height=10;
+        this.width=40;
+        this.height=40;
         this.speed[0]=0;
         this.speed[1]=2;
         this.model=model;
@@ -52,6 +52,6 @@ public class Bonus extends Entity {
     @Override
     public void drawEntity(Graphics g) {
         g.setColor(color);
-        g.fillRect((int)x,(int)y,width,height);
+        g.drawImage(model.getPhoto("shield"),(int)x,(int)y,width,height,model.getView());
     }
 }

@@ -4,8 +4,6 @@ import Game.Model;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 public class StatusBar extends JPanel {
@@ -24,7 +22,7 @@ public class StatusBar extends JPanel {
         super.paintComponent(g);
         g.drawImage(model.getPhoto("health"),10,10,29,30,this);
         g.setFont(new Font("Purisa", Font.BOLD, 13));
-        g.drawString("X "+model.getPlayerHealth(),45,30);
+        g.drawString("X "+model.getPlayerSpawnLeft(),45,30);
         g.drawString("Score: "+model.getPlayerScore(),100,30);
     }
 

@@ -1,10 +1,8 @@
 package Entities;
-import Entities.Shooter;
 import Game.*;
 import shape.RectangleShape;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
     public int fX,fY; //pos "finale" de l'objet, ou sa loop de comportement commence
@@ -73,7 +71,7 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
         System.out.println("le collision");
         switch (entity.getEntityTypeName()){
             case "ball" :
-                health -= 100;
+                //health -= 100;
                 break;
             case "projectile":
                 Projectile p = (Projectile) entity;
@@ -88,6 +86,20 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
 
 
         innerTimer = 0;
+    }
+
+    @Override
+    public void startDestructionSequence(Graphics g) {
+        if (animationIndex<=maxAnimationIndex){
+            g.drawImage(model.getPhoto(Integer.toString(animationIndex)+"death"),(int)x-width,
+                    (int)y-height,
+                    width*4,
+                    height*4,model.getView());
+            animationIndex++;
+        }
+        else{
+            model.removeEntity(this);
+        }
     }
 
     @Override
@@ -144,22 +156,14 @@ public class Enemy extends Shooter { //Eventuellement transformer en LineEnemy
     @Override
     public void drawEntity(Graphics g){
         if (health>0){
-            if(innerTimer > 80)
-                g.drawImage(photo,(int)x,(int)y,width,height,model.getView());
+            if(innerTimer > 80) {
+                g.drawImage(photo, (int) x, (int) y, width, height, model.getView());
+            }
             else
                 g.drawImage(photoDamaged,(int)x,(int)y,width,height,model.getView());
             g.drawString(Integer.toString(health),(int)x + width/2,(int)y - 10);
         }
-        else if (animationIndex<=maxAnimationIndex){
-            g.drawImage(model.getPhoto(Integer.toString(animationIndex)+"death"),(int)x-width,
-                    (int)y-height,
-                    width*4,
-                    height*4,model.getView());
-            animationIndex++;
-        }
-        else{
-            model.removeEntity(this);
-        }
+        else startDestructionSequence(g);
 
 
     }

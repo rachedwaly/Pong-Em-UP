@@ -6,7 +6,7 @@ import shape.RectangleShape;
 import java.awt.*;
 
 public class Projectile extends Entity {
-    public int damage = 10;
+    public int damage = 20;
     public boolean active = false;
     public float[] absSpeed;
 

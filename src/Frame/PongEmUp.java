@@ -157,8 +157,8 @@ public class PongEmUp extends JFrame {
 
     public void gameOver(){
         buttonsPanel.addRetryButton();
-        revalidate();
-        repaint();
+        buttonsPanel.revalidate();
+        buttonsPanel.repaint();
     }
 
 
