@@ -66,7 +66,7 @@ public class Stick extends Shooter{
                 break;
         }
         if(health <=0){
-            model.removeEntity(this);
+            //model.removeEntity(this);
             //play destruction animation;
             model.stopTheGame();
             System.out.println("Lost !");
@@ -170,15 +170,17 @@ public class Stick extends Shooter{
     }
     @Override
     public void drawEntity(Graphics g){
-
-
         g.setColor(this.color);
         g.fillRect((int)x,(int)y,width,height);
         g.setColor(healthColor);
         g.fillRect((int)(x - offsetX),(int)y + height + 5,(int)(BASE_WIDTH * health/(float)maxHealth),5);
         g.setColor(damageColor);
         g.fillRect(     (int)(x - offsetX) + (int)(BASE_WIDTH * health/(float)maxHealth),
-                        (int)y + height + 5,(int)(BASE_WIDTH * (maxHealth - health)/(float)maxHealth),5);
+                        (int)y + height + 5,
+                (int)(BASE_WIDTH * (maxHealth - health)/(float)maxHealth),5);
     }
+
+
+
 
 }

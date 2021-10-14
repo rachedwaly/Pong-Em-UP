@@ -132,6 +132,8 @@ public class Model implements ActionListener, KeyListener {
 
     }
 
+
+
     private void addDrawable(Entity e){
         drawables.add(e);
     }
@@ -142,9 +144,9 @@ public class Model implements ActionListener, KeyListener {
             for(int j = i + 1; j < physicalObjects.size(); j++){
                 entityBuffer2 = physicalObjects.get(j);
                 if(entityBuffer1.getShape().intersects(entityBuffer2.getShape())){//Order of collision
-                    entityBuffer1.debugLog();
-                    System.out.println("with");
-                    entityBuffer2.debugLog();
+                    //entityBuffer1.debugLog();
+                    //System.out.println("with");
+                    //entityBuffer2.debugLog();
                     physicalObjects.get(i).whenCollided(entityBuffer2);
                     physicalObjects.get(j).whenCollided(entityBuffer1);
                 }
@@ -204,6 +206,9 @@ public class Model implements ActionListener, KeyListener {
         allImages.put("sentryRed",(Image) ph13r);
         BufferedImage ph14= ImageIO.read(new File("Resources/plane.png"));
         allImages.put("plane",(Image) ph14);
+        BufferedImage ph15= ImageIO.read(new File("Resources/gameover.png"));
+        allImages.put("gameover",(Image) ph15);
+
 
 
 
@@ -300,10 +305,9 @@ public class Model implements ActionListener, KeyListener {
 
 
     public void stopTheGame(){
-        setPlaying(false);
-        this.update();
-        view.update();
         timer.stop();
+        setPlaying(false);
+        view.update();
         //TODO add retry button on the left side of the frame
         pongEmUp.gameOver();
     }
