@@ -142,6 +142,7 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
                 g.drawImage(photo,(int)x,(int)y,width,height,model.getView());
             else
                 g.drawImage(photoDamaged,(int)x,(int)y,width,height,model.getView());
+            g.setColor(color);
             g.drawString(Integer.toString(health),(int)x + width/2,(int)y - 10);
         }
         else if (animationIndex<=maxAnimationIndex){
