@@ -9,6 +9,8 @@ import java.util.Random;
 public abstract class Entity {
     public Model model;
     protected float x,y;
+
+
     protected int width,height;
     public static final int HEIGHT= Model.HEIGHT; //height of the game
     public static final int WIDTH= Model.WIDTH; //width of the game
@@ -17,6 +19,7 @@ public abstract class Entity {
     static final int SCROLLSPEED = 1;
     protected float[] speed = new float[2];
     protected int[] lookDirection=new int[2];
+
 
     // objects
     protected CustomShape shape;
@@ -115,5 +118,10 @@ public abstract class Entity {
         System.out.println(entity);
         System.out.println(collider);
     }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
 
 }

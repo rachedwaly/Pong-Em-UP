@@ -2,6 +2,10 @@ package Game;
 
 
 import Entities.*;
+import Entities.Bonus.Bonus;
+import Entities.Bonus.LengthBonus;
+import Entities.Bonus.LifeBonus;
+import Entities.Bonus.ShieldBonus;
 import Frame.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -23,7 +27,7 @@ public class Model implements ActionListener, KeyListener {
     public static Random random  = new Random();
     public static int HEIGHT=600,WIDTH=300;
     public static final int DELAY = 8;
-    public Stick s1;
+    public Stick stick;
     public Ball b;
     private HashMap<String,Image> allImages=new HashMap<>();
     private PlayGround view;
@@ -45,7 +49,7 @@ public class Model implements ActionListener, KeyListener {
 
     //il faut qu'on genere les ennemis après loadphotos()
     private ArrayList<Enemy> ennemies = new ArrayList<>();
-
+    private ArrayList<Bonus> bonuses=new ArrayList<>();
 
     public Model(PongEmUp pongEmUp) throws IOException {
         this.pongEmUp=pongEmUp;
@@ -56,13 +60,13 @@ public class Model implements ActionListener, KeyListener {
         VerticalWall wallRight = new VerticalWall(WIDTH - 10, 0, 10, HEIGHT,this);
         VerticalWall wallLeft = new VerticalWall(0, 0, 10, HEIGHT,this);
         HorizontalWall wallUp = new HorizontalWall(10, 0, WIDTH-20, 10,this);
-        s1 = new Stick(WIDTH / 2, HEIGHT - 20,this);
+        stick = new Stick(WIDTH / 2, HEIGHT - 20,this,50);
         b = new Ball(250, 580,this);
         addPhysicalObject(wallRight);
         addPhysicalObject(wallLeft);
         addPhysicalObject(wallUp);
-        addPhysicalObject(s1);
-        for(Projectile projectile : s1.projectiles)
+        addPhysicalObject(stick);
+        for(Projectile projectile : stick.projectiles)
             addPhysicalObject(projectile);
 
         if(!DEBUGMODE){
@@ -114,20 +118,22 @@ public class Model implements ActionListener, KeyListener {
     }
     @Override
     public void keyPressed(KeyEvent e) {
-    s1.keyPressed(e);
+    stick.keyPressed(e);
     }
     @Override
     public void keyReleased(KeyEvent e) {
-    s1.keyReleased(e);
+    stick.keyReleased(e);
     }
     private void update() {
         solveCollisions();
         for (int i = 0; i < physicalObjects.size(); i++) {
             physicalObjects.get(i).update();
         }
-        for (BackGroundObject backGroundObject:backgroundObjects){
-            backGroundObject.update();
+
+        for (int i=0;i<backgroundObjects.size();i++){
+            backgroundObjects.get(i).update();
         }
+
 
 
     }
@@ -156,10 +162,10 @@ public class Model implements ActionListener, KeyListener {
     }
 
     public int getPlayerSpawnLeft(){
-        return s1.getLives();
+        return stick.getLives();
     }
     public int getPlayerScore(){
-        return s1.getScore();
+        return stick.getScore();
     }
 
 
@@ -208,6 +214,10 @@ public class Model implements ActionListener, KeyListener {
         allImages.put("gameover",(Image) ph15);
         BufferedImage ph16= ImageIO.read(new File("Resources/shield.png"));
         allImages.put("shield",(Image) ph16);
+        BufferedImage ph17= ImageIO.read(new File("Resources/shieldStick.png"));
+        allImages.put("shieldStick",(Image) ph17);
+        BufferedImage ph18= ImageIO.read(new File("Resources/muscle.png"));
+        allImages.put("muscle",(Image) ph18);
 
 
 
@@ -254,44 +264,46 @@ public class Model implements ActionListener, KeyListener {
         backgroundObjects.add(backgroundObject);
     }
 
-    //this method is called whenever an entity is dead
-    public void removeEntity(Enemy enemy){
+    //this method is called whenever an enemy is dead
+    public void removeEnemy(Enemy enemy){
         ennemies.remove(enemy);
         physicalObjects.remove(enemy);
         drawables.remove(enemy);
         spawnBonus(enemy.getX(), enemy.getY());
-
         enemy = null;
     }
 
     //this method is called when a bonus is deleted
-    public void removeEntity(Bonus bonus){
+    public void removeBonus(Bonus bonus){
         physicalObjects.remove(bonus);
         drawables.remove(bonus);
         bonus = null;
     }
 
     private void spawnBonus(float x, float y) {
-        //int gen=random.nextInt(2);
-        int gen=0;
+        int gen=random.nextInt(2);
         switch (gen){
             case 0:{
-                Bonus bonus=new Bonus("bouclier",x,y,this);
-                addDrawable(bonus);
-                addPhysicalObject(bonus);
+                ShieldBonus shieldBonus=new ShieldBonus("shield",x,y,1000, stick,this);
+                addDrawable(shieldBonus);
+                addPhysicalObject(shieldBonus);
                 break;
             }
             case 1:{
-
+                LengthBonus lengthBonus=new LengthBonus("lengthBonus",x,y,3000,stick,50,this);
+                addDrawable(lengthBonus);
+                addPhysicalObject(lengthBonus);
+                break;
+            }
+            case 2:{
+                LifeBonus lifeBonus=new LifeBonus("lifeBonus",x,y,0,stick,this);
+                addDrawable(lifeBonus);
+                addPhysicalObject(lifeBonus);
+                break;
             }
 
         }
 
-    }
-
-    public void applyBonus(Bonus bonus) {
-        removeEntity(bonus);
-        //TODO applying bonus to the stick
     }
 
     public boolean isPlaying() {
@@ -302,14 +314,13 @@ public class Model implements ActionListener, KeyListener {
         this.playing = playing;
     }
 
-
-
     public void stopTheGame(){
         setPlaying(false);
         timer.stop();
-
         //TODO add retry button on the left side of the frame
         pongEmUp.gameOver();
     }
+
+
 
 }

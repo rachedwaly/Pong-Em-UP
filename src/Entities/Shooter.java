@@ -5,7 +5,12 @@ import java.awt.*;
 
 
 public abstract class Shooter extends Entity{
+
+
     protected int health;
+
+
+
     protected int maxHealth;
     public int projectileIndex = 0;
     public boolean canShoot;
@@ -36,5 +41,21 @@ public abstract class Shooter extends Entity{
 
     public abstract void startDestructionSequence(Graphics g);
 
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
+    public void setMaxHealth(int maxHealth) {
+        this.maxHealth = maxHealth;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        if (health<=maxHealth) this.health = health;
+        else this.health=maxHealth;
+    }
 
 }

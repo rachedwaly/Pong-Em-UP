@@ -1,27 +1,37 @@
 package Entities;
+import Entities.Bonus.Bonus;
 import Game.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 public class Stick extends Shooter{
-
+    private ArrayList<Bonus> bonuses=new ArrayList<>();
     private Color healthColor;
     private Color damageColor;
-    static int BASE_WIDTH = 50;
+
+
+
+    //static int BASE_WIDTH = 50; je vais changer ça en initialwidth sinon la barre verte va pas
+    // changer avec le bonus length qui dépend
+    private int initialWidth;
     public float offsetX;
     protected float dx,dy;
     private int score;
 
 
+    private boolean shieldOn=false;
+
+
 
     private int lives =3;
 
-    public Stick(int x, int y,Model model){
+    public Stick(int x, int y,Model model,int initialWidth){
         super(x,y,model);
-
+        this.initialWidth=initialWidth;
         name = "Stick";
         canShoot = true;
         maxHealth = 5;
@@ -30,7 +40,7 @@ public class Stick extends Shooter{
         damageColor = Color.RED;
 
         offsetX = 0;
-        this.width = BASE_WIDTH;
+        this.width = initialWidth;
         this.height = 10;
 
         lookDirection = new int[]{0,-1};
@@ -45,6 +55,10 @@ public class Stick extends Shooter{
         }
 
         innerTimer += Model.DELAY;
+        for (int i=0;i<bonuses.size();i++){
+            Bonus bonus=bonuses.get(i);
+            bonus.decrementDelay();
+        }
         move();
 
     }
@@ -54,13 +68,12 @@ public class Stick extends Shooter{
 
         switch (entity.getEntityTypeName()) {
             case "projectile":
-                color = Color.RED;
-                if (!Model.DEBUGMODE) {
+                if (!shieldOn) {
+                    color = Color.RED;
                     Projectile p = (Projectile) entity;
                     health -= p.damage;
-                    offsetX += (int) (p.damage / (float) maxHealth * BASE_WIDTH / 4);
-                    width = BASE_WIDTH / 2 + (int) ((health / (float) maxHealth) * BASE_WIDTH / 2);
-
+                    offsetX += (int) (p.damage / (float) maxHealth * initialWidth / 4);
+                    width = initialWidth / 2 + (int) ((health / (float) maxHealth) * initialWidth / 2);
                 }
 
                 break;
@@ -92,9 +105,9 @@ public class Stick extends Shooter{
         if (lives > 0){
             if (animationIndex <= maxAnimationIndex){
                 g.drawImage(model.getPhoto(Integer.toString(animationIndex)+"death"),
-                        (int)x-BASE_WIDTH,
+                        (int)x-initialWidth,
                         (int)y-height*4,
-                        BASE_WIDTH*4,
+                        initialWidth*4,
                         height*8,model.getView());
                 animationIndex++;
             }
@@ -103,9 +116,9 @@ public class Stick extends Shooter{
             }
         }else{
             //dessiner une image de destruction intermédiaire
-            g.drawImage(model.getPhoto(Integer.toString(5)+"death"),(int)x-BASE_WIDTH,
+            g.drawImage(model.getPhoto(Integer.toString(5)+"death"),(int)x-initialWidth,
                     (int)y-height*4,
-                    BASE_WIDTH*4,
+                    initialWidth*4,
                     height*8,model.getView());
             model.stopTheGame();
         }
@@ -203,28 +216,30 @@ public class Stick extends Shooter{
     public int getScore(){
         return score;
     }
+
     @Override
     public void drawEntity(Graphics g){
         if (health>0){
         g.setColor(this.color);
         g.fillRect((int)x,(int)y,width,height);
         g.setColor(healthColor);
-        g.fillRect((int)(x - offsetX),(int)y + height + 5,(int)(BASE_WIDTH * health/(float)maxHealth),5);
-        g.setColor(damageColor);
-        g.fillRect(     (int)(x - offsetX) + (int)(BASE_WIDTH * health/(float)maxHealth),
-                        (int)y + height + 5,
-                (int)(BASE_WIDTH * (maxHealth - health)/(float)maxHealth),5);
+        g.fillRect((int)(x - offsetX),(int)y + height + 5,(int)(initialWidth * health/(float)maxHealth),5);
+        if (!shieldOn) {
+            g.setColor(damageColor);
+            g.fillRect((int) (x - offsetX) + (int) (initialWidth * health / (float) maxHealth),
+                    (int) y + height + 5,
+                    (int) (initialWidth * (maxHealth - health) / (float) maxHealth), 5);
+        }
         }
         else {
             startDestructionSequence(g);
-
         }
 
     }
 
     private void resetStick() {
         offsetX=0;
-        width=BASE_WIDTH;
+        width=initialWidth;
         health=maxHealth;
         animationIndex=1;
     }
@@ -237,7 +252,44 @@ public class Stick extends Shooter{
         this.lives = lives;
     }
 
+    public void applyBonus(Bonus bonus){
+        bonuses.add(bonus);
+        switch(bonus.name){
+        case "shield":
+        {
+            shieldOn=true;
+            break;
+        }
+        case "lengthBoost":
+        {
+            //TODO lengthBoost
+            break;
+        }
+    }
+    }
 
+
+    public boolean isShieldOn() {
+        return shieldOn;
+    }
+
+    public void setShieldOn(boolean shieldOn) {
+        this.shieldOn = shieldOn;
+    }
+
+    public int getInitialWidth() {
+        return initialWidth;
+    }
+
+    public void setInitialWidth(int initialWidth) {
+        this.initialWidth = initialWidth;
+    }
+
+    @Override
+    public void setHealth(int health){
+        this.health=health;
+        width = initialWidth / 2 + (int) ((health / (float) maxHealth) * initialWidth / 2);
+    }
 
 
 }
