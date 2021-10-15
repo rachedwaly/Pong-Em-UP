@@ -45,7 +45,7 @@ public class LengthBonus extends Bonus{
     public void drawEntity(Graphics g) {
         if (!acquired) {
             g.setColor(color);
-            g.drawImage(model.getPhoto("muscle.png"), (int) x, (int) y, width, height,
+            g.drawImage(model.getPhoto("muscle"), (int) x, (int) y, width, height,
                     model.getView());
         }
     }

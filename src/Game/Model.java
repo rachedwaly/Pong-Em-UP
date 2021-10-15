@@ -281,7 +281,7 @@ public class Model implements ActionListener, KeyListener {
     }
 
     private void spawnBonus(float x, float y) {
-        int gen=random.nextInt(2);
+        int gen=random.nextInt(3);
         switch (gen){
             case 0:{
                 ShieldBonus shieldBonus=new ShieldBonus("shield",x,y,1000, stick,this);
