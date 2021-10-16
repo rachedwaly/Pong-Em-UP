@@ -1,5 +1,6 @@
 package Entities.Bonus;
 
+import AltLib.ImageLoader;
 import Entities.Stick;
 import Game.Model;
 
