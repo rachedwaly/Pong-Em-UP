@@ -44,7 +44,7 @@ public class Model implements ActionListener, KeyListener {
     protected ArrayList<Entity> drawables=new ArrayList<>();
     protected ArrayList<BackGroundObject> backgroundObjects=new ArrayList<>();
     protected ArrayList<Entity> physicalObjects = new ArrayList<>();
-    //il faut qu'on genere les ennemis après loadphotos()
+
     protected ArrayList<Enemy> ennemies = new ArrayList<>();
 
 
@@ -54,7 +54,7 @@ public class Model implements ActionListener, KeyListener {
      */
     public Model(PongEmUp pongEmUp) throws IOException {
         this.pongEmUp=pongEmUp;
-
+/*
         generateEnemies();
         view = new PlayGround(this);
         VerticalWall wallRight = new VerticalWall(WIDTH - 10, 0, 10, HEIGHT,this);
@@ -67,7 +67,7 @@ public class Model implements ActionListener, KeyListener {
         addPhysicalObject(wallUp);
         addPhysicalObject(stick);
         for(Projectile projectile : stick.projectiles)
-            addPhysicalObject(projectile);
+            addPhysicalObject(projectile);*/
 
     }
 
@@ -124,7 +124,7 @@ public class Model implements ActionListener, KeyListener {
 
     }
 
-    private void addDrawable(Entity e){
+    protected void addDrawable(Entity e){
         drawables.add(e);
     }
 

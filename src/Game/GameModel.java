@@ -13,7 +13,6 @@ public class GameModel extends Model{
     }
 
     private void initiateGame() throws IOException {
-        loadPhotos();
         generateEnemies();
         view = new PlayGround(this);
         VerticalWall wallRight = new VerticalWall(WIDTH - 10, 0, 10, HEIGHT,this);

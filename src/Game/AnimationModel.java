@@ -28,7 +28,7 @@ public class AnimationModel extends Model {
 
 
     public void initiateAnimation() throws IOException {
-        loadPhotos();
+        //loadPhotos();
         VerticalWall wallRight = new VerticalWall(WIDTH - 10+offsetX, offsetY, 10, HEIGHT,this);
         VerticalWall wallLeft = new VerticalWall(+offsetX, offsetY, 10, HEIGHT,this);
         HorizontalWall wallUp = new HorizontalWall(10+offsetX, offsetY, WIDTH-20, 10,this);
