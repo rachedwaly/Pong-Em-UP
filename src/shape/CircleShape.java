@@ -80,10 +80,6 @@ public class CircleShape extends CustomShape{
                 pointInCircle(projection)){
             normalHit[0] = - p1[1] + p2[1]; //-b
             normalHit[1] = p1[0] - p2[0]; //a
-            //TODO : gerer les cas ou l'objet va vers la balle
-            /*if(dot(new float[]{(float)x - poly.getCenter()[0],(float)y - poly.getCenter()[1]},normalHit) <= 0){
-
-            }*/
             if(dot(p1,poly.getCenter()) < 0){
                 //making sure we get the outward normal
                 normalHit[0] = -normalHit[0];
@@ -97,9 +93,13 @@ public class CircleShape extends CustomShape{
 
     public boolean intersects(CircleShape cs){
         double distance = Math.sqrt(Math.pow(this.x - cs.x,2) + Math.pow(this.y - cs.y,2));
-        normalHit[0] = x - cs.x;
-        normalHit[1] = y - cs.y;
-        return distance <= this.radius + cs.radius;
+
+        normalHit[0] = -(x - cs.x);
+        normalHit[1] = -(y - cs.y);
+        cs.normalHit[0] = -(x - cs.x);
+        cs.normalHit[1] = -(y - cs.y);
+        boolean b = distance <= this.radius + cs.radius;
+        return b;
     }
 
     public float[] getCenter(){

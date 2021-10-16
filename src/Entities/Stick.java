@@ -43,9 +43,9 @@ public class Stick extends Shooter{
         this.width = initialWidth;
         this.height = 10;
 
-        lookDirection = new int[]{0,-1};
+        lookDirection = new float[]{0,-1};
         for(int i = 0; i < projectiles.length; i++)
-            projectiles[i] = new Projectile(5,20,10,new float[]{5f,5f},model);
+            projectiles[i] = new Projectile(5,20,10,5,model);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class Stick extends Shooter{
     public void whenCollided(Entity entity) {
 
         switch (entity.getEntityTypeName()) {
-            case "projectile":
+            case "enemyprojectile":
                 if (!shieldOn) {
                     color = Color.RED;
                     Projectile p = (Projectile) entity;

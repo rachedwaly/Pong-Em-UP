@@ -33,7 +33,7 @@ public abstract class Shooter extends Entity{
     }
 
     public void fire(){
-        projectiles[projectileIndex].fire(this);
+        projectiles[projectileIndex].fire(this,lookDirection);
         projectileIndex = (projectileIndex + 1) % PROJECTILEBUFFER;
     }
 
