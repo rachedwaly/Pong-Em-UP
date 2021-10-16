@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-public class Model implements ActionListener, KeyListener {
+public abstract class Model implements ActionListener, KeyListener {
 
     public static final boolean DEBUGMODE = false;
     public static Random random  = new Random();
