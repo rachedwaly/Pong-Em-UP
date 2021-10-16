@@ -29,7 +29,7 @@ public class Model implements ActionListener, KeyListener {
     public static final int DELAY = 8;
     public Stick stick;
     public Ball b;
-    private HashMap<String,Image> allImages=new HashMap<>();
+
     private PlayGround view;
     private Entity entityBuffer1,entityBuffer2;
     private Timer timer;
@@ -53,7 +53,6 @@ public class Model implements ActionListener, KeyListener {
 
     public Model(PongEmUp pongEmUp) throws IOException {
         this.pongEmUp=pongEmUp;
-        loadPhotos();
 
         generateEnemies();
         view = new PlayGround(this);
@@ -174,56 +173,6 @@ public class Model implements ActionListener, KeyListener {
         timer.start();
     }
 
-    private void loadPhotos() throws IOException {
-        //This method will import all the photos needed for our game
-        BufferedImage ph= ImageIO.read(new File("Resources/health.png"));
-        allImages.put("health",(Image) ph);
-        BufferedImage ph1= ImageIO.read(new File("Resources/background lvl1.jpg"));
-        allImages.put("lvl1",(Image)ph1);
-        BufferedImage ph2= ImageIO.read(new File("Resources/background lvl2.jpg"));
-        allImages.put("lvl2",(Image)ph2);
-        BufferedImage ph3= ImageIO.read(new File("Resources/cloud.png"));
-        allImages.put("cloud",(Image) ph3);
-        BufferedImage ph4= ImageIO.read(new File("Resources/explosion_animation/1death.png"));
-        allImages.put("1death",(Image) ph4);
-        BufferedImage ph5= ImageIO.read(new File("Resources/explosion_animation/2death.png"));
-        allImages.put("2death",(Image) ph5);
-        BufferedImage ph6= ImageIO.read(new File("Resources/explosion_animation/3death.png"));
-        allImages.put("3death",(Image) ph6);
-        BufferedImage ph7= ImageIO.read(new File("Resources/explosion_animation/4death.png"));
-        allImages.put("4death",(Image) ph7);
-        BufferedImage ph8= ImageIO.read(new File("Resources/explosion_animation/5death.png"));
-        allImages.put("5death",(Image) ph8);
-        BufferedImage ph9= ImageIO.read(new File("Resources/explosion_animation/6death.png"));
-        allImages.put("6death",(Image) ph9);
-        BufferedImage ph10= ImageIO.read(new File("Resources/explosion_animation/7death.png"));
-        allImages.put("7death",(Image) ph10);
-        BufferedImage ph11= ImageIO.read(new File("Resources/explosion_animation/8death.png"));
-        allImages.put("8death",(Image) ph11);
-        BufferedImage ph12= ImageIO.read(new File("Resources/explosion_animation/9death.png"));
-        allImages.put("9death",(Image) ph12);
-        BufferedImage ph13= ImageIO.read(new File("Resources/sentry.png"));
-        allImages.put("sentry",(Image) ph13);
-        BufferedImage ph13r = ImageIO.read(new File("Resources/sentryDamaged.png"));
-        allImages.put("sentryRed",(Image) ph13r);
-        BufferedImage ph14= ImageIO.read(new File("Resources/plane.png"));
-        allImages.put("plane",(Image) ph14);
-        BufferedImage ph15= ImageIO.read(new File("Resources/gameover.png"));
-        allImages.put("gameover",(Image) ph15);
-        BufferedImage ph16= ImageIO.read(new File("Resources/shield.png"));
-        allImages.put("shield",(Image) ph16);
-        BufferedImage ph17= ImageIO.read(new File("Resources/shieldStick.png"));
-        allImages.put("shieldStick",(Image) ph17);
-        BufferedImage ph18= ImageIO.read(new File("Resources/muscle.png"));
-        allImages.put("muscle",(Image) ph18);
-
-
-
-    }
-
-    public Image getPhoto(String name){
-        return allImages.get(name);
-    }
 
     public ArrayList<Entity> getDrawables() {
         return drawables;

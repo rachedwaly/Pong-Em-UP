@@ -1,5 +1,6 @@
 package Entities;
 import Game.*;
+import AltLib.*;
 import shape.CircleShape;
 import shape.RectangleShape;
 
@@ -50,8 +51,8 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
                 color = Color.BLUE;
 
                 this.name = name;
-                this.photo=model.getPhoto("sentry");
-                photoDamaged = model.getPhoto("sentryRed");
+                this.photo=ImageLoader.sentryImage;
+                photoDamaged = ImageLoader.sentryDamaged;
 
                 shape = new RectangleShape((int)x,(int)y,width,height);
                 break;
@@ -69,8 +70,8 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
                 color = Color.GREEN;
 
                 this.name = name;
-                this.photo=model.getPhoto("sentry");
-                photoDamaged = model.getPhoto("sentryRed");
+                this.photo=ImageLoader.sentryImage;
+                photoDamaged = ImageLoader.sentryDamaged;
 
                 shape = new CircleShape((int)x + width/2,(int)y + height/2,width);
                 break;
@@ -137,8 +138,8 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
 
     @Override
     public void startDestructionSequence(Graphics g) {
-        if (animationIndex<=maxAnimationIndex){
-            g.drawImage(model.getPhoto(Integer.toString(animationIndex)+"death"),(int)x-width,
+        if (animationIndex<maxAnimationIndex){
+            g.drawImage(ImageLoader.explosionAnimation[animationIndex],(int)x-width,
                     (int)y-height,
                     width*4,
                     height*4,model.getView());

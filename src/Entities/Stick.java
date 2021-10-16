@@ -1,8 +1,10 @@
 package Entities;
+import AltLib.ImageLoader;
 import Entities.Bonus.Bonus;
 import Game.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 
 import static java.lang.Math.max;
@@ -103,8 +105,8 @@ public class Stick extends Shooter{
     @Override
     public void startDestructionSequence(Graphics g) {
         if (lives > 0){
-            if (animationIndex <= maxAnimationIndex){
-                g.drawImage(model.getPhoto(Integer.toString(animationIndex)+"death"),
+            if (animationIndex < maxAnimationIndex){
+                g.drawImage(ImageLoader.explosionAnimation[animationIndex],
                         (int)x-initialWidth,
                         (int)y-height*4,
                         initialWidth*4,
@@ -115,8 +117,8 @@ public class Stick extends Shooter{
                 resetStick();
             }
         }else{
-            //dessiner une image de destruction intermédiaire
-            g.drawImage(model.getPhoto(Integer.toString(5)+"death"),(int)x-initialWidth,
+            //TODO : dessiner une image de destruction intermédiaire
+            g.drawImage(ImageLoader.explosionAnimation[5],(int)x-initialWidth,
                     (int)y-height*4,
                     initialWidth*4,
                     height*8,model.getView());

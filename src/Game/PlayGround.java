@@ -1,6 +1,7 @@
 package Game;
 
 
+import AltLib.ImageLoader;
 import Entities.BackGroundObject;
 import Entities.Entity;
 import Frame.StatusBar;
@@ -44,14 +45,14 @@ public class PlayGround extends JPanel {
         }
 
         if (!model.isPlaying()){
-            g.drawImage(model.getPhoto("gameover"),20,120,model.getView());
+            g.drawImage(ImageLoader.gameoverImage,20,120,model.getView());
         }
 
     }
 
     private void handleLevelBackground(Graphics g) {
         int lvl=model.getCurrentLvl();
-        g.drawImage(model.getPhoto("lvl"+lvl), 0, 0, this);
+        g.drawImage(ImageLoader.bgImage[lvl - 1], 0, 0, this);
         ArrayList<BackGroundObject> drawingList=new ArrayList<>(model.getBackgroundObjects());
         for (int i=0;i<drawingList.size();i++){
             BackGroundObject bgo=drawingList.get(i);

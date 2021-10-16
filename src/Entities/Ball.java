@@ -69,18 +69,23 @@ public class Ball extends Entity {
         float[] normal = CustomShape.normalize( ((CircleShape)shape).getNormalHit() );
         if(normal[0] == 0 && normal[1] == 0)
             System.out.println("bad normal");
-        if(!(entity instanceof Wall))
-            System.out.println("(" + normal[0] + ", " + normal[1] + ")");
 
+
+        debugLog();
         //influence trajectory
         float[] normSpeed = CustomShape.normalize(entity.speed);
         if(CustomShape.dot(speed,normal) > 0){
             speed[0] = speed[0] + normSpeed[0]/2;
             speed[1] = speed[1] + normSpeed[1];
+            if(entity instanceof Stick)
+                System.out.println("more speed");
         }else{
+            if(entity instanceof Stick)
+                System.out.println("reflect");
             speed = CustomShape.reflectVector(speed,normal); //is normalized
         }
-
+        if(entity instanceof Stick)
+            System.out.println("normal : (" + normal[0] + ", " + normal[1] + ")");
         speed = CustomShape.normalize(speed);
 
         int stuckCounter = 0;
@@ -91,7 +96,6 @@ public class Ball extends Entity {
         }
         if(stuckCounter == 10)
             reset();
-
 
     }
 

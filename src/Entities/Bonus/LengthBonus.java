@@ -1,5 +1,6 @@
 package Entities.Bonus;
 
+import AltLib.ImageLoader;
 import Entities.Stick;
 import Game.Model;
 
@@ -45,7 +46,7 @@ public class LengthBonus extends Bonus{
     public void drawEntity(Graphics g) {
         if (!acquired) {
             g.setColor(color);
-            g.drawImage(model.getPhoto("muscle"), (int) x, (int) y, width, height,
+            g.drawImage(ImageLoader.muscleBonusImage, (int) x, (int) y, width, height,
                     model.getView());
         }
     }
