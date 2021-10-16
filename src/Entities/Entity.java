@@ -4,7 +4,6 @@ import Game.*;
 import shape.RectangleShape;
 
 import java.awt.*;
-import java.util.Random;
 
 public abstract class Entity {
     public Model model;
@@ -33,12 +32,12 @@ public abstract class Entity {
                 Model.random.nextInt(30), Model.random.nextInt(30), model);
     }
 
-    public Entity(int x,int y,Model model){
-        this(x,y,0,0,model);
+    public Entity(int x, int y, Model model){
+        this(x,y,0,0, model);
 
     }
 
-    public Entity(int x,int y, int w, int h,Model model){
+    public Entity(int x, int y, int w, int h, Model model){
         this.x=x;
         this.y=y;
         this.width=w;

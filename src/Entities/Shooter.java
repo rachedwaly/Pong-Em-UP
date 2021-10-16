@@ -28,8 +28,8 @@ public abstract class Shooter extends Entity{
         super(model);
     }
 
-    public Shooter(int x, int y,Model model){
-        super(x,y,model);
+    public Shooter(int x, int y, Model model){
+        super(x,y, model);
     }
 
     public void fire(){

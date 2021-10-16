@@ -1,5 +1,6 @@
 package Frame;
 
+import Game.GameModel;
 import Game.Model;
 import Game.PlayGround;
 
@@ -26,7 +27,7 @@ public class PongEmUp extends JFrame {
     private ButtonsPane buttonsPanel;
 
 
-    public PongEmUp(){
+    public PongEmUp() throws IOException {
 
         super("Pong'em up");
 
@@ -133,7 +134,7 @@ public class PongEmUp extends JFrame {
         running=true;
         //put this inside a gamePane class maybe?
         containerPane.removeAll();
-        model= new Model(this);
+        model = new GameModel(this);
         playground = model.getView();
         containerPane.add(playground,BorderLayout.CENTER);
         containerPane.addKeyListener(model);
@@ -151,7 +152,7 @@ public class PongEmUp extends JFrame {
             playground=null;
             buttonsPanel=null;
             model.stopTimer();
-            model=null;
+            model =null;
         }
     }
 
