@@ -46,7 +46,7 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
                 speed[1] *= 2;
                 health=1;
                 for(int i = 0; i < projectiles.length; i++)
-                    projectiles[i] = new Projectile(5,20,10,2,model);
+                    projectiles[i] = new Projectile(5,10,10,2,new RectangleShape(0,0,5,10),model);
 
                 color = Color.BLUE;
 
@@ -65,7 +65,7 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
                 speed[1] *= 1;
                 health= 1000;
                 for(int i = 0; i < projectiles.length; i++)
-                    projectiles[i] = new Projectile(5,5,10,1.5f,model);
+                    projectiles[i] = new Projectile(5,5,10,1.5f,new CircleShape(5,5,5), model);
                 //TODO : changer le system de tir dans fire par entite
                 color = Color.GREEN;
 

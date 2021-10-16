@@ -1,5 +1,6 @@
 package Entities;
 import Game.Model;
+import shape.CircleShape;
 import shape.CustomShape;
 import shape.RectangleShape;
 
@@ -11,7 +12,7 @@ public class Projectile extends Entity {
     public float scalarSpeed;
     public boolean friendly; //true if ally projectile, false if enemy;
 
-    public Projectile(int w, int h, int dmg, float scalarSpeed, Model model){
+    public Projectile(int w, int h, int dmg, float scalarSpeed,CustomShape shape, Model model){
         super(model);
         name = "Projectile";
         this.x = 500;
@@ -20,7 +21,7 @@ public class Projectile extends Entity {
         height = h;
         color = Color.RED;
         this.scalarSpeed = scalarSpeed;
-
+        this.shape = shape;
     }
 
     @Override
@@ -47,7 +48,7 @@ public class Projectile extends Entity {
     }
 
     public void fire(Shooter source, float[] fireDirection){
-        CustomShape.normalize(fireDirection);
+        fireDirection = CustomShape.normalize(fireDirection);
         friendly = source.getEntityTypeName().equals("stick");
         x = source.getX() + source.getWidth()/2f - width/2f + fireDirection[0] * (source.getWidth()/2f + 10); // centrer le projectile sur la source
         y = source.getY() + source.getHeight()/2f + fireDirection[1] * (source.getHeight()/2f + height); //grab look direction
@@ -76,7 +77,10 @@ public class Projectile extends Entity {
     public void drawEntity(Graphics g) {
         if(active){
             g.setColor(Color.RED);
-            g.fillRect((int)x,(int)y,width,height);
+            if(shape instanceof RectangleShape)
+                g.fillRect((int)x,(int)y,width,height);
+            if(shape instanceof CircleShape)
+                g.fillOval((int)x,(int)y,width,height);
             g.setColor(this.color);
         }
 
