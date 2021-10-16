@@ -77,6 +77,7 @@ public class Model implements ActionListener, KeyListener {
     protected void generateEnemies() {
         ennemies.add(new Enemy(Enemy.SENTRY,100,0,100,200,this));
         ennemies.add(new Enemy(Enemy.SENTRY,250,0,250,200,this));
+        ennemies.add(new Enemy(Enemy.SPINNER,175,0,175,200,this));
     }
 
 
@@ -233,7 +234,8 @@ public class Model implements ActionListener, KeyListener {
      * @param y
      */
     private void spawnBonus(float x, float y) {
-        int gen=random.nextInt(3);
+        //int gen=random.nextInt(3);
+        int gen=0;
         switch (gen) {
             case 0 -> {
                 ShieldBonus shieldBonus = new ShieldBonus("shield", x, y, 1000, stick, this);
