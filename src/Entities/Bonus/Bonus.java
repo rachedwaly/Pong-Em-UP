@@ -15,7 +15,7 @@ public abstract class Bonus extends Entity {
     protected boolean acquired=false; //this boolean will indicate if the stick got the bonus or not
 
     public Bonus(String name, float x, float y,int delay,Stick stick, Model model){
-        super((int)x,(int)y,model);
+        super((int)x,(int)y, model);
         this.model = model;
         this.stick=stick;
         innerTimer=0;
@@ -27,7 +27,7 @@ public abstract class Bonus extends Entity {
         this.height=40;
         this.speed[0]=0;
         this.speed[1]=2;
-        this.model=model;
+        this.model = model;
         color=Color.PINK;
     }
 
@@ -80,7 +80,7 @@ public abstract class Bonus extends Entity {
     }
 
     public void decrementDelay(){
-        this.delay-=Model.DELAY;
+        this.delay-= Model.DELAY;
     }
 
     protected abstract void applyBonus();

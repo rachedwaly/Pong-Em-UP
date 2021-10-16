@@ -28,6 +28,7 @@ public class LengthBonus extends Bonus{
         stick.setInitialWidth(stick.getInitialWidth()+lengthToAdd);
         stick.setMaxHealth(stick.getMaxHealth()*powerOftheLength);
         stick.setHealth(stick.getHealth()*powerOftheLength);
+        stick.getShape().update(stick);
     }
 
     @Override
@@ -40,6 +41,7 @@ public class LengthBonus extends Bonus{
         if ((stick.getWidth())>(stick.getInitialWidth())){
             stick.setWidth(stick.getInitialWidth());
         }
+        stick.getShape().update(stick);
     }
 
     @Override

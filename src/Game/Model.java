@@ -29,31 +29,32 @@ public class Model implements ActionListener, KeyListener {
     public static final int DELAY = 8;
     public Stick stick;
     public Ball b;
-
-    private PlayGround view;
-    private Entity entityBuffer1,entityBuffer2;
-    private Timer timer;
-    private int currentLvl=1;
-    private PongEmUp pongEmUp;
+    protected HashMap<String,Image> allImages=new HashMap<>();
+    protected PlayGround view;
+    protected Entity entityBuffer1,entityBuffer2;
+    protected Timer timer;
+    protected int currentLvl=1;
+    protected PongEmUp pongEmUp;
 
 
     public boolean playing=true;
 
     //on sépare les backgroundobjects des drawables vu qu'ils doivent etre dessinés avant ces
     // derniers
-    private ArrayList<Entity> drawables=new ArrayList<>();
-    private ArrayList<BackGroundObject> backgroundObjects=new ArrayList<>();
+    protected ArrayList<Entity> drawables=new ArrayList<>();
+    protected ArrayList<BackGroundObject> backgroundObjects=new ArrayList<>();
+    protected ArrayList<Entity> physicalObjects = new ArrayList<>();
+
+    protected ArrayList<Enemy> ennemies = new ArrayList<>();
 
 
-    public ArrayList<Entity> physicalObjects = new ArrayList<>();
-
-    //il faut qu'on genere les ennemis après loadphotos()
-    private ArrayList<Enemy> ennemies = new ArrayList<>();
-    private ArrayList<Bonus> bonuses=new ArrayList<>();
-
+    /**
+     * @param pongEmUp the main frame of the game
+     * @throws IOException
+     */
     public Model(PongEmUp pongEmUp) throws IOException {
         this.pongEmUp=pongEmUp;
-
+/*
         generateEnemies();
         view = new PlayGround(this);
         VerticalWall wallRight = new VerticalWall(WIDTH - 10, 0, 10, HEIGHT,this);
@@ -66,48 +67,29 @@ public class Model implements ActionListener, KeyListener {
         addPhysicalObject(wallUp);
         addPhysicalObject(stick);
         for(Projectile projectile : stick.projectiles)
-            addPhysicalObject(projectile);
+            addPhysicalObject(projectile);*/
 
-        if(!DEBUGMODE){
-            for(Enemy enemy : ennemies){
-                addPhysicalObject(enemy);
-                for(Projectile projectile : enemy.projectiles)
-                    addPhysicalObject(projectile);
-            }
-        }
-
-        for (Entity entity : physicalObjects) {
-            if(entity instanceof Enemy){
-                Enemy enemy = (Enemy) entity;
-                for(Projectile projectile : enemy.projectiles)
-                    addDrawable(projectile);
-            }
-            else if(entity instanceof Stick){
-                Stick stick = (Stick) entity;
-                for(Projectile projectile : stick.projectiles)
-                    addDrawable(projectile);
-            }
-            addDrawable(entity);
-        }
-        addDrawable(b);
-        addPhysicalObject(b);
-        setUpBackgroundObjects();
-        timer = new Timer(DELAY, this);
-        timer.start();
     }
 
-    private void generateEnemies() {
+    /**
+     * This method generate enemies
+     */
+    protected void generateEnemies() {
         ennemies.add(new Enemy(Enemy.SENTRY,100,0,100,200,this));
         ennemies.add(new Enemy(Enemy.SENTRY,250,0,250,200,this));
         ennemies.add(new Enemy(Enemy.SPINNER,175,0,175,200,this));
     }
 
 
+    /**
+     * @param e this method will be called each tick of the timer in order to update the model
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         this.update();
         view.update();
     }
+
 
     public void addPhysicalObject(Entity e){
         physicalObjects.add(e);
@@ -118,13 +100,18 @@ public class Model implements ActionListener, KeyListener {
     }
     @Override
     public void keyPressed(KeyEvent e) {
-    stick.keyPressed(e);
+        stick.keyPressed(e);
     }
     @Override
     public void keyReleased(KeyEvent e) {
     stick.keyReleased(e);
     }
-    private void update() {
+
+    /**
+     * This method will sove the collision of all the entities inside the physicalObjects
+     * arrayList, Also it will move the entire entities
+     */
+    protected void update() {
         solveCollisions();
         for (int i = 0; i < physicalObjects.size(); i++) {
             physicalObjects.get(i).update();
@@ -138,16 +125,23 @@ public class Model implements ActionListener, KeyListener {
 
     }
 
-    private void addDrawable(Entity e){
+    protected void addDrawable(Entity e){
         drawables.add(e);
     }
 
+    /**
+     * Looping on all the boundaries of the entities to check for collisions and call the
+     * whenCollided method of entity
+     */
     public void solveCollisions(){
         for(int i = 0; i < physicalObjects.size() - 1; i++){
             entityBuffer1 = physicalObjects.get(i);
             for(int j = i + 1; j < physicalObjects.size(); j++){
                 entityBuffer2 = physicalObjects.get(j);
                 if(entityBuffer1.getShape().intersects(entityBuffer2.getShape())){//Order of collision
+                    //entityBuffer1.debugLog();
+                    //System.out.println("with");
+                    //entityBuffer2.debugLog();
                     physicalObjects.get(i).whenCollided(entityBuffer2);
                     physicalObjects.get(j).whenCollided(entityBuffer1);
                 }
@@ -186,7 +180,7 @@ public class Model implements ActionListener, KeyListener {
         this.currentLvl = currentLvl;
     }
 
-    private void setUpBackgroundObjects() {
+    protected void setUpBackgroundObjects() {
         switch(getCurrentLvl()){
             case 1:{
                 addBackGroundObject(new BackGroundObject("cloud",50,60,this,new float[]{0.5f,
@@ -211,7 +205,12 @@ public class Model implements ActionListener, KeyListener {
         backgroundObjects.add(backgroundObject);
     }
 
-    //this method is called whenever an enemy is dead
+
+    /** this method is called whenever an enemy is dead, we remove it from all the data
+     * structures and assign null to the object so that the garbage collector of java erase it
+     * later on
+     * @param enemy
+     */
     public void removeEnemy(Enemy enemy){
         ennemies.remove(enemy);
         physicalObjects.remove(enemy);
@@ -220,6 +219,9 @@ public class Model implements ActionListener, KeyListener {
         enemy = null;
     }
 
+    /** Same thing as removeEnemy but for bonus
+     * @param bonus
+     */
     //this method is called when a bonus is deleted
     public void removeBonus(Bonus bonus){
         physicalObjects.remove(bonus);
@@ -227,23 +229,28 @@ public class Model implements ActionListener, KeyListener {
         bonus = null;
     }
 
+    /** this method will generate randomly each time an enemy dies
+     * @param x
+     * @param y
+     */
     private void spawnBonus(float x, float y) {
-        int gen=random.nextInt(3);
-        switch (gen){
-            case 0:{
-                ShieldBonus shieldBonus=new ShieldBonus("shield",x,y,1000, stick,this);
+        //int gen=random.nextInt(3);
+        int gen=0;
+        switch (gen) {
+            case 0 -> {
+                ShieldBonus shieldBonus = new ShieldBonus("shield", x, y, 1000, stick, this);
                 addDrawable(shieldBonus);
                 addPhysicalObject(shieldBonus);
                 break;
             }
-            case 1:{
-                LengthBonus lengthBonus=new LengthBonus("lengthBonus",x,y,3000,stick,50,this);
+            case 1 -> {
+                LengthBonus lengthBonus = new LengthBonus("lengthBonus", x, y, 3000, stick, 50, this);
                 addDrawable(lengthBonus);
                 addPhysicalObject(lengthBonus);
                 break;
             }
-            case 2:{
-                LifeBonus lifeBonus=new LifeBonus("lifeBonus",x,y,0,stick,this);
+            case 2 -> {
+                LifeBonus lifeBonus = new LifeBonus("lifeBonus", x, y, 0, stick, this);
                 addDrawable(lifeBonus);
                 addPhysicalObject(lifeBonus);
                 break;
@@ -253,6 +260,10 @@ public class Model implements ActionListener, KeyListener {
 
     }
 
+    /**
+     * this method will be used to handle pauses of the game
+     * @return boolean
+     */
     public boolean isPlaying() {
         return playing;
     }
@@ -261,12 +272,17 @@ public class Model implements ActionListener, KeyListener {
         this.playing = playing;
     }
 
+    /**
+     * this method will stop entirely the game
+     */
     public void stopTheGame(){
         setPlaying(false);
         timer.stop();
         //TODO add retry button on the left side of the frame
         pongEmUp.gameOver();
     }
+
+
 
 
 
