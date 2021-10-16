@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class Ball extends Entity {
     private float scalarSpeed;
-
+    public static final int BALL_DAMAGE = 5;
     private Random r=new Random();
 
     public Ball(int x, int y, Model model) {
@@ -19,8 +19,8 @@ public class Ball extends Entity {
         name = "ball";
 
         scalarSpeed = 2;
-        this.speed[0]=2;
-        this.speed[1]=2;
+        this.speed[0]=scalarSpeed;
+        this.speed[1]=scalarSpeed;
 
         shape = new CircleShape(x + width/2,y + height/2,width/2);
     }
@@ -37,11 +37,10 @@ public class Ball extends Entity {
         this.x += speed[0] * scalarSpeed;
         this.y += speed[1] * scalarSpeed;
 
-        if (y>HEIGHT || y < 0){ //ball passes stick or glitches out
-            x=250;
-            y=150;
+        if (y>HEIGHT || y < 0 ){ //ball passes stick or glitches out
+            reset();
         }
-        shape.update(this);
+
     }
 
     public void update(){
@@ -50,6 +49,7 @@ public class Ball extends Entity {
             scalarSpeed = Math.max(2,scalarSpeed - 1f / 750 * Model.DELAY); //loses 1 speed every 6 seconds
         innerTimer += Model.DELAY;
         move();
+        shape.update(this);
     }
 
     @Override
@@ -60,33 +60,39 @@ public class Ball extends Entity {
                 break;
             case "enemy":
             case "bonus":
-            case "projectile": //hitting something other than wall maintains speed for 8 seconds
+            case "stickprojectile": //hitting something other than wall maintains speed for 8 seconds
+            case "enemyprojectile": //hitting something other than wall maintains speed for 8 seconds
                 innerTimer = 81;
                 break;
         }
 
-        float[] normal = ((CircleShape)shape).getNormalHit();
+        float[] normal = CustomShape.normalize( ((CircleShape)shape).getNormalHit() );
         if(normal[0] == 0 && normal[1] == 0)
             System.out.println("bad normal");
 
 
+        //debugLog();
         //influence trajectory
         float[] normSpeed = CustomShape.normalize(entity.speed);
         if(CustomShape.dot(speed,normal) > 0){
             speed[0] = speed[0] + normSpeed[0]/2;
             speed[1] = speed[1] + normSpeed[1];
+
         }else{
+
             speed = CustomShape.reflectVector(speed,normal); //is normalized
         }
 
         speed = CustomShape.normalize(speed);
 
-        while(this.getShape().intersects(entity.getShape())){
-            //TODO : if hit two objects at once, self destruct
-            //TODO : if stuck too long, self destruct
+        int stuckCounter = 0;
+        while(this.getShape().intersects(entity.getShape()) && stuckCounter < 10){
             scalarSpeed = Math.max(scalarSpeed,CustomShape.distance(entity.speed));
             update();
+            //stuckCounter++;
         }
+        if(stuckCounter == 10)
+            reset();
 
     }
 
@@ -95,7 +101,15 @@ public class Ball extends Entity {
         return "ball";
     }
 
+    public void reset(){
+        //TODO : explosion animation + time wait + lose life
+        x=250;
+        y=150;
 
+        scalarSpeed = 2;
+        this.speed[0]=scalarSpeed;
+        this.speed[1]=scalarSpeed;
+    }
 
 }
 

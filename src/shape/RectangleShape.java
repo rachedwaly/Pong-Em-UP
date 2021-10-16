@@ -24,6 +24,11 @@ public class RectangleShape extends CustomShape {
 
     }
 
+    @Override
+    public boolean intersects(PolygonShape cs) {
+        return false;
+    }
+
     public boolean intersects(RectangleShape r){
 
         return shapeToRec.intersects(r.shapeToRec);

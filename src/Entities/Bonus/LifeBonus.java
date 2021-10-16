@@ -1,5 +1,6 @@
 package Entities.Bonus;
 
+import AltLib.ImageLoader;
 import Entities.Stick;
 import Game.Model;
 
@@ -35,7 +36,7 @@ public class LifeBonus extends Bonus{
     public void drawEntity(Graphics g) {
         if (!acquired) {
             g.setColor(color);
-            g.drawImage(model.getPhoto("health"), (int) x, (int) y, width/2, height/2,
+            g.drawImage(ImageLoader.healthImage, (int) x, (int) y, width/2, height/2,
                     model.getView());
         }
     }

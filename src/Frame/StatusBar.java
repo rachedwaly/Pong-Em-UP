@@ -1,5 +1,6 @@
 package Frame;
 
+import AltLib.ImageLoader;
 import Game.Model;
 
 import javax.swing.*;
@@ -20,7 +21,7 @@ public class StatusBar extends JPanel {
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        g.drawImage(model.getPhoto("health"),10,10,29,30,this);
+        g.drawImage(ImageLoader.healthImage,10,10,29,30,this);
         g.setFont(new Font("Purisa", Font.BOLD, 13));
         g.drawString("X "+model.getPlayerSpawnLeft(),45,30);
         g.drawString("Score: "+model.getPlayerScore(),100,30);

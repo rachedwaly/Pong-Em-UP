@@ -26,6 +26,8 @@ public abstract class CustomShape{
         return false;
     }
 
+    public abstract boolean intersects(PolygonShape cs);
+
     public abstract boolean intersects(RectangleShape cs);
 
     public abstract boolean intersects(CircleShape cs);
@@ -60,6 +62,11 @@ public abstract class CustomShape{
         result[0] = v[0] - 2 * dot(v,normal) * normal[0];
         result[1] = v[1] - 2 * dot(v,normal) * normal[1];
         return result;
+    }
+
+    public static boolean pointOnLine(float[] askPoint, float[] p1, float[] p2){
+        return Math.min(p1[0],p2[0]) <= askPoint[0] && askPoint[0] <= Math.max(p1[0],p2[0]) &&
+                Math.min(p1[1],p2[1]) <= askPoint[1] && askPoint[1] <= Math.max(p1[1],p2[1]);
     }
 }
 

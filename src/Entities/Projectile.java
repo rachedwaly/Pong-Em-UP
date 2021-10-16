@@ -8,17 +8,18 @@ import java.awt.*;
 public class Projectile extends Entity {
     public int damage = 1;
     public boolean active = false;
-    public float[] absSpeed;
+    public float scalarSpeed;
+    public boolean friendly; //true if ally projectile, false if enemy;
 
-    public Projectile(int w, int h, int dmg, float[] speed, Model model){
+    public Projectile(int w, int h, int dmg, float scalarSpeed, Model model){
         super(model);
         name = "Projectile";
         this.x = 500;
         this.y = 1000;
-        width = 5;
-        height = 5;
+        width = w;
+        height = h;
         color = Color.RED;
-        absSpeed = speed;
+        this.scalarSpeed = scalarSpeed;
 
     }
 
@@ -39,16 +40,20 @@ public class Projectile extends Entity {
 
     @Override
     public String getEntityTypeName() {
-        return "projectile";
+        if(friendly)
+            return "stickprojectile";
+        else
+            return "enemyprojectile";
     }
 
-    public void fire(Shooter source){
-        x = source.getX() + source.getWidth()/2f - width/2f; // centrer le projectile sur la source
-        y = source.getY() + source.lookDirection[1]*(source.height+10) ; //grab look direction
-        //y = source.getY() + source.lookDirection[1]*height;
-        // dynamically, some ships might change direction
-        speed[0] = absSpeed[0] * source.lookDirection[0];
-        speed[1] = absSpeed[1] * source.lookDirection[1];
+    public void fire(Shooter source, float[] fireDirection){
+        CustomShape.normalize(fireDirection);
+        friendly = source.getEntityTypeName().equals("stick");
+        x = source.getX() + source.getWidth()/2f - width/2f + fireDirection[0] * (source.getWidth()/2f + 10); // centrer le projectile sur la source
+        y = source.getY() + source.getHeight()/2f + fireDirection[1] * (source.getHeight()/2f + height); //grab look direction
+
+        speed[0] = scalarSpeed * fireDirection[0];
+        speed[1] = scalarSpeed * fireDirection[1];
         active = true;
 
     }

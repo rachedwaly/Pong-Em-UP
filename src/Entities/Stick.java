@@ -1,8 +1,10 @@
 package Entities;
+import AltLib.ImageLoader;
 import Entities.Bonus.Bonus;
 import Game.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 
 import static java.lang.Math.max;
@@ -43,9 +45,9 @@ public class Stick extends Shooter{
         this.width = initialWidth;
         this.height = 10;
 
-        lookDirection = new int[]{0,-1};
+        lookDirection = new float[]{0,-1};
         for(int i = 0; i < projectiles.length; i++)
-            projectiles[i] = new Projectile(5,20,10,new float[]{5f,5f},model);
+            projectiles[i] = new Projectile(5,20,10,5,model);
     }
 
     @Override
@@ -67,7 +69,7 @@ public class Stick extends Shooter{
     public void whenCollided(Entity entity) {
 
         switch (entity.getEntityTypeName()) {
-            case "projectile":
+            case "enemyprojectile":
                 if (!shieldOn) {
                     color = Color.RED;
                     Projectile p = (Projectile) entity;
@@ -103,8 +105,8 @@ public class Stick extends Shooter{
     @Override
     public void startDestructionSequence(Graphics g) {
         if (lives > 0){
-            if (animationIndex <= maxAnimationIndex){
-                g.drawImage(model.getPhoto(Integer.toString(animationIndex)+"death"),
+            if (animationIndex < maxAnimationIndex){
+                g.drawImage(ImageLoader.explosionAnimation[animationIndex],
                         (int)x-initialWidth,
                         (int)y-height*4,
                         initialWidth*4,
@@ -115,8 +117,8 @@ public class Stick extends Shooter{
                 resetStick();
             }
         }else{
-            //dessiner une image de destruction intermédiaire
-            g.drawImage(model.getPhoto(Integer.toString(5)+"death"),(int)x-initialWidth,
+            //TODO : dessiner une image de destruction intermédiaire
+            g.drawImage(ImageLoader.explosionAnimation[5],(int)x-initialWidth,
                     (int)y-height*4,
                     initialWidth*4,
                     height*8,model.getView());

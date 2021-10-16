@@ -18,7 +18,7 @@ public abstract class Entity {
 
     static final int SCROLLSPEED = 1;
     protected float[] speed = new float[2];
-    protected int[] lookDirection=new int[2];
+    protected float[] lookDirection=new float[2];
 
 
     // objects

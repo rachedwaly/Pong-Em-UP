@@ -99,7 +99,7 @@ public class PongEmUp extends JFrame {
         levelSelect = new JPanel(new GridLayout(1,3));
         JButton lvl1 = new JButton("1");
         JButton lvl2 = new JButton("2");
-        lvl2.setEnabled(false);                 //TODO Define clear conditions to enable them
+        lvl2.setEnabled(false);
         JButton lvl3 = new JButton("3");
         lvl2.setEnabled(false);
         levelSelect.add(lvl1);

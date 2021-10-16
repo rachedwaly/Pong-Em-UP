@@ -1,5 +1,6 @@
 package Entities;
 
+import AltLib.ImageLoader;
 import Game.Model;
 
 import java.awt.*;
@@ -18,7 +19,10 @@ public class BackGroundObject extends Entity{
         this.y=y;
         this.name=name;
         this.model=model;
-        this.photo=model.getPhoto(name);
+        if(name.equals("plane"))
+            this.photo= ImageLoader.planeImage;
+        if(name.equals("cloud"))
+            this.photo= ImageLoader.cloudImage;
         this.width=photo.getWidth(model.getView());
         this.height=photo.getHeight(model.getView());
         this.speed[0]=initialSpeed[0];
