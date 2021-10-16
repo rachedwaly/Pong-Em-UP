@@ -60,6 +60,7 @@ public class PlayGround extends JPanel {
     }
 
 
+
     public void update(){
         repaint();
         statusBar.repaint();

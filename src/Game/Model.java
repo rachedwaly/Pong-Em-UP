@@ -21,7 +21,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+
 public abstract class Model implements ActionListener, KeyListener {
+
 
     public static final boolean DEBUGMODE = false;
     public static Random random  = new Random();
@@ -47,21 +49,33 @@ public abstract class Model implements ActionListener, KeyListener {
     protected ArrayList<Enemy> ennemies = new ArrayList<>();
 
 
+    /**
+     * @param pongEmUp the main frame of the game
+     * @throws IOException
+     */
     public Model(PongEmUp pongEmUp) throws IOException {
         this.pongEmUp=pongEmUp;
 
     }
+
+    /**
+     * This method generate enemies
+     */
     protected void generateEnemies() {
         ennemies.add(new Enemy(Enemy.SENTRY,100,0,100,200,this));
         ennemies.add(new Enemy(Enemy.SENTRY,250,0,250,200,this));
     }
 
 
+    /**
+     * @param e this method will be called each tick of the timer in order to update the model
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         this.update();
         view.update();
     }
+
 
     public void addPhysicalObject(Entity e){
         physicalObjects.add(e);
@@ -78,6 +92,11 @@ public abstract class Model implements ActionListener, KeyListener {
     public void keyReleased(KeyEvent e) {
         stick.keyReleased(e);
     }
+
+    /**
+     * This method will sove the collision of all the entities inside the physicalObjects
+     * arrayList, Also it will move the entire entities
+     */
     protected void update() {
         solveCollisions();
         for (int i = 0; i < physicalObjects.size(); i++) {
@@ -88,14 +107,16 @@ public abstract class Model implements ActionListener, KeyListener {
             backgroundObjects.get(i).update();
         }
 
-
-
     }
 
     protected void addDrawable(Entity e){
         drawables.add(e);
     }
 
+    /**
+     * Looping on all the boundaries of the entities to check for collisions and call the
+     * whenCollided method of entity
+     */
     public void solveCollisions(){
         for(int i = 0; i < physicalObjects.size() - 1; i++){
             entityBuffer1 = physicalObjects.get(i);
@@ -133,45 +154,45 @@ public abstract class Model implements ActionListener, KeyListener {
     protected void loadPhotos() throws IOException {
         //This method will import all the photos needed for our game
         BufferedImage ph= ImageIO.read(new File("Resources/health.png"));
-        allImages.put("health",(Image) ph);
+        allImages.put("health", ph);
         BufferedImage ph1= ImageIO.read(new File("Resources/background lvl1.jpg"));
-        allImages.put("lvl1",(Image)ph1);
+        allImages.put("lvl1", ph1);
         BufferedImage ph2= ImageIO.read(new File("Resources/background lvl2.jpg"));
-        allImages.put("lvl2",(Image)ph2);
+        allImages.put("lvl2", ph2);
         BufferedImage ph3= ImageIO.read(new File("Resources/cloud.png"));
-        allImages.put("cloud",(Image) ph3);
+        allImages.put("cloud", ph3);
         BufferedImage ph4= ImageIO.read(new File("Resources/explosion_animation/1death.png"));
-        allImages.put("1death",(Image) ph4);
+        allImages.put("1death", ph4);
         BufferedImage ph5= ImageIO.read(new File("Resources/explosion_animation/2death.png"));
-        allImages.put("2death",(Image) ph5);
+        allImages.put("2death", ph5);
         BufferedImage ph6= ImageIO.read(new File("Resources/explosion_animation/3death.png"));
-        allImages.put("3death",(Image) ph6);
+        allImages.put("3death", ph6);
         BufferedImage ph7= ImageIO.read(new File("Resources/explosion_animation/4death.png"));
-        allImages.put("4death",(Image) ph7);
+        allImages.put("4death", ph7);
         BufferedImage ph8= ImageIO.read(new File("Resources/explosion_animation/5death.png"));
-        allImages.put("5death",(Image) ph8);
+        allImages.put("5death", ph8);
         BufferedImage ph9= ImageIO.read(new File("Resources/explosion_animation/6death.png"));
-        allImages.put("6death",(Image) ph9);
+        allImages.put("6death", ph9);
         BufferedImage ph10= ImageIO.read(new File("Resources/explosion_animation/7death.png"));
-        allImages.put("7death",(Image) ph10);
+        allImages.put("7death", ph10);
         BufferedImage ph11= ImageIO.read(new File("Resources/explosion_animation/8death.png"));
-        allImages.put("8death",(Image) ph11);
+        allImages.put("8death", ph11);
         BufferedImage ph12= ImageIO.read(new File("Resources/explosion_animation/9death.png"));
-        allImages.put("9death",(Image) ph12);
+        allImages.put("9death", ph12);
         BufferedImage ph13= ImageIO.read(new File("Resources/sentry.png"));
-        allImages.put("sentry",(Image) ph13);
+        allImages.put("sentry", ph13);
         BufferedImage ph13r = ImageIO.read(new File("Resources/sentryDamaged.png"));
-        allImages.put("sentryRed",(Image) ph13r);
+        allImages.put("sentryRed", ph13r);
         BufferedImage ph14= ImageIO.read(new File("Resources/plane.png"));
-        allImages.put("plane",(Image) ph14);
+        allImages.put("plane", ph14);
         BufferedImage ph15= ImageIO.read(new File("Resources/gameover.png"));
-        allImages.put("gameover",(Image) ph15);
+        allImages.put("gameover", ph15);
         BufferedImage ph16= ImageIO.read(new File("Resources/shield.png"));
-        allImages.put("shield",(Image) ph16);
+        allImages.put("shield", ph16);
         BufferedImage ph17= ImageIO.read(new File("Resources/shieldStick.png"));
-        allImages.put("shieldStick",(Image) ph17);
+        allImages.put("shieldStick", ph17);
         BufferedImage ph18= ImageIO.read(new File("Resources/muscle.png"));
-        allImages.put("muscle",(Image) ph18);
+        allImages.put("muscle", ph18);
 
 
 
@@ -218,7 +239,12 @@ public abstract class Model implements ActionListener, KeyListener {
         backgroundObjects.add(backgroundObject);
     }
 
-    //this method is called whenever an enemy is dead
+
+    /** this method is called whenever an enemy is dead, we remove it from all the data
+     * structures and assign null to the object so that the garbage collector of java erase it
+     * later on
+     * @param enemy
+     */
     public void removeEnemy(Enemy enemy){
         ennemies.remove(enemy);
         physicalObjects.remove(enemy);
@@ -227,6 +253,9 @@ public abstract class Model implements ActionListener, KeyListener {
         enemy = null;
     }
 
+    /** Same thing as removeEnemy but for bonus
+     * @param bonus
+     */
     //this method is called when a bonus is deleted
     public void removeBonus(Bonus bonus){
         physicalObjects.remove(bonus);
@@ -234,32 +263,39 @@ public abstract class Model implements ActionListener, KeyListener {
         bonus = null;
     }
 
+    /** this method will generate randomly each time an enemy dies
+     * @param x
+     * @param y
+     */
     private void spawnBonus(float x, float y) {
         int gen=random.nextInt(3);
-        switch (gen){
-            case 0:{
-                ShieldBonus shieldBonus=new ShieldBonus("shield",x,y,1000, stick,this);
+        switch (gen) {
+            case 0 -> {
+                ShieldBonus shieldBonus = new ShieldBonus("shield", x, y, 1000, stick, this);
                 addDrawable(shieldBonus);
                 addPhysicalObject(shieldBonus);
                 break;
             }
-            case 1:{
-                LengthBonus lengthBonus=new LengthBonus("lengthBonus",x,y,3000,stick,50,this);
+            case 1 -> {
+                LengthBonus lengthBonus = new LengthBonus("lengthBonus", x, y, 3000, stick, 50, this);
                 addDrawable(lengthBonus);
                 addPhysicalObject(lengthBonus);
                 break;
             }
-            case 2:{
-                LifeBonus lifeBonus=new LifeBonus("lifeBonus",x,y,0,stick,this);
+            case 2 -> {
+                LifeBonus lifeBonus = new LifeBonus("lifeBonus", x, y, 0, stick, this);
                 addDrawable(lifeBonus);
                 addPhysicalObject(lifeBonus);
                 break;
             }
-
         }
 
     }
 
+    /**
+     * this method will be used to handle pauses of the game
+     * @return boolean
+     */
     public boolean isPlaying() {
         return playing;
     }
@@ -268,6 +304,9 @@ public abstract class Model implements ActionListener, KeyListener {
         this.playing = playing;
     }
 
+    /**
+     * this method will stop entirely the game
+     */
     public void stopTheGame(){
         setPlaying(false);
         timer.stop();

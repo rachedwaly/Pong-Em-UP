@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class AnimationModel extends Model {
 
-    private JPanel test;
+    private JPanel mainMenu;
 
 
 
@@ -22,7 +22,7 @@ public class AnimationModel extends Model {
 
     public AnimationModel(PongEmUp pongEmUp,JPanel panel) throws IOException {
         super(pongEmUp);
-        test=panel;
+        mainMenu =panel;
         initiateAnimation();
     }
 
@@ -63,7 +63,7 @@ public class AnimationModel extends Model {
     @Override
     public void actionPerformed(ActionEvent e) {
         this.update();
-        test.repaint();
+        mainMenu.repaint();
     }
 
     public int getOffsetX() {
