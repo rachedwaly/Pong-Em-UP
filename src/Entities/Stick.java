@@ -29,8 +29,8 @@ public class Stick extends Shooter{
 
     private int lives =3;
 
-    public Stick(int x, int y,Model model,int initialWidth){
-        super(x,y,model);
+    public Stick(int x, int y, Model model, int initialWidth){
+        super(x,y, model);
         this.initialWidth=initialWidth;
         name = "Stick";
         canShoot = true;
@@ -45,7 +45,7 @@ public class Stick extends Shooter{
 
         lookDirection = new int[]{0,-1};
         for(int i = 0; i < projectiles.length; i++)
-            projectiles[i] = new Projectile(5,20,10,new float[]{5f,5f},model);
+            projectiles[i] = new Projectile(5,20,10,new float[]{5f,5f}, model);
     }
 
     @Override
@@ -108,7 +108,7 @@ public class Stick extends Shooter{
                         (int)x-initialWidth,
                         (int)y-height*4,
                         initialWidth*4,
-                        height*8,model.getView());
+                        height*8, model.getView());
                 animationIndex++;
             }
             else{
@@ -119,7 +119,7 @@ public class Stick extends Shooter{
             g.drawImage(model.getPhoto(Integer.toString(5)+"death"),(int)x-initialWidth,
                     (int)y-height*4,
                     initialWidth*4,
-                    height*8,model.getView());
+                    height*8, model.getView());
             model.stopTheGame();
         }
     }

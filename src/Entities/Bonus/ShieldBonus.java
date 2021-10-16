@@ -22,8 +22,8 @@ public class ShieldBonus extends Bonus{
             int y1=(int)stick.getY();
             int w1=stick.getWidth();
             int h1=stick.getHeight();
-            g.drawImage(model.getPhoto("shieldStick"),(int)x1-75,(int)y1-17,w1*4,
-                    h1*5,
+            g.drawImage(model.getPhoto("shieldStick"),(int)x1+w1+5,(int)y1,20,
+                    h1*2,
                     model.getView());
         }
     }

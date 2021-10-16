@@ -1,12 +1,11 @@
 package Entities;
-import shape.RectangleShape;
 import java.awt.*;
 import Game.*;
 
 public class Wall extends Entity{
 
-    public Wall(int x,int y,int w,int h,Model model){
-        super(x,y,w,h,model);
+    public Wall(int x, int y, int w, int h, Model model){
+        super(x,y,w,h, model);
     }
 
     @Override

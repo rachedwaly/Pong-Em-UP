@@ -2,7 +2,6 @@ package Entities;
 import Game.Model;
 import shape.*;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Random;
 
 
@@ -13,7 +12,7 @@ public class Ball extends Entity {
 
     public Ball(int x, int y, Model model) {
 
-        super(x, y,model);
+        super(x, y, model);
         this.width = 10;
         this.height = 10;
         name = "ball";

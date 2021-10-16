@@ -12,13 +12,13 @@ public class BackGroundObject extends Entity{
     protected float[] speed = new float[2];
     protected int width,height;
 
-    public BackGroundObject(String name, int x, int y, Model model,float[] initialSpeed){
-        super(x,y,model);
+    public BackGroundObject(String name, int x, int y, Model model, float[] initialSpeed){
+        super(x,y, model);
         this.x=x;
         this.y=y;
         this.name=name;
-        this.model=model;
-        this.photo=model.getPhoto(name);
+        this.model = model;
+        this.photo= model.getPhoto(name);
         this.width=photo.getWidth(model.getView());
         this.height=photo.getHeight(model.getView());
         this.speed[0]=initialSpeed[0];
@@ -73,7 +73,7 @@ public class BackGroundObject extends Entity{
     }
 
     public void drawEntity(Graphics g) {
-        g.drawImage(photo,(int)x,(int)y,model.getView());
+        g.drawImage(photo,(int)x,(int)y, model.getView());
     }
 
 

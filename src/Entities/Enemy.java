@@ -13,8 +13,8 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
 
 
 
-    private Enemy(int x0, int y0, int fX, int fY,Model model){
-        super(x0,y0,model);
+    private Enemy(int x0, int y0, int fX, int fY, Model model){
+        super(x0,y0, model);
         this.fX = fX;
         this.fY = fY;
 
@@ -32,8 +32,8 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
 
     }
 
-    public Enemy(String name, int x0, int y0 , int fX, int fY,Model model){
-        this(x0,y0,fX,fY,model);
+    public Enemy(String name, int x0, int y0 , int fX, int fY, Model model){
+        this(x0,y0,fX,fY, model);
         switch(name){
             case "SENTRY":
                 width = 40;
@@ -42,12 +42,12 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
                 speed[1] *= 2;
                 health=1;
                 for(int i = 0; i < projectiles.length; i++)
-                    projectiles[i] = new Projectile(5,20,10,new float[]{2f,2f},model);
+                    projectiles[i] = new Projectile(5,20,10,new float[]{2f,2f}, model);
 
                 color = Color.BLUE;
 
                 this.name = name;
-                this.photo=model.getPhoto("sentry");
+                this.photo= model.getPhoto("sentry");
                 photoDamaged = model.getPhoto("sentryRed");
 
                 shape = new RectangleShape((int)x,(int)y,width,height);
@@ -94,7 +94,7 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
             g.drawImage(model.getPhoto(Integer.toString(animationIndex)+"death"),(int)x-width,
                     (int)y-height,
                     width*4,
-                    height*4,model.getView());
+                    height*4, model.getView());
             animationIndex++;
         }
         else{
@@ -151,9 +151,9 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
     public void drawEntity(Graphics g){
         if (health>0){
             if(innerTimer > 80)
-                g.drawImage(photo,(int)x,(int)y,width,height,model.getView());
+                g.drawImage(photo,(int)x,(int)y,width,height, model.getView());
             else
-                g.drawImage(photoDamaged,(int)x,(int)y,width,height,model.getView());
+                g.drawImage(photoDamaged,(int)x,(int)y,width,height, model.getView());
             g.setColor(color);
             g.drawString(Integer.toString(health),(int)x + width/2,(int)y - 10);
         }

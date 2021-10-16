@@ -29,85 +29,32 @@ public class Model implements ActionListener, KeyListener {
     public static final int DELAY = 8;
     public Stick stick;
     public Ball b;
-    private HashMap<String,Image> allImages=new HashMap<>();
-    private PlayGround view;
-    private Entity entityBuffer1,entityBuffer2;
-    private Timer timer;
-    private int currentLvl=1;
-    private PongEmUp pongEmUp;
+    protected HashMap<String,Image> allImages=new HashMap<>();
+    protected PlayGround view;
+    protected Entity entityBuffer1,entityBuffer2;
+    protected Timer timer;
+    protected int currentLvl=1;
+    protected PongEmUp pongEmUp;
 
 
     public boolean playing=true;
-
     //on sépare les backgroundobjects des drawables vu qu'ils doivent etre dessinés avant ces
     // derniers
-    private ArrayList<Entity> drawables=new ArrayList<>();
-    private ArrayList<BackGroundObject> backgroundObjects=new ArrayList<>();
-
-
-    public ArrayList<Entity> physicalObjects = new ArrayList<>();
-
+    protected ArrayList<Entity> drawables=new ArrayList<>();
+    protected ArrayList<BackGroundObject> backgroundObjects=new ArrayList<>();
+    protected ArrayList<Entity> physicalObjects = new ArrayList<>();
     //il faut qu'on genere les ennemis après loadphotos()
-    private ArrayList<Enemy> ennemies = new ArrayList<>();
-    private ArrayList<Bonus> bonuses=new ArrayList<>();
+    protected ArrayList<Enemy> ennemies = new ArrayList<>();
+
 
     public Model(PongEmUp pongEmUp) throws IOException {
         this.pongEmUp=pongEmUp;
-        loadPhotos();
 
-        generateEnemies();
-        view = new PlayGround(this);
-        VerticalWall wallRight = new VerticalWall(WIDTH - 10, 0, 10, HEIGHT,this);
-        VerticalWall wallLeft = new VerticalWall(0, 0, 10, HEIGHT,this);
-        HorizontalWall wallUp = new HorizontalWall(10, 0, WIDTH-20, 10,this);
-        stick = new Stick(WIDTH / 2, HEIGHT - 20,this,50);
-        b = new Ball(250, 580,this);
-        addPhysicalObject(wallRight);
-        addPhysicalObject(wallLeft);
-        addPhysicalObject(wallUp);
-        addPhysicalObject(stick);
-        for(Projectile projectile : stick.projectiles)
-            addPhysicalObject(projectile);
-
-        if(!DEBUGMODE){
-            for(Enemy enemy : ennemies){
-                addPhysicalObject(enemy);
-                for(Projectile projectile : enemy.projectiles)
-                    addPhysicalObject(projectile);
-            }
-        }
-
-        for (Entity entity : physicalObjects) {
-            if(entity instanceof Enemy){
-                Enemy enemy = (Enemy) entity;
-                for(Projectile projectile : enemy.projectiles)
-                    addDrawable(projectile);
-            }
-            else if(entity instanceof Stick){
-                Stick stick = (Stick) entity;
-                for(Projectile projectile : stick.projectiles)
-                    addDrawable(projectile);
-            }
-            addDrawable(entity);
-        }
-        addDrawable(b);
-        addPhysicalObject(b);
-        setUpBackgroundObjects();
-        timer = new Timer(DELAY, this);
-        timer.start();
-    }
-
-    private void generateEnemies() {
-        ennemies.add(new Enemy(Enemy.SENTRY,100,0,100,200,this));
-        ennemies.add(new Enemy(Enemy.SENTRY,250,0,250,200,this));
     }
 
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        this.update();
-        view.update();
-    }
+
+
 
     public void addPhysicalObject(Entity e){
         physicalObjects.add(e);
@@ -124,23 +71,8 @@ public class Model implements ActionListener, KeyListener {
     public void keyReleased(KeyEvent e) {
     stick.keyReleased(e);
     }
-    private void update() {
-        solveCollisions();
-        for (int i = 0; i < physicalObjects.size(); i++) {
-            physicalObjects.get(i).update();
-        }
-
-        for (int i=0;i<backgroundObjects.size();i++){
-            backgroundObjects.get(i).update();
-        }
 
 
-
-    }
-
-    private void addDrawable(Entity e){
-        drawables.add(e);
-    }
 
     public void solveCollisions(){
         for(int i = 0; i < physicalObjects.size() - 1; i++){
@@ -157,6 +89,43 @@ public class Model implements ActionListener, KeyListener {
             }
         }
     }
+
+
+    public Image getPhoto(String name){
+        return allImages.get(name);
+    }
+
+
+
+    protected void generateEnemies() {
+        ennemies.add(new Enemy(Enemy.SENTRY,100,0,100,200,this));
+        ennemies.add(new Enemy(Enemy.SENTRY,250,0,250,200,this));
+    }
+
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        this.update();
+    }
+
+
+    protected void update() {
+        solveCollisions();
+        for (int i = 0; i < physicalObjects.size(); i++) {
+            physicalObjects.get(i).update();
+        }
+
+        for (int i=0;i<backgroundObjects.size();i++){
+            backgroundObjects.get(i).update();
+        }
+        view.update();
+    }
+
+    protected void addDrawable(Entity e){
+        drawables.add(e);
+    }
+
+
     public PlayGround getView() {
         return view;
     }
@@ -176,7 +145,7 @@ public class Model implements ActionListener, KeyListener {
         timer.start();
     }
 
-    private void loadPhotos() throws IOException {
+    protected void loadPhotos() throws IOException {
         //This method will import all the photos needed for our game
         BufferedImage ph= ImageIO.read(new File("Resources/health.png"));
         allImages.put("health",(Image) ph);
@@ -223,9 +192,7 @@ public class Model implements ActionListener, KeyListener {
 
     }
 
-    public Image getPhoto(String name){
-        return allImages.get(name);
-    }
+
 
     public ArrayList<Entity> getDrawables() {
         return drawables;
@@ -239,7 +206,7 @@ public class Model implements ActionListener, KeyListener {
         this.currentLvl = currentLvl;
     }
 
-    private void setUpBackgroundObjects() {
+    protected void setUpBackgroundObjects() {
         switch(getCurrentLvl()){
             case 1:{
                 addBackGroundObject(new BackGroundObject("cloud",50,60,this,new float[]{0.5f,
@@ -284,7 +251,7 @@ public class Model implements ActionListener, KeyListener {
         int gen=random.nextInt(3);
         switch (gen){
             case 0:{
-                ShieldBonus shieldBonus=new ShieldBonus("shield",x,y,1000, stick,this);
+                ShieldBonus shieldBonus=new ShieldBonus("shield",x,y,3000, stick,this);
                 addDrawable(shieldBonus);
                 addPhysicalObject(shieldBonus);
                 break;
@@ -320,6 +287,8 @@ public class Model implements ActionListener, KeyListener {
         //TODO add retry button on the left side of the frame
         pongEmUp.gameOver();
     }
+
+
 
 
 

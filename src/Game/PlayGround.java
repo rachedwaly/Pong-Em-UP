@@ -23,8 +23,8 @@ public class PlayGround extends JPanel {
 
     public PlayGround(Model model) throws IOException {
         super(new BorderLayout()); //BorderLayout instead ?
-        this.model=model;
-        setPreferredSize(new Dimension(Model.WIDTH,Model.HEIGHT));
+        this.model = model;
+        setPreferredSize(new Dimension(Model.WIDTH, Model.HEIGHT));
         statusBar=new StatusBar(model);
         add(statusBar,BorderLayout.SOUTH);
     }
@@ -32,8 +32,8 @@ public class PlayGround extends JPanel {
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         handleLevelBackground(g);
-        int bX = (int)model.b.getX();
-        int bY = (int)model.b.getY();
+        int bX = (int) model.b.getX();
+        int bY = (int) model.b.getY();
         g.drawString("(" + model.b.getX() + ", " + model.b.getY() + ")" ,50,30 );
         ArrayList<Entity> drawingList=new ArrayList<>(model.getDrawables());
         //on doit impérativement utiliser ce type de boucle four sinon on peut pas mettre à jour
@@ -44,13 +44,13 @@ public class PlayGround extends JPanel {
         }
 
         if (!model.isPlaying()){
-            g.drawImage(model.getPhoto("gameover"),20,120,model.getView());
+            g.drawImage(model.getPhoto("gameover"),20,120, model.getView());
         }
 
     }
 
     private void handleLevelBackground(Graphics g) {
-        int lvl=model.getCurrentLvl();
+        int lvl= model.getCurrentLvl();
         g.drawImage(model.getPhoto("lvl"+lvl), 0, 0, this);
         ArrayList<BackGroundObject> drawingList=new ArrayList<>(model.getBackgroundObjects());
         for (int i=0;i<drawingList.size();i++){
