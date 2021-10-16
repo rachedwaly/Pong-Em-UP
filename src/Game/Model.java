@@ -212,7 +212,7 @@ public class Model implements ActionListener, KeyListener {
         allImages.put("plane",(Image) ph14);
         BufferedImage ph15= ImageIO.read(new File("Resources/gameover.png"));
         allImages.put("gameover",(Image) ph15);
-        BufferedImage ph16= ImageIO.read(new File("Resources/shield.png"));
+        BufferedImage ph16= ImageIO.read(new File("Resources/shieldStick.png"));
         allImages.put("shield",(Image) ph16);
         BufferedImage ph17= ImageIO.read(new File("Resources/shieldStick.png"));
         allImages.put("shieldStick",(Image) ph17);
@@ -281,10 +281,11 @@ public class Model implements ActionListener, KeyListener {
     }
 
     private void spawnBonus(float x, float y) {
-        int gen=random.nextInt(3);
+        int gen=random.nextInt(2);
+
         switch (gen){
             case 0:{
-                ShieldBonus shieldBonus=new ShieldBonus("shield",x,y,1000, stick,this);
+                ShieldBonus shieldBonus=new ShieldBonus("shield",x,y,8000, stick,this);
                 addDrawable(shieldBonus);
                 addPhysicalObject(shieldBonus);
                 break;
