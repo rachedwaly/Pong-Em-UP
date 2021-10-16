@@ -33,7 +33,7 @@ private Ball ball;
             this.x = max(ball.x,10);
         }
         else{
-            this.x=min(ball.x,WIDTH-10-width);
+            this.x=min(ball.x,WIDTH+20-width);
         }
         shape.update(this);
 
@@ -44,4 +44,10 @@ private Ball ball;
 
     @Override
     public void keyPressed(KeyEvent e){}
+
+    @Override
+    public void drawEntity(Graphics g){
+            g.setColor(this.color);
+            g.fillRect((int)x,(int)y,width,height);
+    }
 }

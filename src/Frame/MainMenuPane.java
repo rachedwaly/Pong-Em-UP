@@ -82,7 +82,7 @@ public class MainMenuPane extends JPanel {
 
     private void handleBackground(Graphics g) {
 
-        g.drawImage(model.getPhoto("lvl1"), model.getOffsetX(), 0, this);
+        g.drawImage(model.getPhoto("lvl1"), model.getOffsetX(), 30, this);
         ArrayList<BackGroundObject> drawingList=new ArrayList<>(model.getBackgroundObjects());
         for (int i=0;i<drawingList.size();i++){
             BackGroundObject bgo=drawingList.get(i);

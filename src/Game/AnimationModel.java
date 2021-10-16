@@ -30,11 +30,11 @@ public class AnimationModel extends Model {
 
     public void initiateAnimation() throws IOException {
         loadPhotos();
-        VerticalWall wallRight = new VerticalWall(WIDTH - 10+offsetX, 0, 10, HEIGHT,this);
-        VerticalWall wallLeft = new VerticalWall(+offsetX, 0, 10, HEIGHT,this);
-        HorizontalWall wallUp = new HorizontalWall(10+offsetX, 0, WIDTH-20, 10,this);
+        VerticalWall wallRight = new VerticalWall(WIDTH - 10+offsetX, 30, 10, HEIGHT,this);
+        VerticalWall wallLeft = new VerticalWall(+offsetX, 30, 10, HEIGHT,this);
+        HorizontalWall wallUp = new HorizontalWall(10+offsetX, 30, WIDTH-20, 10,this);
         b = new Ball(250+offsetX, 580,this);
-        stick = new StickForAnimation(WIDTH / 2+offsetX, HEIGHT - 20,this,50,b);
+        stick = new StickForAnimation(WIDTH / 2+offsetX, HEIGHT +10,this,50,b);
         addPhysicalObject(wallRight);
         addPhysicalObject(wallLeft);
         addPhysicalObject(wallUp);
