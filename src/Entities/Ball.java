@@ -6,7 +6,7 @@ import java.util.Random;
 
 
 public class Ball extends Entity {
-    private float scalarSpeed;
+    protected float scalarSpeed;
 
     private Random r=new Random();
 

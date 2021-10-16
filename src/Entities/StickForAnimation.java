@@ -7,7 +7,7 @@ import java.awt.event.KeyEvent;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
-
+//this class inherited from stick will follow the ball around: animation purposes
 public class StickForAnimation extends Stick{
 private Ball ball;
 
