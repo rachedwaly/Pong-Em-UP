@@ -93,7 +93,8 @@ public class Ball extends Entity {
         }else{
             Bonus bonus = (Bonus) entity;
             model.stick.applyBonus(bonus);
-            model.removeBonus(bonus);
+            //TODO : unbreak removing bonuses through ball
+            //model.removeBonus(bonus);
         }
 
 
