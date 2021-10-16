@@ -70,8 +70,8 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
                 color = Color.GREEN;
 
                 this.name = name;
-                this.photo=ImageLoader.sentryImage;
-                photoDamaged = ImageLoader.sentryDamaged;
+                this.photo=ImageLoader.spinnerImage;
+                photoDamaged = ImageLoader.spinnerDamaged;
 
                 shape = new CircleShape((int)x + width/2,(int)y + height/2,width);
                 break;
@@ -192,13 +192,13 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
                     speed[1] = 0;
                     if(2000 < loopTimer % 8000 && loopTimer % 8000 < 4000){
                         speed[0] = 0;
-                        speed[1] = -1;
+                        speed[1] = -0.5f;
 
                     }
 
                     if(6000 < loopTimer % 8000 && loopTimer % 8000 < 8000){
                         speed[0] = 0;
-                        speed[1] = 1;
+                        speed[1] = 0.5f;
                     }
 
                     if(loopTimer% 4000 == 0)
@@ -211,13 +211,12 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
     @Override
     public void drawEntity(Graphics g){
         if (health>0){
-            /*if(innerTimer > 80)
+            if(innerTimer > 80)
                 g.drawImage(photo,(int)x,(int)y,width,height,model.getView());
             else
-                g.drawImage(photoDamaged,(int)x,(int)y,width,height,model.getView());*/
+                g.drawImage(photoDamaged,(int)x,(int)y,width,height,model.getView());
 
             g.setColor(color);
-            g.fillOval((int)x,(int)y,width,height);
             g.drawString(Integer.toString(health),(int)x + width/2,(int)y - 10);
         }
         else startDestructionSequence(g);

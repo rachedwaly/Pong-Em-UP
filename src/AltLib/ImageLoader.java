@@ -15,6 +15,8 @@ public class ImageLoader {
     public static BufferedImage[] explosionAnimation;
     public static BufferedImage sentryImage;
     public static BufferedImage sentryDamaged;
+    public static BufferedImage spinnerImage;
+    public static BufferedImage spinnerDamaged;
     public static BufferedImage planeImage;
     public static BufferedImage gameoverImage;
     public static BufferedImage shieldBonusImage;
@@ -40,6 +42,8 @@ public class ImageLoader {
             explosionAnimation[8] = ImageIO.read(new File("Resources/explosion_animation/9death.png"));
             sentryImage = ImageIO.read(new File("Resources/sentry.png"));
             sentryDamaged = ImageIO.read(new File("Resources/sentryDamaged.png"));
+            spinnerImage = ImageIO.read(new File("Resources/ufo.png"));
+            spinnerDamaged = ImageIO.read(new File("Resources/ufoDamaged.png"));
             planeImage = ImageIO.read(new File("Resources/plane.png"));
             gameoverImage = ImageIO.read(new File("Resources/gameover.png"));
             shieldBonusImage = ImageIO.read(new File("Resources/shield.png"));
