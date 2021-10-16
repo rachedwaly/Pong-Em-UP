@@ -20,15 +20,14 @@ public class AnimationModel extends Model {
     private int offsetX=30;
     private int offsetY=30; //these offset will help put the animation in place inside the mainmenu
 
-    public AnimationModel(PongEmUp pongEmUp,JPanel panel) throws IOException {
+    public AnimationModel(PongEmUp pongEmUp,JPanel panel) {
         super(pongEmUp);
         mainMenu =panel;
         initiateAnimation();
     }
 
 
-    public void initiateAnimation() throws IOException {
-        //loadPhotos();
+    public void initiateAnimation(){
         VerticalWall wallRight = new VerticalWall(WIDTH - 10+offsetX, offsetY, 10, HEIGHT,this);
         VerticalWall wallLeft = new VerticalWall(+offsetX, offsetY, 10, HEIGHT,this);
         HorizontalWall wallUp = new HorizontalWall(10+offsetX, offsetY, WIDTH-20, 10,this);
@@ -47,10 +46,7 @@ public class AnimationModel extends Model {
         timer.start();
     }
 
-    public void loadPhotos() throws IOException {
-        BufferedImage ph1= ImageIO.read(new File("Resources/background lvl1.jpg"));
-        allImages.put("lvl1",(Image)ph1);
-    }
+
 
     @Override
     protected void update(){

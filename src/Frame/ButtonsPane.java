@@ -27,11 +27,7 @@ public class ButtonsPane extends JPanel {
         JButton retry=new JButton("retry");
         add(retry,gbc);
         retry.addActionListener(e2 -> { //Eventually, layeredPane transition
-            try {
                 pongEmUp.startGame();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         });
     }
 }

@@ -22,7 +22,7 @@ public class PlayGround extends JPanel {
 
 
 
-    public PlayGround(Model model) throws IOException {
+    public PlayGround(Model model){
         super(new BorderLayout()); //BorderLayout instead ?
         this.model=model;
         setPreferredSize(new Dimension(Model.WIDTH,Model.HEIGHT));

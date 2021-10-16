@@ -52,7 +52,7 @@ public class Model implements ActionListener, KeyListener {
      * @param pongEmUp the main frame of the game
      * @throws IOException
      */
-    public Model(PongEmUp pongEmUp) throws IOException {
+    public Model(PongEmUp pongEmUp){
         this.pongEmUp=pongEmUp;
 /*
         generateEnemies();

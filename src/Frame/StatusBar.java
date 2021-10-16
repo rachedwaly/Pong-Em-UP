@@ -12,7 +12,7 @@ public class StatusBar extends JPanel {
     private Image healthPhoto;
     private Model model;
 
-    public StatusBar(Model model) throws IOException {
+    public StatusBar(Model model){
         this.model = model;
         setBackground(new Color(211,211,211));
         setPreferredSize(new Dimension(Model.WIDTH,50));

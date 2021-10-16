@@ -27,7 +27,7 @@ public class PongEmUp extends JFrame {
     private ButtonsPane buttonsPanel;
 
 
-    public PongEmUp() throws IOException {
+    public PongEmUp(){
 
         super("Pong'em up");
 
@@ -130,7 +130,7 @@ public class PongEmUp extends JFrame {
         System.exit(0);
     }
 
-    public void startGame() throws IOException {
+    public void startGame() {
         running=true;
         //put this inside a gamePane class maybe?
         containerPane.removeAll();

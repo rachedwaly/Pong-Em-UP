@@ -16,7 +16,7 @@ public class MainMenuPane extends JPanel {
     private PongEmUp pongemup;
     private AnimationModel model;
 
-    public MainMenuPane(PongEmUp pongemup) throws IOException {
+    public MainMenuPane(PongEmUp pongemup){
         this.pongemup=pongemup;
 
         model=new AnimationModel(pongemup,this);
@@ -42,12 +42,7 @@ public class MainMenuPane extends JPanel {
         JButton selectButton=new JButton("Level Select");
         JButton options=new JButton("Options");
         JButton quit=new JButton("Quit");
-        newGame.addActionListener(e -> {
-            try {
-                pongemup.startGame();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+        newGame.addActionListener(e -> {pongemup.startGame();
         });
 
         options.addActionListener(e -> pongemup.goToOptions());

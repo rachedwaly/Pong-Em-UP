@@ -7,12 +7,12 @@ import javax.swing.*;
 import java.io.IOException;
 
 public class GameModel extends Model{
-    public GameModel(PongEmUp pongEmUp) throws IOException {
+    public GameModel(PongEmUp pongEmUp){
         super(pongEmUp);
         initiateGame();
     }
 
-    private void initiateGame() throws IOException {
+    private void initiateGame(){
         generateEnemies();
         view = new PlayGround(this);
         VerticalWall wallRight = new VerticalWall(WIDTH - 10, 0, 10, HEIGHT,this);
