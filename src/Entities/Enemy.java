@@ -191,13 +191,13 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
                     speed[1] = 0;
                     if(2000 < loopTimer % 8000 && loopTimer % 8000 < 4000){
                         speed[0] = 0;
-                        speed[1] = 0;
+                        speed[1] = -1;
 
                     }
 
                     if(6000 < loopTimer % 8000 && loopTimer % 8000 < 8000){
                         speed[0] = 0;
-                        speed[1] = 0;
+                        speed[1] = 1;
                     }
 
                     if(loopTimer% 4000 == 0)

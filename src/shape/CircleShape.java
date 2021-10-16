@@ -23,6 +23,17 @@ public class CircleShape extends CustomShape{
 
     }
 
+    @Override
+    public boolean intersects(PolygonShape poly) {
+        if(poly.width == 0 || poly.height == 0)
+            return false;
+        //TODO LAST : define circle in interior (iterate on triangles)
+        if(poly.x <= x && x <= poly.x + poly.width &&
+                poly.y <= y && y <= poly.y + poly.height)
+            return true;
+        return false;
+    }
+
     //Code taken from https://stackoverflow.com/questions/401847/circle-rectangle-collision-detection-intersection
     @Override
     public boolean intersects(RectangleShape rect){
@@ -75,8 +86,7 @@ public class CircleShape extends CustomShape{
         }
 
 
-        if(Math.min(p1[0],p2[0]) <= projection[0] && projection[0] <= Math.max(p1[0],p2[0]) &&
-           Math.min(p1[1],p2[1]) <= projection[1] && projection[1] <= Math.max(p1[1],p2[1]) &&
+        if(pointOnLine(projection,p1,p2) &&
                 pointInCircle(projection)){
             normalHit[0] = - p1[1] + p2[1]; //-b
             normalHit[1] = p1[0] - p2[0]; //a
@@ -94,10 +104,10 @@ public class CircleShape extends CustomShape{
     public boolean intersects(CircleShape cs){
         double distance = Math.sqrt(Math.pow(this.x - cs.x,2) + Math.pow(this.y - cs.y,2));
 
-        normalHit[0] = -(x - cs.x);
-        normalHit[1] = -(y - cs.y);
-        cs.normalHit[0] = -(x - cs.x);
-        cs.normalHit[1] = -(y - cs.y);
+        normalHit[0] = cs.x - x;
+        normalHit[1] = cs.y - y;
+        cs.normalHit[0] = cs.x - x;
+        cs.normalHit[1] = cs.y - y;
         boolean b = distance <= this.radius + cs.radius;
         return b;
     }

@@ -98,8 +98,8 @@ public class Model implements ActionListener, KeyListener {
     }
 
     private void generateEnemies() {
-        //ennemies.add(new Enemy(Enemy.SENTRY,100,0,100,200,this));
-        //ennemies.add(new Enemy(Enemy.SENTRY,250,0,250,200,this));
+        ennemies.add(new Enemy(Enemy.SENTRY,100,0,100,200,this));
+        ennemies.add(new Enemy(Enemy.SENTRY,250,0,250,200,this));
         ennemies.add(new Enemy(Enemy.SPINNER,175,0,175,200,this));
     }
 

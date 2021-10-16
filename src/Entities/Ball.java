@@ -37,7 +37,7 @@ public class Ball extends Entity {
         this.x += speed[0] * scalarSpeed;
         this.y += speed[1] * scalarSpeed;
 
-        if (y>HEIGHT || y < 0){ //ball passes stick or glitches out
+        if (y>HEIGHT || y < 0 ){ //ball passes stick or glitches out
             reset();
         }
 
@@ -75,11 +75,9 @@ public class Ball extends Entity {
         //influence trajectory
         float[] normSpeed = CustomShape.normalize(entity.speed);
         if(CustomShape.dot(speed,normal) > 0){
-            //System.out.println("speed normal aligned");
             speed[0] = speed[0] + normSpeed[0]/2;
             speed[1] = speed[1] + normSpeed[1];
         }else{
-            //System.out.println("speed normal aligned");
             speed = CustomShape.reflectVector(speed,normal); //is normalized
         }
 
