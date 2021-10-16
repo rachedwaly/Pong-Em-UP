@@ -51,10 +51,17 @@ public class Model implements ActionListener, KeyListener {
         this.pongEmUp=pongEmUp;
 
     }
+    protected void generateEnemies() {
+        ennemies.add(new Enemy(Enemy.SENTRY,100,0,100,200,this));
+        ennemies.add(new Enemy(Enemy.SENTRY,250,0,250,200,this));
+    }
 
 
-
-
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        this.update();
+        view.update();
+    }
 
     public void addPhysicalObject(Entity e){
         physicalObjects.add(e);
@@ -65,14 +72,29 @@ public class Model implements ActionListener, KeyListener {
     }
     @Override
     public void keyPressed(KeyEvent e) {
-    stick.keyPressed(e);
+        stick.keyPressed(e);
     }
     @Override
     public void keyReleased(KeyEvent e) {
-    stick.keyReleased(e);
+        stick.keyReleased(e);
+    }
+    protected void update() {
+        solveCollisions();
+        for (int i = 0; i < physicalObjects.size(); i++) {
+            physicalObjects.get(i).update();
+        }
+
+        for (int i=0;i<backgroundObjects.size();i++){
+            backgroundObjects.get(i).update();
+        }
+
+
+
     }
 
-
+    protected void addDrawable(Entity e){
+        drawables.add(e);
+    }
 
     public void solveCollisions(){
         for(int i = 0; i < physicalObjects.size() - 1; i++){
@@ -89,43 +111,6 @@ public class Model implements ActionListener, KeyListener {
             }
         }
     }
-
-
-    public Image getPhoto(String name){
-        return allImages.get(name);
-    }
-
-
-
-    protected void generateEnemies() {
-        ennemies.add(new Enemy(Enemy.SENTRY,100,0,100,200,this));
-        ennemies.add(new Enemy(Enemy.SENTRY,250,0,250,200,this));
-    }
-
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        this.update();
-    }
-
-
-    protected void update() {
-        solveCollisions();
-        for (int i = 0; i < physicalObjects.size(); i++) {
-            physicalObjects.get(i).update();
-        }
-
-        for (int i=0;i<backgroundObjects.size();i++){
-            backgroundObjects.get(i).update();
-        }
-        view.update();
-    }
-
-    protected void addDrawable(Entity e){
-        drawables.add(e);
-    }
-
-
     public PlayGround getView() {
         return view;
     }
@@ -192,7 +177,9 @@ public class Model implements ActionListener, KeyListener {
 
     }
 
-
+    public Image getPhoto(String name){
+        return allImages.get(name);
+    }
 
     public ArrayList<Entity> getDrawables() {
         return drawables;
@@ -251,7 +238,7 @@ public class Model implements ActionListener, KeyListener {
         int gen=random.nextInt(3);
         switch (gen){
             case 0:{
-                ShieldBonus shieldBonus=new ShieldBonus("shield",x,y,3000, stick,this);
+                ShieldBonus shieldBonus=new ShieldBonus("shield",x,y,1000, stick,this);
                 addDrawable(shieldBonus);
                 addPhysicalObject(shieldBonus);
                 break;
