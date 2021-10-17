@@ -4,16 +4,17 @@ import Entities.Bonus.Bonus;
 import Game.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 
-import static java.lang.Math.max;
-import static java.lang.Math.min;
+import static java.lang.Math.*;
 
 public class Stick extends Shooter{
     private ArrayList<Bonus> bonuses=new ArrayList<>();
     private Color healthColor;
     private Color damageColor;
+    protected BufferedImage texture;
 
 
 
@@ -40,7 +41,6 @@ public class Stick extends Shooter{
         health = maxHealth;
         healthColor = Color.GREEN;
         damageColor = Color.RED;
-
         offsetX = 0;
         this.width = initialWidth;
         this.height = 10;
@@ -222,8 +222,8 @@ public class Stick extends Shooter{
     @Override
     public void drawEntity(Graphics g){
         if (health>0){
-        g.setColor(this.color);
-        g.fillRect((int)x,(int)y,width,height);
+        texture=ImageLoader.stickImage[abs(Model.stickPhoto%ImageLoader.stickImage.length)];
+        g.drawImage(texture,(int)x, (int)y,width,height,model.getView());
         g.setColor(healthColor);
         g.fillRect((int)(x - offsetX),(int)y + height + 5,(int)(initialWidth * health/(float)maxHealth),5);
         if (!shieldOn) {
@@ -292,6 +292,10 @@ public class Stick extends Shooter{
         this.health=health;
         width = initialWidth / 2 + (int) ((health / (float) maxHealth) * initialWidth / 2);
     }
+
+
+
+
 
 
 }

@@ -1,9 +1,12 @@
 package Entities;
+import Frame.OptionsPane.BallPreview;
 import Game.Model;
 import shape.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
+
+import static java.lang.Math.abs;
 
 
 public class Ball extends Entity {
@@ -27,9 +30,8 @@ public class Ball extends Entity {
 
     @Override
     public void drawEntity(Graphics g){
-        g.setColor(this.color);
+        g.setColor(BallPreview.colors[abs(Model.ballColor%BallPreview.colors.length)]);
         g.fillOval((int)x,(int)y,width,height);
-        g.setColor(Color.WHITE);
     }
 
     public void move(){
@@ -110,6 +112,8 @@ public class Ball extends Entity {
         this.speed[0]=scalarSpeed;
         this.speed[1]=scalarSpeed;
     }
+
+
 
 }
 

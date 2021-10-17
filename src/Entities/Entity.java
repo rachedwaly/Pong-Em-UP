@@ -42,10 +42,8 @@ public abstract class Entity {
         this.y=y;
         this.width=w;
         this.height=h;
-        this.color = Color.BLACK;
         this.model = model;
         color = Color.BLACK;
-
         innerTimer = 81; //0 -> 80 is reserved for blinking animations
         shape = new RectangleShape(x,y,w,h);
     }
@@ -121,6 +119,8 @@ public abstract class Entity {
     public void setWidth(int width) {
         this.width = width;
     }
+
+
 
 
 }

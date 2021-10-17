@@ -1,12 +1,13 @@
 package Entities;
 
+import AltLib.ImageLoader;
 import Game.Model;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
-import static java.lang.Math.max;
-import static java.lang.Math.min;
+import static java.lang.Math.*;
+
 //this class inherited from stick will follow the ball around: animation purposes
 public class StickForAnimation extends Stick{
 private Ball ball;
@@ -48,6 +49,7 @@ private Ball ball;
     @Override
     public void drawEntity(Graphics g){
             g.setColor(this.color);
-            g.fillRect((int)x,(int)y,width,height);
+            texture= ImageLoader.stickImage[abs(Model.stickPhoto%ImageLoader.stickImage.length)];
+            g.drawImage(texture,(int)x, (int)y,width,height,model.getView());
     }
 }

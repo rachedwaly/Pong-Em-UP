@@ -39,21 +39,18 @@ public class MainMenuPane extends JPanel {
         menu.setOpaque(false);
 
         JButton newGame=new JButton("new Game");
-        JButton selectButton=new JButton("Level Select");
+
         JButton options=new JButton("Options");
         JButton quit=new JButton("Quit");
         newGame.addActionListener(e -> {pongemup.startGame();
         });
-
         options.addActionListener(e -> pongemup.goToOptions());
-
         quit.addActionListener(e -> pongemup.quit());
 
-        selectButton.addActionListener(e -> pongemup.goToLevelSelect());
+
 
         menu.add(newGame,gbc);
         menu.add(options,gbc);
-        menu.add(selectButton,gbc);
         menu.add(quit,gbc);
 
         gbc.weighty=1;

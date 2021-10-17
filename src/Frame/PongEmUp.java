@@ -1,5 +1,6 @@
 package Frame;
 
+import Frame.OptionsPane.OptionsPane;
 import Game.GameModel;
 import Game.Model;
 import Game.PlayGround;
@@ -7,7 +8,6 @@ import Game.PlayGround;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.io.IOException;
 
 
 public class PongEmUp extends JFrame {
@@ -20,8 +20,8 @@ public class PongEmUp extends JFrame {
     private Model model;
     private JPanel containerPane;
     private PlayGround playground;
-    private JPanel levelSelect;
-    private JPanel optionsMenu;
+
+    private JPanel optionsPane;
     private PausePane pausePane;
     private MainMenuPane mainMenuPane;
     private ButtonsPane buttonsPanel;
@@ -49,14 +49,13 @@ public class PongEmUp extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
-    public void initTransitionsButtons(){
 
-    }
 
-    public void pauseGame(){
+    public void showPauseMenu(){
         pausePane.setOpaque(false);
         pausePane.setVisible(true);
         model.stopTimer();
+        paused=true;
     }
 
     public void resumeGame(){
@@ -65,62 +64,20 @@ public class PongEmUp extends JFrame {
     }
 
     public void goToOptions(){
-        optionsMenu = new JPanel();
-        if (!running){
         containerPane.removeAll();
-
-        JLabel placeholder = new JLabel("Placeholder");
-        JSlider volume = new JSlider(0,100,50);
-        JButton optionsToMain = new JButton("Menu");
-        optionsMenu.add(placeholder);
-        optionsMenu.add(volume);
-        optionsMenu.add(optionsToMain);
-        containerPane.add(optionsMenu);
-        revalidate();
-        repaint();}
-        else {
-            containerPane.removeAll();
-            JLabel placeholder = new JLabel("Placeholder");
-            JSlider volume = new JSlider(0,100,50);
-            JButton optionsToMain = new JButton("Menu");
-            optionsMenu.add(placeholder);
-            optionsMenu.add(volume);
-            optionsMenu.add(optionsToMain);
-            containerPane.add(optionsMenu);
-            revalidate();
-            repaint();
-
-        }
-
-
-    }
-
-    public void goToLevelSelect(){
-        containerPane.remove(mainMenuPane);
-        levelSelect = new JPanel(new GridLayout(1,3));
-        JButton lvl1 = new JButton("1");
-        JButton lvl2 = new JButton("2");
-        lvl2.setEnabled(false);
-        JButton lvl3 = new JButton("3");
-        lvl2.setEnabled(false);
-        levelSelect.add(lvl1);
-        containerPane.add(levelSelect);
+        optionsPane = new OptionsPane(this);
+        containerPane.add(optionsPane);
         revalidate();
         repaint();
-
-
     }
 
+
     public void goBackToMainMenu(){
-
-
         stopTheGame();
         showMainMenu();
-
     }
 
     public void showMainMenu(){
-
         containerPane.add(mainMenuPane);
         revalidate();
         repaint();
@@ -132,7 +89,6 @@ public class PongEmUp extends JFrame {
 
     public void startGame() {
         running=true;
-        //put this inside a gamePane class maybe?
         containerPane.removeAll();
         model = new GameModel(this);
         playground = model.getView();
@@ -153,13 +109,27 @@ public class PongEmUp extends JFrame {
             buttonsPanel=null;
             model.stopTimer();
             model =null;
+            running=false;
         }
+
     }
 
     public void gameOver(){
         buttonsPanel.addRetryButton();
         buttonsPanel.revalidate();
         buttonsPanel.repaint();
+    }
+
+    public void exitOptionsMenu(){
+        if (paused){
+            containerPane.removeAll();
+            containerPane.add(playground,BorderLayout.CENTER);
+            containerPane.add(buttonsPanel,BorderLayout.EAST);
+            showPauseMenu();
+        }
+        if (!running){
+            showMainMenu();
+        }
     }
 
 

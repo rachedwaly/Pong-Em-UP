@@ -36,6 +36,9 @@ public class Model implements ActionListener, KeyListener {
     protected int currentLvl=1;
     protected PongEmUp pongEmUp;
 
+    public static int stickPhoto=0;
+    public static int ballColor=0;
+
 
     public boolean playing=true;
 
@@ -54,21 +57,6 @@ public class Model implements ActionListener, KeyListener {
      */
     public Model(PongEmUp pongEmUp){
         this.pongEmUp=pongEmUp;
-/*
-        generateEnemies();
-        view = new PlayGround(this);
-        VerticalWall wallRight = new VerticalWall(WIDTH - 10, 0, 10, HEIGHT,this);
-        VerticalWall wallLeft = new VerticalWall(0, 0, 10, HEIGHT,this);
-        HorizontalWall wallUp = new HorizontalWall(10, 0, WIDTH-20, 10,this);
-        stick = new Stick(WIDTH / 2, HEIGHT - 20,this,50);
-        b = new Ball(250, 580,this);
-        addPhysicalObject(wallRight);
-        addPhysicalObject(wallLeft);
-        addPhysicalObject(wallUp);
-        addPhysicalObject(stick);
-        for(Projectile projectile : stick.projectiles)
-            addPhysicalObject(projectile);*/
-
     }
 
     /**
@@ -281,6 +269,11 @@ public class Model implements ActionListener, KeyListener {
         //TODO add retry button on the left side of the frame
         pongEmUp.gameOver();
     }
+
+
+
+
+
 
 
 

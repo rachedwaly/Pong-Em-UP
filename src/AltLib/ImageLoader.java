@@ -14,6 +14,7 @@ public class ImageLoader {
     public static BufferedImage cloudImage;
     public static BufferedImage[] explosionAnimation;
     public static BufferedImage sentryImage;
+    public static BufferedImage[] stickImage;
     public static BufferedImage sentryDamaged;
     public static BufferedImage spinnerImage;
     public static BufferedImage spinnerDamaged;
@@ -49,6 +50,11 @@ public class ImageLoader {
             shieldBonusImage = ImageIO.read(new File("Resources/shield.png"));
             shieldStickImage = ImageIO.read(new File("Resources/shieldStick.png"));
             muscleBonusImage = ImageIO.read(new File("Resources/muscle.png"));
+            stickImage=new BufferedImage[4];
+            stickImage[0]=ImageIO.read(new File("Resources/Stick/texture0.png"));
+            stickImage[1]=ImageIO.read(new File("Resources/Stick/texture1.png"));
+            stickImage[2]=ImageIO.read(new File("Resources/Stick/texture2.png"));
+            stickImage[3]=ImageIO.read(new File("Resources/Stick/texture3.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
