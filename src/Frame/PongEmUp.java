@@ -128,6 +128,7 @@ public class PongEmUp extends JFrame {
             showPauseMenu();
         }
         if (!running){
+            containerPane.removeAll();
             showMainMenu();
         }
     }

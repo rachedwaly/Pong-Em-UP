@@ -108,9 +108,6 @@ public class Model implements ActionListener, KeyListener {
         for (int i=0;i<backgroundObjects.size();i++){
             backgroundObjects.get(i).update();
         }
-
-
-
     }
 
     protected void addDrawable(Entity e){
