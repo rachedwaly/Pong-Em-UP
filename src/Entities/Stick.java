@@ -2,6 +2,8 @@ package Entities;
 import AltLib.ImageLoader;
 import Entities.Bonus.Bonus;
 import Game.*;
+import shape.RectangleShape;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
@@ -47,7 +49,7 @@ public class Stick extends Shooter{
 
         lookDirection = new float[]{0,-1};
         for(int i = 0; i < projectiles.length; i++)
-            projectiles[i] = new Projectile(5,20,10,5,model);
+            projectiles[i] = new Projectile(5,10,10,5,new RectangleShape(0,0,5,10), model);
     }
 
     @Override

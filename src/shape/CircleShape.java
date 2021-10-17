@@ -8,6 +8,8 @@ import java.util.Vector;
 public class CircleShape extends CustomShape{
     //here x,y is center of the circle
     public int radius;
+    public String sourceName;
+    public String normalSource = "";
     private float[] normalHit; //Ball only attribute
     public CircleShape(int x, int y, int radius){
         super(x,y);
@@ -17,6 +19,7 @@ public class CircleShape extends CustomShape{
 
     @Override
     public void update(Entity source) {
+        sourceName = source.getEntityTypeName();
         radius = source.getWidth()/2;
         x = (int)source.getX() + radius;
         y = (int)source.getY() + radius;
@@ -69,6 +72,14 @@ public class CircleShape extends CustomShape{
      * @return
      */
     public boolean segmentInCircle(float[] p1, float[] p2, CustomShape poly){
+        normalHit[0] = - p1[1] + p2[1]; //-b
+        normalHit[1] = p1[0] - p2[0]; //a
+        if(dot(p1,poly.getCenter()) < 0){
+            //making sure we get the outward normal
+            normalHit[0] = -normalHit[0];
+            normalHit[1] = -normalHit[1];
+        };
+
         float[] center = new float[]{x,y};
         float[] projection;
 
@@ -88,13 +99,6 @@ public class CircleShape extends CustomShape{
 
         if(pointOnLine(projection,p1,p2) &&
                 pointInCircle(projection)){
-            normalHit[0] = - p1[1] + p2[1]; //-b
-            normalHit[1] = p1[0] - p2[0]; //a
-            if(dot(p1,poly.getCenter()) < 0){
-                //making sure we get the outward normal
-                normalHit[0] = -normalHit[0];
-                normalHit[1] = -normalHit[1];
-            };
             return true;
         }
         return pointInCircle(p1) || pointInCircle(p2);
@@ -108,6 +112,7 @@ public class CircleShape extends CustomShape{
         normalHit[1] = cs.y - y;
         cs.normalHit[0] = cs.x - x;
         cs.normalHit[1] = cs.y - y;
+        normalSource = "Circle";
         boolean b = distance <= this.radius + cs.radius;
         return b;
     }

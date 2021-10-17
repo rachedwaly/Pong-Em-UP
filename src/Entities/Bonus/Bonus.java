@@ -55,7 +55,7 @@ public abstract class Bonus extends Entity {
 
     @Override
     public String getEntityTypeName() {
-        return name;
+        return "bonus";
     }
 
 

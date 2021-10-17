@@ -1,5 +1,6 @@
 package Entities;
 import Frame.OptionsPane.BallPreview;
+import Entities.Bonus.Bonus;
 import Game.Model;
 import shape.*;
 import java.awt.*;
@@ -32,6 +33,7 @@ public class Ball extends Entity {
     public void drawEntity(Graphics g){
         g.setColor(BallPreview.colors[abs(Model.ballColor%BallPreview.colors.length)]);
         g.fillOval((int)x,(int)y,width,height);
+        g.setColor(Color.WHITE);
     }
 
     public void move(){
@@ -68,33 +70,40 @@ public class Ball extends Entity {
                 break;
         }
 
-        float[] normal = CustomShape.normalize( ((CircleShape)shape).getNormalHit() );
-        if(normal[0] == 0 && normal[1] == 0)
-            System.out.println("bad normal");
+        if(entity.getEntityTypeName() != "bonus"){
+            float[] normal = CustomShape.normalize( ((CircleShape)shape).getNormalHit() );
+            if(normal[0] == 0 && normal[1] == 0)
+                System.out.println("bad normal");
 
 
-        //debugLog();
-        //influence trajectory
-        float[] normSpeed = CustomShape.normalize(entity.speed);
-        if(CustomShape.dot(speed,normal) > 0){
-            speed[0] = speed[0] + normSpeed[0]/2;
-            speed[1] = speed[1] + normSpeed[1];
+            //influence trajectory
+            float[] normSpeed = CustomShape.normalize(entity.speed);
+            if(CustomShape.dot(speed,normal) > 0){
+                speed[0] = speed[0] + normSpeed[0]/2;
+                speed[1] = speed[1] + normSpeed[1];
 
+            }else{
+
+                speed = CustomShape.reflectVector(speed,normal); //is normalized
+            }
+
+            speed = CustomShape.normalize(speed);
+
+            int stuckCounter = 0;
+            while(this.getShape().intersects(entity.getShape()) && stuckCounter < 10){
+                scalarSpeed = Math.max(scalarSpeed,CustomShape.distance(entity.speed));
+                update();
+                //stuckCounter++;
+            }
+            if(stuckCounter == 10)
+                reset();
         }else{
-
-            speed = CustomShape.reflectVector(speed,normal); //is normalized
+            Bonus bonus = (Bonus) entity;
+            model.stick.applyBonus(bonus);
+            //TODO : unbreak removing bonuses through ball
+            //model.removeBonus(bonus);
         }
 
-        speed = CustomShape.normalize(speed);
-
-        int stuckCounter = 0;
-        while(this.getShape().intersects(entity.getShape()) && stuckCounter < 10){
-            scalarSpeed = Math.max(scalarSpeed,CustomShape.distance(entity.speed));
-            update();
-            //stuckCounter++;
-        }
-        if(stuckCounter == 10)
-            reset();
 
     }
 
@@ -112,8 +121,6 @@ public class Ball extends Entity {
         this.speed[0]=scalarSpeed;
         this.speed[1]=scalarSpeed;
     }
-
-
 
 }
 
