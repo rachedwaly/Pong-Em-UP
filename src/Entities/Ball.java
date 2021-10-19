@@ -32,8 +32,6 @@ public class Ball extends Entity {
         name = "ball";
 
         reset();
-        this.speed[0] = 0;
-        this.speed[1] = 2;
         shape = new CircleShape((int)x + width/2,(int)y + height/2,width/2);
     }
 
@@ -159,6 +157,10 @@ public class Ball extends Entity {
         return "ball";
     }
 
+    /***
+     * Stop the ball from being drawn and immobilizes it, preparing for reset
+     * Credit : Kevin
+     */
     public void destroy(){
         innerTimer = Stick.RESPAWN_TIME - 1000;
 

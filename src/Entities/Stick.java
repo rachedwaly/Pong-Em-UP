@@ -72,6 +72,7 @@ public class Stick extends Shooter{
             move();
         }else{
             if(innerTimer >= RESPAWN_TIME){
+                //Stick respawning
                 respawning = false;
                 x = 100;
                 y = 500;
@@ -88,7 +89,7 @@ public class Stick extends Shooter{
 
         switch (entity.getEntityTypeName()) {
             case "enemyprojectile":
-                if (!shieldOn || innerTimer < 0) {
+                if (!shieldOn || innerTimer < 0) { //stick is invulnerable for some time after respawning
                     color = Color.RED;
                     Projectile p = (Projectile) entity;
                     health -= p.damage;
@@ -233,11 +234,14 @@ public class Stick extends Shooter{
             animationIndex++;
         }
         else
-            resetStick();
+            destroy();
 
     }
 
-    private void resetStick() {
+    /***
+     * Stops the stick from being drawn for 5 seconds, after which it respawns
+     */
+    private void destroy() {
         if (lives<=0){
             model.stopTheGame();
         }else{
