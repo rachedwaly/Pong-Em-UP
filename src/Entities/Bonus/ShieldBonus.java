@@ -41,4 +41,9 @@ public class ShieldBonus extends Bonus{
 
     }
 
+    @Override
+    public void drawInStatusBar(Graphics g,int x,int y) {
+        g.drawImage(ImageLoader.shieldBonusImage,x,y,width,height,null);
+    }
+
 }

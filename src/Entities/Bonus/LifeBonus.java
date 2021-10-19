@@ -33,6 +33,12 @@ public class LifeBonus extends Bonus{
     }
 
     @Override
+    public void drawInStatusBar(Graphics g,int x, int y) {
+
+
+    }
+
+    @Override
     public void drawEntity(Graphics g) {
         if (!acquired) {
             g.setColor(color);

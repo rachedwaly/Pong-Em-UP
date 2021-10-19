@@ -13,7 +13,9 @@ public abstract class Bonus extends Entity {
     protected Stick stick;
 
     protected int delay;
-    protected boolean acquired=false; //this boolean will indicate if the stick got the bonus or not
+
+
+    public boolean acquired=false; //this boolean will indicate if the stick got the bonus or not
 
     public Bonus(String name, float x, float y,int delay,Stick stick, Model model){
         super((int)x,(int)y, model);
@@ -87,5 +89,10 @@ public abstract class Bonus extends Entity {
     protected abstract void applyBonus();
 
     protected abstract void removeBonus();
+    public abstract void drawInStatusBar(Graphics g,int x, int y);
+
+    public boolean isAcquired() {
+        return acquired;
+    }
 
 }

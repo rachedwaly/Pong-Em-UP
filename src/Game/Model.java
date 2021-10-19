@@ -49,6 +49,7 @@ public class Model implements ActionListener, KeyListener {
     protected ArrayList<Entity> drawables=new ArrayList<>();
     protected ArrayList<BackgroundObject> backgroundObjects=new ArrayList<>();
     protected ArrayList<Entity> physicalObjects = new ArrayList<>();
+    protected ArrayList<Bonus> bonuses= new ArrayList<>();
 
     protected ArrayList<Enemy> ennemies = new ArrayList<>();
 
@@ -212,6 +213,7 @@ public class Model implements ActionListener, KeyListener {
     public void removeBonus(Bonus bonus){
         physicalObjects.remove(bonus);
         drawables.remove(bonus);
+        bonuses.remove(bonus);
         bonus = null;
     }
 
@@ -227,18 +229,21 @@ public class Model implements ActionListener, KeyListener {
                 ShieldBonus shieldBonus = new ShieldBonus("shield", x, y, 1000, stick, this);
                 addDrawable(shieldBonus);
                 addPhysicalObject(shieldBonus);
+                addBonus(shieldBonus);
                 break;
             }
             case 1 -> {
                 LengthBonus lengthBonus = new LengthBonus("lengthBonus", x, y, 3000, stick, 50, this);
                 addDrawable(lengthBonus);
                 addPhysicalObject(lengthBonus);
+                addBonus(lengthBonus);
                 break;
             }
             case 2 -> {
                 LifeBonus lifeBonus = new LifeBonus("lifeBonus", x, y, 0, stick, this);
                 addDrawable(lifeBonus);
                 addPhysicalObject(lifeBonus);
+                addBonus(lifeBonus);
                 break;
             }
 
@@ -265,6 +270,15 @@ public class Model implements ActionListener, KeyListener {
         setPlaying(false);
         timer.stop();
         pongEmUp.gameOver();
+    }
+
+
+    public ArrayList<Bonus> getBonuses(){
+        return bonuses;
+    }
+
+    private void addBonus(Bonus bonus){
+        bonuses.add(bonus);
     }
 
 

@@ -45,6 +45,11 @@ public class LengthBonus extends Bonus{
     }
 
     @Override
+    public void drawInStatusBar(Graphics g,int x, int y) {
+        g.drawImage(ImageLoader.muscleBonusImage,x,y,width,height,null);
+    }
+
+    @Override
     public void drawEntity(Graphics g) {
         if (!acquired) {
             g.setColor(color);
@@ -52,4 +57,7 @@ public class LengthBonus extends Bonus{
                     model.getView());
         }
     }
+
+
+
 }
