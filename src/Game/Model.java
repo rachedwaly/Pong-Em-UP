@@ -46,7 +46,7 @@ public class Model implements ActionListener, KeyListener {
     //on sépare les backgroundobjects des drawables vu qu'ils doivent etre dessinés avant ces
     // derniers
     protected ArrayList<Entity> drawables=new ArrayList<>();
-    protected ArrayList<BackGroundObject> backgroundObjects=new ArrayList<>();
+    protected ArrayList<BackgroundObject> backgroundObjects=new ArrayList<>();
     protected ArrayList<Entity> physicalObjects = new ArrayList<>();
 
     protected ArrayList<Enemy> ennemies = new ArrayList<>();
@@ -167,13 +167,13 @@ public class Model implements ActionListener, KeyListener {
     protected void setUpBackgroundObjects() {
         switch(getCurrentLvl()){
             case 1:{
-                addBackGroundObject(new BackGroundObject("cloud",50,60,this,new float[]{0.5f,
+                addBackGroundObject(new BackgroundObject("cloud",50,60,this,new float[]{0.5f,
                         0.0f}));
-                addBackGroundObject(new BackGroundObject("cloud",200,80,this,new float[]{-0.5f,
+                addBackGroundObject(new BackgroundObject("cloud",200,80,this,new float[]{-0.5f,
                         0.0f}));
-                addBackGroundObject(new BackGroundObject("cloud",150,105,this,new float[]{1f,
+                addBackGroundObject(new BackgroundObject("cloud",150,105,this,new float[]{1f,
                         0.0f}));
-                addBackGroundObject(new BackGroundObject("plane",100,200,this,new float[]{-0.5f,
+                addBackGroundObject(new BackgroundObject("plane",100,200,this,new float[]{-0.5f,
                         0.0f}));
                 break;
             }
@@ -181,11 +181,11 @@ public class Model implements ActionListener, KeyListener {
 
     }
 
-    public ArrayList<BackGroundObject> getBackgroundObjects() {
+    public ArrayList<BackgroundObject> getBackgroundObjects() {
         return backgroundObjects;
     }
 
-    private void addBackGroundObject(BackGroundObject backgroundObject){
+    private void addBackGroundObject(BackgroundObject backgroundObject){
         backgroundObjects.add(backgroundObject);
     }
 

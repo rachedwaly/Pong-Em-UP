@@ -17,6 +17,7 @@ import static java.lang.Math.abs;
 public class Ball extends Entity {
     protected float scalarSpeed; //absolute speed of the ball
     public static final int BALL_DAMAGE = 5;
+    private float[] lastValidPosition;
     private boolean respawning = false;
 
     /***
@@ -27,6 +28,7 @@ public class Ball extends Entity {
 
         super(model);
 
+        lastValidPosition = new float[2];
         this.width = 10;
         this.height = 10;
         name = "ball";
@@ -67,6 +69,17 @@ public class Ball extends Entity {
      * Credit : Kevin
      */
     public void move(){
+        if(!isOutOfBounds()){
+            lastValidPosition[0] = x;
+            lastValidPosition[1] = y;
+        }else{
+            x = lastValidPosition[0];
+            y = lastValidPosition[1];
+            speed[0] = -speed[0];
+            speed[1] = -speed[1];
+            if(isOutOfBounds())
+                move();
+        }
 
         this.x += speed[0] * scalarSpeed;
         this.y += speed[1] * scalarSpeed;
@@ -139,14 +152,10 @@ public class Ball extends Entity {
 
             speed = Vec2Math.normalize(speed);
 
-            int stuckCounter = 0;
-            while(this.getShape().intersects(entity.getShape()) && stuckCounter < 10){
+            while(this.getShape().intersects(entity.getShape())){
                 scalarSpeed = Math.max(scalarSpeed,Vec2Math.distance(entity.speed));
                 update();
-                //stuckCounter++;
             }
-            if(stuckCounter == 10)
-                reset();
         }
 
 
@@ -155,6 +164,10 @@ public class Ball extends Entity {
     @Override
     public String getEntityTypeName() {
         return "ball";
+    }
+
+    private boolean isOutOfBounds(){
+        return x < -100 || x > 500 || y < 0;
     }
 
     /***

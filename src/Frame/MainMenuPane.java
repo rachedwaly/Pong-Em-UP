@@ -1,14 +1,13 @@
 package Frame;
 
 import AltLib.ImageLoader;
-import Entities.BackGroundObject;
+import Entities.BackgroundObject;
 import Entities.Entity;
 import Game.AnimationModel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainMenuPane extends JPanel {
@@ -76,9 +75,9 @@ public class MainMenuPane extends JPanel {
     private void handleBackground(Graphics g) {
 
         g.drawImage(ImageLoader.bgImage[0], model.getOffsetX(), model.getOffsetY(), this);
-        ArrayList<BackGroundObject> drawingList=new ArrayList<>(model.getBackgroundObjects());
+        ArrayList<BackgroundObject> drawingList=new ArrayList<>(model.getBackgroundObjects());
         for (int i=0;i<drawingList.size();i++){
-            BackGroundObject bgo=drawingList.get(i);
+            BackgroundObject bgo=drawingList.get(i);
             bgo.drawEntity(g);
         }
     }

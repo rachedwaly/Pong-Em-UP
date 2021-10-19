@@ -2,13 +2,12 @@ package Game;
 
 
 import AltLib.ImageLoader;
-import Entities.BackGroundObject;
+import Entities.BackgroundObject;
 import Entities.Entity;
 import Frame.StatusBar;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -52,9 +51,9 @@ public class Playground extends JPanel {
     private void handleLevelBackground(Graphics g) {
         int lvl=model.getCurrentLvl();
         g.drawImage(ImageLoader.bgImage[lvl - 1], 0, 0, this);
-        ArrayList<BackGroundObject> drawingList=new ArrayList<>(model.getBackgroundObjects());
+        ArrayList<BackgroundObject> drawingList=new ArrayList<>(model.getBackgroundObjects());
         for (int i=0;i<drawingList.size();i++){
-            BackGroundObject bgo=drawingList.get(i);
+            BackgroundObject bgo=drawingList.get(i);
             bgo.drawEntity(g);
         }
     }
