@@ -16,7 +16,7 @@ public class Enemy extends Shooter{
     public static final String JUGGERNAUT = "JUGGERNAUT";
     public static final String SPINNER = "SPINNER";
 
-    public int fX,fY; //position to move to before starting the loop
+    public float fX,fY; //position to move to before starting the loop
     protected boolean loopMode = false;
 
     private int loopTimer = 0; //new timer to control the loop separately
@@ -31,7 +31,7 @@ public class Enemy extends Shooter{
      * @param fY finalPos y
      * @param model
      */
-    private Enemy(int x0, int y0, int fX, int fY,Model model){
+    private Enemy(float x0, float y0, float fX, float fY,Model model){
         super(x0,y0,model);
         this.fX = fX;
         this.fY = fY;

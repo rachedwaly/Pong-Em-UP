@@ -31,7 +31,7 @@ public class Model implements ActionListener, KeyListener {
     public Stick stick;
     public Ball b;
     protected HashMap<String,Image> allImages=new HashMap<>();
-    protected PlayGround view;
+    protected Playground view;
     protected Entity entityBuffer1,entityBuffer2;
     protected Timer timer;
     protected int currentLvl=1;
@@ -132,7 +132,7 @@ public class Model implements ActionListener, KeyListener {
             }
         }
     }
-    public PlayGround getView() {
+    public Playground getView() {
         return view;
     }
 

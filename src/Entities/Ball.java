@@ -20,22 +20,19 @@ public class Ball extends Entity {
 
     /***
      * Credit : Both
-     * @param x
-     * @param y
      * @param model
      */
-    public Ball(int x, int y, Model model) {
+    public Ball(Model model) {
 
-        super(x, y,model);
+        super(model);
+
         this.width = 10;
         this.height = 10;
         name = "ball";
 
-        scalarSpeed = 2;
-        this.speed[0]=scalarSpeed;
-        this.speed[1]=scalarSpeed;
+        reset();
 
-        shape = new CircleShape(x + width/2,y + height/2,width/2);
+        shape = new CircleShape((int)x + width/2,(int)y + height/2,width/2);
     }
 
     /***
@@ -137,8 +134,8 @@ public class Ball extends Entity {
      */
     public void reset(){
         //TODO : explosion animation + time wait + lose life
-        x=250;
-        y=150;
+        x=100;
+        y=100;
 
         speed = new float[]{1,1};
         speed = Vec2Math.normalize(speed);

@@ -31,7 +31,7 @@ public abstract class Shooter extends Entity{
         super(model);
     }
 
-    public Shooter(int x, int y, Model model){
+    public Shooter(float x, float y, Model model){
         super(x,y, model);
     }
 

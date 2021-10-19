@@ -36,7 +36,7 @@ public abstract class Entity {
                 Model.random.nextInt(30), Model.random.nextInt(30), model);
     }
 
-    public Entity(int x, int y, Model model){
+    public Entity(float x, float y, Model model){
         this(x,y,0,0, model);
 
     }
@@ -49,7 +49,7 @@ public abstract class Entity {
      * @param h height
      * @param model model which it is attached to
      */
-    public Entity(int x, int y, int w, int h, Model model){
+    public Entity(float x, float y, int w, int h, Model model){
         this.x=x;
         this.y=y;
         this.width=w;
@@ -59,7 +59,7 @@ public abstract class Entity {
         color = Color.BLACK;
 
         innerTimer = 81; //0 -> 80 is reserved for blinking animations
-        shape = new RectangleShape(x,y,w,h);
+        shape = new RectangleShape((int)x,(int)y,w,h);
     }
 
     public float getX(){

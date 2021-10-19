@@ -1,5 +1,6 @@
 package Game;
 
+import AltLib.ImageLoader;
 import Entities.*;
 import Frame.PongEmUp;
 
@@ -7,9 +8,12 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
+import static java.lang.Math.*;
 
 public class AnimationModel extends Model {
 
@@ -31,8 +35,51 @@ public class AnimationModel extends Model {
         Wall wallRight = new Wall(WIDTH - 10+offsetX, offsetY, 10, HEIGHT,this);
         Wall wallLeft = new Wall(+offsetX, offsetY, 10, HEIGHT,this);
         Wall wallUp = new Wall(10+offsetX, offsetY, WIDTH-20, 10,this);
-        b = new AnimationBall(250+offsetX, 580,this);
-        stick = new StickForAnimation(WIDTH / 2+offsetX, HEIGHT-10+offsetY,this,50,b);
+        b = new Ball(this){
+            public void move(){
+                this.x += speed[0] * scalarSpeed;
+                this.y += speed[1] * scalarSpeed;
+                shape.update(this);
+            }
+        };
+
+        stick = new Stick(WIDTH / 2+offsetX, HEIGHT-10+offsetY,this,50){
+            private Ball ball = b;
+
+            public void update() {
+                if(innerTimer > 80){
+                    color = Color.BLACK;
+                }
+
+                innerTimer += Model.DELAY;
+                move();
+
+            }
+
+            public void move(){
+                if ((x>=10) && (x<WIDTH/2f)) {
+                    this.x = max(ball.getX(),10);
+                }
+                else{
+                    this.x=min(ball.getX(),WIDTH+20-width);
+                }
+                shape.update(this);
+
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {}
+
+            @Override
+            public void keyPressed(KeyEvent e){}
+
+            @Override
+            public void drawEntity(Graphics g){
+                g.setColor(this.color);
+                texture= ImageLoader.stickImage[abs(Model.stickPhoto%ImageLoader.stickImage.length)];
+                g.drawImage(texture,(int)x, (int)y,width,height,model.getView());
+            }
+        };
         addPhysicalObject(wallRight);
         addPhysicalObject(wallLeft);
         addPhysicalObject(wallUp);

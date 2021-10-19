@@ -3,7 +3,7 @@ package Frame;
 import Frame.OptionsPane.OptionsPane;
 import Game.GameModel;
 import Game.Model;
-import Game.PlayGround;
+import Game.Playground;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -19,7 +19,7 @@ public class PongEmUp extends JFrame {
     private boolean paused=false;
     private Model model;
     private JPanel containerPane;
-    private PlayGround playground;
+    private Playground playground;
 
     private JPanel optionsPane;
     private PausePane pausePane;
@@ -37,7 +37,7 @@ public class PongEmUp extends JFrame {
         containerPane = new JPanel(new BorderLayout());
         add(containerPane,BorderLayout.CENTER);
         containerPane.setBorder(new EmptyBorder(0,10,0,5));
-        setMinimumSize(new Dimension(PlayGround.WIDTH+100,PlayGround.HEIGHT+100));
+        setMinimumSize(new Dimension(Playground.WIDTH+100, Playground.HEIGHT+100));
         setVisible(true);
         setResizable(false);
 

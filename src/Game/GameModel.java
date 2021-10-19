@@ -4,7 +4,6 @@ import Entities.*;
 import Frame.PongEmUp;
 
 import javax.swing.*;
-import java.io.IOException;
 
 public class GameModel extends Model{
     public GameModel(PongEmUp pongEmUp){
@@ -14,12 +13,12 @@ public class GameModel extends Model{
 
     private void initiateGame(){
         generateEnemies();
-        view = new PlayGround(this);
+        view = new Playground(this);
         Wall wallRight = new Wall(WIDTH - 10, 0, 10, HEIGHT,this);
         Wall wallLeft = new Wall(0, 0, 10, HEIGHT,this);
         Wall wallUp = new Wall(10, 0, WIDTH-20, 10,this);
         stick = new Stick(WIDTH / 2, HEIGHT - 20,this,50);
-        b = new Ball(250, 580,this);
+        b = new Ball(this);
         addPhysicalObject(wallRight);
         addPhysicalObject(wallLeft);
         addPhysicalObject(wallUp);

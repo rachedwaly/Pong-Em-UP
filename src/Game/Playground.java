@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-public class PlayGround extends JPanel {
+public class Playground extends JPanel {
     public static int HEIGHT=600;
     public static int WIDTH=300;
 
@@ -22,7 +22,7 @@ public class PlayGround extends JPanel {
 
 
 
-    public PlayGround(Model model){
+    public Playground(Model model){
         super(new BorderLayout()); //BorderLayout instead ?
         this.model=model;
         setPreferredSize(new Dimension(Model.WIDTH,Model.HEIGHT));
