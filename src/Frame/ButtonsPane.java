@@ -16,7 +16,7 @@ public class ButtonsPane extends JPanel {
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         add(gameToMenu,gbc);
-        gameToMenu.addActionListener(e2 -> { //Eventually, layeredPane transition
+        gameToMenu.addActionListener(e2 -> {
             pongEmUp.showPauseMenu();
         });
 
@@ -25,7 +25,7 @@ public class ButtonsPane extends JPanel {
     public void addRetryButton(){
         JButton retry=new JButton("retry");
         add(retry,gbc);
-        retry.addActionListener(e2 -> { //Eventually, layeredPane transition
+        retry.addActionListener(e2 -> {
                 pongEmUp.startGame();
         });
     }

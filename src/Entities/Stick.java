@@ -17,6 +17,7 @@ import static java.lang.Math.*;
  * Credit : Rached
  */
 public class Stick extends Shooter{
+    public static final int RESPAWN_TIME = -2000;
     private ArrayList<Bonus> bonuses=new ArrayList<>();
     private Color healthColor;
     private Color damageColor;
@@ -34,8 +35,7 @@ public class Stick extends Shooter{
 
     private boolean shieldOn=false;
 
-
-
+    private boolean respawning = false;
     private int lives =3;
 
     public Stick(int x, int y,Model model,int initialWidth){
@@ -58,16 +58,28 @@ public class Stick extends Shooter{
 
     @Override
     public void update() {
-        if(innerTimer > 80){
-            color = Color.BLACK;
-        }
-
         innerTimer += Model.DELAY;
-        for (int i=0;i<bonuses.size();i++){
-            Bonus bonus=bonuses.get(i);
-            bonus.decrementDelay();
+
+        if(!respawning){
+            if(innerTimer > 80){
+                color = Color.BLACK;
+            }
+
+            for (int i=0;i<bonuses.size();i++){
+                Bonus bonus=bonuses.get(i);
+                bonus.decrementDelay();
+            }
+            move();
+        }else{
+            if(innerTimer >= RESPAWN_TIME){
+                respawning = false;
+                x = 100;
+                y = 500;
+                shape = new RectangleShape((int)x,(int)y,width,height);
+            }
+
+
         }
-        move();
 
     }
 
@@ -76,7 +88,7 @@ public class Stick extends Shooter{
 
         switch (entity.getEntityTypeName()) {
             case "enemyprojectile":
-                if (!shieldOn) {
+                if (!shieldOn || innerTimer < 0) {
                     color = Color.RED;
                     Projectile p = (Projectile) entity;
                     health -= p.damage;
@@ -86,7 +98,8 @@ public class Stick extends Shooter{
 
                 break;
             case "enemy":
-                health = 0;
+                if (!shieldOn || innerTimer < 0)
+                    health = 0;
                 break;
             case "ball":
                 //TODO : play bong effect
@@ -94,42 +107,8 @@ public class Stick extends Shooter{
             default :
                 break;
         }
-        if(health <=0){
-            if (lives==0){
-            //play destruction animation;
-            model.stopTheGame();
-            System.out.println("Lost !");
-            }
-            else {
 
-                lives-=1;
-            }
-        }
-        innerTimer = 0;
-    }
-
-    @Override
-    public void startDestructionSequence(Graphics g) {
-        if (lives > 0){
-            if (animationIndex < maxAnimationIndex){
-                g.drawImage(ImageLoader.explosionAnimation[animationIndex],
-                        (int)x-initialWidth,
-                        (int)y-height*4,
-                        initialWidth*4,
-                        height*8,model.getView());
-                animationIndex++;
-            }
-            else{
-                resetStick();
-            }
-        }else{
-            //TODO : dessiner une image de destruction intermédiaire
-            g.drawImage(ImageLoader.explosionAnimation[5],(int)x-initialWidth,
-                    (int)y-height*4,
-                    initialWidth*4,
-                    height*8,model.getView());
-            model.stopTheGame();
-        }
+        innerTimer = min(0,innerTimer);
     }
 
     @Override
@@ -183,8 +162,7 @@ public class Stick extends Shooter{
 
         }
         if (key == KeyEvent.VK_SPACE){
-            if(canShoot){
-                System.out.println("isFiring");
+            if(canShoot && !respawning){
                 fire();
                 canShoot = false;
             }
@@ -227,29 +205,52 @@ public class Stick extends Shooter{
 
     @Override
     public void drawEntity(Graphics g){
-        if (health>0){
-        texture=ImageLoader.stickImage[abs(Model.stickPhoto%ImageLoader.stickImage.length)];
-        g.drawImage(texture,(int)x, (int)y,width,height,model.getView());
-        g.setColor(healthColor);
-        g.fillRect((int)(x - offsetX),(int)y + height + 5,(int)(initialWidth * health/(float)maxHealth),5);
-        if (!shieldOn) {
-            g.setColor(damageColor);
-            g.fillRect((int) (x - offsetX) + (int) (initialWidth * health / (float) maxHealth),
-                    (int) y + height + 5,
-                    (int) (initialWidth * (maxHealth - health) / (float) maxHealth), 5);
+        if((innerTimer > 0 || innerTimer % 300 > -150) && !respawning){
+            if (health>0){
+                texture=ImageLoader.stickImage[abs(Model.stickPhoto%ImageLoader.stickImage.length)];
+                g.drawImage(texture,(int)x, (int)y,width,height,model.getView());
+                g.setColor(healthColor);
+                g.fillRect((int)(x - offsetX),(int)y + height + 5,(int)(initialWidth * health/(float)maxHealth),5);
+                g.setColor(damageColor);
+                g.fillRect((int) (x - offsetX) + (int) (initialWidth * health / (float) maxHealth),
+                        (int) y + height + 5,
+                        (int) (initialWidth * (maxHealth - health) / (float) maxHealth), 5);
+            }
+            else {
+                startDestructionSequence(g);
+            }
         }
+    }
+
+    @Override
+    public void startDestructionSequence(Graphics g) {
+        if (animationIndex < maxAnimationIndex){
+            g.drawImage(ImageLoader.explosionAnimation[animationIndex],
+                    (int)x-initialWidth,
+                    (int)y-height*4,
+                    initialWidth*4,
+                    height*8,model.getView());
+            animationIndex++;
         }
-        else {
-            startDestructionSequence(g);
-        }
+        else
+            resetStick();
 
     }
 
     private void resetStick() {
-        offsetX=0;
-        width=initialWidth;
-        health=maxHealth;
-        animationIndex=1;
+        if (lives<=0){
+            model.stopTheGame();
+        }else{
+            lives -= 1;
+            shape = new RectangleShape(0,0,0,0);
+            innerTimer = RESPAWN_TIME - 1000;
+            respawning = true;
+            offsetX=0;
+            width=initialWidth;
+            health=maxHealth;
+            animationIndex=1;
+        }
+
     }
 
     public int getLives() {
@@ -298,10 +299,5 @@ public class Stick extends Shooter{
         this.health=health;
         width = initialWidth / 2 + (int) ((health / (float) maxHealth) * initialWidth / 2);
     }
-
-
-
-
-
 
 }

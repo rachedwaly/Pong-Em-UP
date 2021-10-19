@@ -17,6 +17,7 @@ import static java.lang.Math.abs;
 public class Ball extends Entity {
     protected float scalarSpeed; //absolute speed of the ball
     public static final int BALL_DAMAGE = 5;
+    private boolean respawning = false;
 
     /***
      * Credit : Both
@@ -31,7 +32,8 @@ public class Ball extends Entity {
         name = "ball";
 
         reset();
-
+        this.speed[0] = 0;
+        this.speed[1] = 2;
         shape = new CircleShape((int)x + width/2,(int)y + height/2,width/2);
     }
 
@@ -41,9 +43,26 @@ public class Ball extends Entity {
      */
     @Override
     public void drawEntity(Graphics g){
-        g.setColor(BallPreview.colors[abs(Model.ballColor%BallPreview.colors.length)]);
-        g.fillOval((int)x,(int)y,width,height);
-        g.setColor(Color.WHITE);
+        Graphics2D g2 = (Graphics2D) g;
+        if(innerTimer >= 0 || (innerTimer % 500 > -250)){
+            g2.setColor(BallPreview.colors[abs(Model.ballColor%BallPreview.colors.length)]);
+            g2.fillOval((int)x,(int)y,width,height);
+            g2.setColor(Color.WHITE);
+        }
+
+        if(innerTimer < 0){
+            g2.setColor(Color.RED);
+            g2.setStroke(new BasicStroke(3));
+            g2.drawLine( (int)x + width,(int)y + height,
+                    (int)(x + width + speed[0] * 1000f),(int)(y + height + speed[1] * 1000f));
+            g2.drawLine( (int)(x + width/2 + speed[0] * 1000f),(int)(y + height + speed[1] * 1000f),
+                    (int)(x + width + speed[0] * 1000f),(int)(y + height + speed[1] * 1000f));
+            g2.drawLine( (int)(x + width + speed[0] * 1000f),(int)(y + height/2 + speed[1] * 1000f),
+                    (int)(x + width + speed[0] * 1000f),(int)(y + height + speed[1] * 1000f));
+            g.setColor(Color.BLACK);
+            g2.drawString(Integer.toString(-innerTimer/1000 + 1) ,(int)x - 5,(int)y - 5);
+            //g2.drawLine(100,100,300,300);
+        }
     }
 
     /***
@@ -54,22 +73,34 @@ public class Ball extends Entity {
         this.x += speed[0] * scalarSpeed;
         this.y += speed[1] * scalarSpeed;
 
-        if (x < -100 || x > 500 || y>HEIGHT || y < 0 ){ //ball passes stick or glitches out
-            reset();
+        if (x < -100 || x > 500 || y < 0 ){ //ball passes stick or glitches out
+            destroy();
         }
-
+        if(y>HEIGHT ){
+            model.stick.setHealth(0);
+            destroy();
+        }
     }
 
     /***
      * Credit : Kevin
      */
     public void update(){
-
-        if(innerTimer > 8080)
-            scalarSpeed = Math.max(2,scalarSpeed - 1f / 750 * Model.DELAY); //loses 1 speed every 6 seconds
         innerTimer += Model.DELAY;
-        move();
-        shape.update(this);
+        if(!respawning){
+            if(innerTimer > 8080)
+                scalarSpeed = Math.max(2,scalarSpeed - 1f / 750 * Model.DELAY); //loses 1 speed every 6 seconds
+
+            move();
+            shape.update(this);
+        }else{
+            if(innerTimer >= 0){
+                reset();
+            }
+
+        }
+
+
     }
 
     /***
@@ -128,12 +159,26 @@ public class Ball extends Entity {
         return "ball";
     }
 
+    public void destroy(){
+        innerTimer = Stick.RESPAWN_TIME - 1000;
+
+        respawning = true;
+        x = 100;
+        y = 100;
+
+        speed[0] = 0.01f; //keep direction but no movement
+        speed[1] = 0.01f;
+        shape = new CircleShape(0,0,0);
+    }
     /***
      * Puts the ball back in game when it gets stuck/goes out of bounds
      * Credit : Kevin
      */
     public void reset(){
         //TODO : explosion animation + time wait + lose life
+        respawning = false;
+
+        shape = new CircleShape((int)x + width/2,(int)y + height/2,width/2);
         x=100;
         y=100;
 

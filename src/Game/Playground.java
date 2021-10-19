@@ -33,9 +33,8 @@ public class Playground extends JPanel {
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         handleLevelBackground(g);
-        int bX = (int)model.b.getX();
-        int bY = (int)model.b.getY();
-        g.drawString("(" + model.b.getX() + ", " + model.b.getY() + ")" ,50,30 );
+
+        g.drawString(Integer.toString(model.stick.innerTimer % 200) ,50,30 );
         ArrayList<Entity> drawingList=new ArrayList<>(model.getDrawables());
         //on doit impérativement utiliser ce type de boucle four sinon on peut pas mettre à jour
         // la liste  des drawables dynamiquement (sinon ça throw une exception)

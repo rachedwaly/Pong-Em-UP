@@ -25,7 +25,7 @@ public abstract class Entity {
     public Color color;
     protected String name;
 
-    protected int innerTimer; //tracks time for object loop behavior and animations
+    public int innerTimer; //tracks time for object loop behavior and animations
 
     /**
      * Default constructor
