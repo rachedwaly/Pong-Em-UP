@@ -2,6 +2,9 @@ package Entities;
 import java.awt.*;
 import Game.*;
 
+/***
+ * Credit : Rached
+ */
 public class Wall extends Entity{
 
     public Wall(int x, int y, int w, int h, Model model){

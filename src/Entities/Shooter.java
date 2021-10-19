@@ -3,7 +3,10 @@ import Game.*;
 
 import java.awt.*;
 
-
+/***
+ * Parent class of Stick and Enemies, to centralize projectile initialisation
+ * Credit : Mostly Rached
+ */
 public abstract class Shooter extends Entity{
 
 
@@ -36,8 +39,6 @@ public abstract class Shooter extends Entity{
         projectiles[projectileIndex].fire(this,lookDirection);
         projectileIndex = (projectileIndex + 1) % PROJECTILEBUFFER;
     }
-
-    public abstract void whenCollided(Entity entity);
 
     public abstract void startDestructionSequence(Graphics g);
 

@@ -5,28 +5,32 @@ import shape.RectangleShape;
 
 import java.awt.*;
 
+/***
+ * Abstract class which every collidable object inherits from
+ * Credit : Both
+ */
 public abstract class Entity {
+    public static final int HEIGHT= Model.HEIGHT; //max height of the game
+    public static final int WIDTH= Model.WIDTH; //max width of the game
+
     public Model model;
-    protected float x,y;
-
-
+    protected float x,y; //float position the converted to int
     protected int width,height;
-    public static final int HEIGHT= Model.HEIGHT; //height of the game
-    public static final int WIDTH= Model.WIDTH; //width of the game
-    protected Image photo;
-
-    static final int SCROLLSPEED = 1;
-    protected float[] speed = new float[2];
+    protected CustomShape shape; //Custom collider
+    protected float[] speed = new float[2]; //directionVector (usually) //TODO : make it universal
     protected float[] lookDirection=new float[2];
 
+    protected Image photo;
 
-    // objects
-    protected CustomShape shape;
     public Color color;
     protected String name;
 
-    protected int innerTimer;
+    protected int innerTimer; //tracks time for object loop behavior and animations
 
+    /**
+     * Default constructor
+     * @param model
+     */
     public Entity(Model model){
         this(Model.random.nextInt(WIDTH), Model.random.nextInt(HEIGHT),
                 Model.random.nextInt(30), Model.random.nextInt(30), model);
@@ -37,13 +41,23 @@ public abstract class Entity {
 
     }
 
+    /***
+     * Credit : Both
+     * @param x x pos
+     * @param y y pos
+     * @param w width
+     * @param h height
+     * @param model model which it is attached to
+     */
     public Entity(int x, int y, int w, int h, Model model){
         this.x=x;
         this.y=y;
         this.width=w;
         this.height=h;
+        this.color = Color.BLACK; //default color
         this.model = model;
         color = Color.BLACK;
+
         innerTimer = 81; //0 -> 80 is reserved for blinking animations
         shape = new RectangleShape(x,y,w,h);
     }
@@ -70,19 +84,19 @@ public abstract class Entity {
     /***
      * Updates the entity when colliding with another entity
      * THIS METHOD ONLY MODIFIES THE OBJECT ON WHICH IT IS CALLED
-     * @param entity the other object
+     * @param entity the other object in the collision
      */
     public abstract void whenCollided(Entity entity);
 
     /***
      * Alternative to instanceof to ease switch methods
-     * @return entity class name in string
+     * @return entity class name in lowercase string
      */
     public abstract String getEntityTypeName();
 
     /***
-     *
-     * @return Rectangle which defines bounds (even ball is a rectangle)
+     * Returns the custom collider attached to the entity
+     * @return
      */
     //
     public CustomShape getShape(){
@@ -95,6 +109,11 @@ public abstract class Entity {
      */
     public abstract void drawEntity(Graphics g);
 
+    /***
+     * Prints various information about an entity
+     * Useful for maintenance and debugging
+     * Credit : Kevin
+     */
     public void debugLog(){
         String entity = "type : " + getEntityTypeName() +
                         "\npos : (" + x + ", " + y + ")" +
@@ -119,8 +138,6 @@ public abstract class Entity {
     public void setWidth(int width) {
         this.width = width;
     }
-
-
 
 
 }

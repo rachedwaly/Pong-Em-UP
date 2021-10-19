@@ -1,5 +1,6 @@
 package Entities.Bonus;
 
+import Entities.Ball;
 import Entities.Entity;
 import Entities.Stick;
 import Game.Model;
@@ -44,7 +45,7 @@ public abstract class Bonus extends Entity {
     @Override
     public void whenCollided(Entity entity) {
 
-            if (entity instanceof Stick) {
+            if (entity instanceof Stick || entity instanceof Ball) {
                 if (!acquired) {
 
                     acquired = true;

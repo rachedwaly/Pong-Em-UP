@@ -12,6 +12,10 @@ import java.util.ArrayList;
 
 import static java.lang.Math.*;
 
+/***
+ * Stick object to bounce the ball with
+ * Credit : Rached
+ */
 public class Stick extends Shooter{
     private ArrayList<Bonus> bonuses=new ArrayList<>();
     private Color healthColor;

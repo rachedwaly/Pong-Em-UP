@@ -1,4 +1,5 @@
 package Entities;
+import AltLib.Vec2Math;
 import Game.Model;
 import shape.CircleShape;
 import shape.CustomShape;
@@ -6,6 +7,9 @@ import shape.RectangleShape;
 
 import java.awt.*;
 
+/***
+ * Credit : Kevin
+ */
 public class Projectile extends Entity {
     public int damage = 1;
     public boolean active = false;
@@ -48,7 +52,7 @@ public class Projectile extends Entity {
     }
 
     public void fire(Shooter source, float[] fireDirection){
-        fireDirection = CustomShape.normalize(fireDirection);
+        fireDirection = Vec2Math.normalize(fireDirection);
         friendly = source.getEntityTypeName().equals("stick");
         x = source.getX() + source.getWidth()/2f - width/2f + fireDirection[0] * (source.getWidth()/2f + 10); // centrer le projectile sur la source
         y = source.getY() + source.getHeight()/2f + fireDirection[1] * (source.getHeight()/2f + height); //grab look direction

@@ -7,6 +7,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
+/**
+ * Loads images in a separate static class
+ */
 public class ImageLoader {
     public static HashMap<String, Image> allImages;
     public static BufferedImage healthImage;

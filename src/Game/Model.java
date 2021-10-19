@@ -7,20 +7,21 @@ import Entities.Bonus.LengthBonus;
 import Entities.Bonus.LifeBonus;
 import Entities.Bonus.ShieldBonus;
 import Frame.*;
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+/***
+ * Main model class, glueing the game's implementation together
+ * Credit : Mostly Rached
+ */
 public class Model implements ActionListener, KeyListener {
 
     public static final boolean DEBUGMODE = false;
@@ -117,6 +118,7 @@ public class Model implements ActionListener, KeyListener {
     /**
      * Looping on all the boundaries of the entities to check for collisions and call the
      * whenCollided method of entity
+     * Credit : Kevin
      */
     public void solveCollisions(){
         for(int i = 0; i < physicalObjects.size() - 1; i++){
@@ -124,9 +126,6 @@ public class Model implements ActionListener, KeyListener {
             for(int j = i + 1; j < physicalObjects.size(); j++){
                 entityBuffer2 = physicalObjects.get(j);
                 if(entityBuffer1.getShape().intersects(entityBuffer2.getShape())){//Order of collision
-                    //entityBuffer1.debugLog();
-                    //System.out.println("with");
-                    //entityBuffer2.debugLog();
                     physicalObjects.get(i).whenCollided(entityBuffer2);
                     physicalObjects.get(j).whenCollided(entityBuffer1);
                 }

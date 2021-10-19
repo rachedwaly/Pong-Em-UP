@@ -6,17 +6,31 @@ import shape.RectangleShape;
 
 import java.awt.*;
 
-public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
-    public int fX,fY; //pos "finale" de l'objet, ou sa loop de comportement commence
-    protected boolean loopMode = false; //false : se deplace vers (fX,fY) || true : effectue sa loop de behavior
+/***
+ * Enemy units
+ * Credit : Mostly Kevin
+ */
+public class Enemy extends Shooter{
+    //Enemy static names
     public static final String SENTRY = "SENTRY";
     public static final String JUGGERNAUT = "JUGGERNAUT";
     public static final String SPINNER = "SPINNER";
-    private int loopTimer = 0;
-    private Image photoDamaged;
+
+    public int fX,fY; //position to move to before starting the loop
+    protected boolean loopMode = false;
+
+    private int loopTimer = 0; //new timer to control the loop separately
+    private Image photoDamaged; //Unique photo
 
 
-
+    /***
+     * Credit : Kevin
+     * @param x0 initPos x
+     * @param y0 initPos y
+     * @param fX finalPos x
+     * @param fY finalPos y
+     * @param model
+     */
     private Enemy(int x0, int y0, int fX, int fY,Model model){
         super(x0,y0,model);
         this.fX = fX;
@@ -24,6 +38,9 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
 
         lookDirection = new float[]{0,1};
 
+        /**
+         * get move direction from final point -
+         */
         if(fX - x != 0)
             speed[0] = (fX - x)/(float)Math.sqrt(Math.pow(fX - x,2) + Math.pow(fY - y,2));
         else
@@ -36,6 +53,15 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
 
     }
 
+    /***
+     * Credit : Both
+     * @param name unit name (use Enemy static values)
+     * @param x0 initPos x
+     * @param y0 initPos y
+     * @param fX finalPos x
+     * @param fY finalPos y
+     * @param model
+     */
     public Enemy(String name, int x0, int y0 , int fX, int fY,Model model){
         this(x0,y0,fX,fY,model);
         switch(name){
@@ -63,10 +89,10 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
                 height = 60;
                 speed[0] *= 1;
                 speed[1] *= 1;
-                health= 1000;
+                health= 20;
                 for(int i = 0; i < projectiles.length; i++)
                     projectiles[i] = new Projectile(5,5,10,1.5f,new CircleShape(5,5,5), model);
-                //TODO : changer le system de tir dans fire par entite
+
                 color = Color.GREEN;
 
                 this.name = name;
@@ -79,7 +105,9 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
         }
     }
 
-
+    /***
+     * Credit : Kevin
+     */
     public void update(){
 
         move();
@@ -89,6 +117,9 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
         shape.update(this);
     }
 
+    /***
+     * Credit : Kevin
+     */
     @Override
     public void whenCollided(Entity entity) {
         switch (entity.getEntityTypeName()){
@@ -136,6 +167,10 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
 
     }
 
+    /***
+     * Credit : Rached
+     * @param g
+     */
     @Override
     public void startDestructionSequence(Graphics g) {
         if (animationIndex<maxAnimationIndex){
@@ -155,6 +190,9 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
         return "enemy";
     }
 
+    /***
+     * Credit : Kevin
+     */
     public void move(){ //eventually move to abstract
 
         x += speed[0];
@@ -168,20 +206,25 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
 
     }
 
+    /***
+     * Defines loop behavior by Enemy name
+     * Credit : Kevin
+     */
     public void behaviorUpdate(){
         if(loopMode){
             switch(name){
                 case "SENTRY":
+                    //Does left right and fires every second
                     if(loopTimer % 2000 < 1000){
-                        speed[0] = -1;
+                        speed[0] = -0.75f;
                         speed[1] = 0;
 
                     }else{
-                        speed[0] = 1;
+                        speed[0] = 0.75f;
                         speed[1] = 0;
                     }
 
-                    if(loopTimer % 800 == 0)
+                    if(loopTimer % 1000 < 8)
                         fire();
                     break;
 
@@ -190,6 +233,7 @@ public class Enemy extends Shooter{ //Eventuellement transformer en LineEnemy
                 case "SPINNER":
                     speed[0] = 0;
                     speed[1] = 0;
+                    //Does up, stationary, down, stationary
                     if(2000 < loopTimer % 8000 && loopTimer % 8000 < 4000){
                         speed[0] = 0;
                         speed[1] = -0.5f;

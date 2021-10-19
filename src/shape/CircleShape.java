@@ -1,22 +1,29 @@
 package shape;
 
+import AltLib.Vec2Math;
 import Entities.*;
-import org.w3c.dom.css.Rect;
 
-import java.util.Vector;
-
+/***
+ * Circle collider
+ * Credit : Kevin
+ */
 public class CircleShape extends CustomShape{
     //here x,y is center of the circle
     public int radius;
-    public String sourceName;
+    public String sourceName; //TODO : remove debugging
     public String normalSource = "";
-    private float[] normalHit; //Ball only attribute
+    private float[] normalHit; //Stores the normal hit for the ball
+
     public CircleShape(int x, int y, int radius){
         super(x,y);
         this.radius = radius;
         normalHit = new float[]{0,0};
     }
 
+    /***
+     * Credit : Kevin
+     * @param source
+     */
     @Override
     public void update(Entity source) {
         sourceName = source.getEntityTypeName();
@@ -26,6 +33,11 @@ public class CircleShape extends CustomShape{
 
     }
 
+    /***
+     * Credit : Kevin
+     * @param poly
+     * @return
+     */
     @Override
     public boolean intersects(PolygonShape poly) {
         if(poly.width == 0 || poly.height == 0)
@@ -37,7 +49,11 @@ public class CircleShape extends CustomShape{
         return false;
     }
 
-    //Code taken from https://stackoverflow.com/questions/401847/circle-rectangle-collision-detection-intersection
+    /***
+     * Credit : Kevin + https://stackoverflow.com/questions/401847/circle-rectangle-collision-detection-intersection
+     * @param rect
+     * @return
+     */
     @Override
     public boolean intersects(RectangleShape rect){
         if(rect.width == 0 || rect.height == 0){
@@ -48,7 +64,6 @@ public class CircleShape extends CustomShape{
             return true;
 
         else{
-            //can do minDistance(p(i),p(i + 1), center) for all polygons
             float[] topleft = new float[]{rect.x, rect.y};
             float[] topright = new float[]{rect.x + rect.width, rect.y};
             float[] botleft = new float[]{rect.x, rect.y + rect.height};
@@ -62,11 +77,11 @@ public class CircleShape extends CustomShape{
     }
 
     public boolean pointInCircle(float[] p){
-        return Math.sqrt(distance2(p, new float[]{x,y})) <= radius;
+        return Math.sqrt(Vec2Math.distance2(p, new float[]{x,y})) <= radius;
     }
 
     /**
-     *
+     * Credit : Kevin
      * @param p1
      * @param p2
      * @return
@@ -74,7 +89,7 @@ public class CircleShape extends CustomShape{
     public boolean segmentInCircle(float[] p1, float[] p2, CustomShape poly){
         normalHit[0] = - p1[1] + p2[1]; //-b
         normalHit[1] = p1[0] - p2[0]; //a
-        if(dot(p1,poly.getCenter()) < 0){
+        if(Vec2Math.dot(p1,poly.getCenter()) < 0){
             //making sure we get the outward normal
             normalHit[0] = -normalHit[0];
             normalHit[1] = -normalHit[1];
@@ -89,32 +104,38 @@ public class CircleShape extends CustomShape{
         if(Math.abs(p2[0] - p1[0])  <= 0.01){ //div by 0 exception
             projection = new float[]{p1[0],center[1]};
         }else{
-            float m = (p2[1] - p1[1]) / (p2[0] - p1[0]);
-            float b = p1[1] - (m * p1[0]);
+            float a = (p2[1] - p1[1]) / (p2[0] - p1[0]);
+            float b = p1[1] - (a * p1[0]);
 
-            projection = new float[]{   (m * center[1] + center[0] - m * b) / (m * m + 1),
-                    (m * m * center[1] + m * center[0] + b) / (m * m + 1) };
+            projection = new float[]{   (a * center[1] + center[0] - a * b) / (a * a + 1),
+                    (a * a * center[1] + a * center[0] + b) / (a * a + 1) };
         }
 
 
-        if(pointOnLine(projection,p1,p2) &&
-                pointInCircle(projection)){
+        if(pointOnLine(projection,p1,p2) && pointInCircle(projection)){
             return true;
         }
+
         return pointInCircle(p1) || pointInCircle(p2);
 
     }
 
+    /***
+     * Credit : Kevin
+     * @param cs
+     * @return
+     */
     public boolean intersects(CircleShape cs){
         double distance = Math.sqrt(Math.pow(this.x - cs.x,2) + Math.pow(this.y - cs.y,2));
 
+        //Modify both circles normalHit, we don't know which one is the ball
         normalHit[0] = cs.x - x;
         normalHit[1] = cs.y - y;
         cs.normalHit[0] = cs.x - x;
         cs.normalHit[1] = cs.y - y;
+
         normalSource = "Circle";
-        boolean b = distance <= this.radius + cs.radius;
-        return b;
+        return distance <= this.radius + cs.radius;
     }
 
     public float[] getCenter(){

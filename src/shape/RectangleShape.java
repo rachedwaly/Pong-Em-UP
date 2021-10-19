@@ -3,9 +3,14 @@ package shape;
 import java.awt.*;
 import Entities.*;
 
+/***
+ * Simplification of rectangle as an extension of CustomShape
+ * Credit : Kevin
+ */
 public class RectangleShape extends CustomShape {
     public int width, height;
-    public Rectangle shapeToRec;
+    public Rectangle shapeToRec; //Used for rectangle to rectangle intersection
+
     public RectangleShape(int x, int y, int width, int height){
         super(x,y);
         this.width = width;

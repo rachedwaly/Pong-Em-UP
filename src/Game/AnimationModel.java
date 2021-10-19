@@ -28,9 +28,9 @@ public class AnimationModel extends Model {
 
 
     public void initiateAnimation(){
-        VerticalWall wallRight = new VerticalWall(WIDTH - 10+offsetX, offsetY, 10, HEIGHT,this);
-        VerticalWall wallLeft = new VerticalWall(+offsetX, offsetY, 10, HEIGHT,this);
-        HorizontalWall wallUp = new HorizontalWall(10+offsetX, offsetY, WIDTH-20, 10,this);
+        Wall wallRight = new Wall(WIDTH - 10+offsetX, offsetY, 10, HEIGHT,this);
+        Wall wallLeft = new Wall(+offsetX, offsetY, 10, HEIGHT,this);
+        Wall wallUp = new Wall(10+offsetX, offsetY, WIDTH-20, 10,this);
         b = new AnimationBall(250+offsetX, 580,this);
         stick = new StickForAnimation(WIDTH / 2+offsetX, HEIGHT-10+offsetY,this,50,b);
         addPhysicalObject(wallRight);
