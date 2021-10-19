@@ -6,6 +6,9 @@ import Game.Model;
 import java.awt.*;
 
 public class BackgroundObject extends Entity{
+    /**
+     * photo associated to the bg object
+     */
     Image photo;
     String name;
     Model model;
@@ -13,6 +16,14 @@ public class BackgroundObject extends Entity{
     protected float[] speed = new float[2];
     protected int width,height;
 
+    /**
+     * Credits: Rached
+     * @param name name of the backgroud object
+     * @param x initial x position of the background object
+     * @param y initial y position of the background object
+     * @param model reference to the model
+     * @param initialSpeed
+     */
     public BackgroundObject(String name, int x, int y, Model model, float[] initialSpeed){
         super(x,y,model);
         this.x=x;
@@ -32,9 +43,11 @@ public class BackgroundObject extends Entity{
     }
 
 
-
-
+    /**
+     * Cyclic moving for each background object
+     */
     public void update() {
+        //the update has two behaviours depending on the sign of the initial speed
         switch ((speed[0] > 0) ? 1 : -1) {
             case 1 -> {
                 if (x + width > WIDTH - 10) {

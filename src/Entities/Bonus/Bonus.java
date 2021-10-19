@@ -15,11 +15,22 @@ public abstract class Bonus extends Entity {
     protected int delay;
 
 
-    public boolean acquired=false; //this boolean will indicate if the stick got the bonus or not
+    /**
+     * this boolean will indicate if the stick got the bonus or not
+     */
+    public boolean acquired=false;
 
+    /**
+     * credits: Rached
+     * @param name name of the bonus
+     * @param x spawn's x coordinate
+     * @param y spawn's y corrdiante
+     * @param delay bonus period of activation
+     * @param stick reference to the stick
+     * @param model referece to the model
+     */
     public Bonus(String name, float x, float y,int delay,Stick stick, Model model){
         super((int)x,(int)y, model);
-        this.model = model;
         this.stick=stick;
         innerTimer=0;
         this.name=name;
@@ -88,7 +99,18 @@ public abstract class Bonus extends Entity {
 
     protected abstract void applyBonus();
 
+    /**
+     * This method will handle removing the bonus when the time of activation of this bonus has
+     * passed
+     */
     protected abstract void removeBonus();
+
+
+    /**
+     * @param g
+     * @param x
+     * @param y
+     */
     public abstract void drawInStatusBar(Graphics g,int x, int y);
 
     public boolean isAcquired() {
