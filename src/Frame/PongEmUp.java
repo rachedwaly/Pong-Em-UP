@@ -103,6 +103,7 @@ public class PongEmUp extends JFrame {
 
     public void stopTheGame(){
         if (running){
+            model.stopTimer();
             containerPane.removeAll();
             buttonsPanel.removeAll();
             playground=null;

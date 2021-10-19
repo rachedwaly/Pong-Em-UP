@@ -24,6 +24,7 @@ import java.util.Random;
  */
 public class Model implements ActionListener, KeyListener {
 
+
     public static final boolean DEBUGMODE = false;
     public static Random random  = new Random();
     public static int HEIGHT=600,WIDTH=300;
@@ -164,6 +165,7 @@ public class Model implements ActionListener, KeyListener {
         this.currentLvl = currentLvl;
     }
 
+
     protected void setUpBackgroundObjects() {
         switch(getCurrentLvl()){
             case 1:{
@@ -218,8 +220,8 @@ public class Model implements ActionListener, KeyListener {
      * @param y
      */
     private void spawnBonus(float x, float y) {
-        //int gen=random.nextInt(3);
-        int gen=0;
+        int gen=random.nextInt(3);
+
         switch (gen) {
             case 0 -> {
                 ShieldBonus shieldBonus = new ShieldBonus("shield", x, y, 1000, stick, this);
@@ -262,7 +264,6 @@ public class Model implements ActionListener, KeyListener {
     public void stopTheGame(){
         setPlaying(false);
         timer.stop();
-        //TODO add retry button on the left side of the frame
         pongEmUp.gameOver();
     }
 

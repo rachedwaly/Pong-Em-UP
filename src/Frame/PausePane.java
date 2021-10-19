@@ -40,6 +40,8 @@ public class PausePane extends JPanel {
         JButton goBackToMainMenu=new JButton("Go Back To Main Menu");
         JButton goBackToDesktop=new JButton("Go To Desktop");
         JButton resumeButton=new JButton("Resume");
+        JButton retryButton=new JButton("Retry");
+
         resumeButton.addActionListener(e -> {
             pongemup.resumeGame();
             discardPanel();
@@ -57,7 +59,14 @@ public class PausePane extends JPanel {
             discardPanel();
         });
 
+        retryButton.addActionListener(
+                e -> {
+                    pongemup.startGame();
+                    discardPanel();
+                });
+
         menu.add(resumeButton,gbc);
+        menu.add(retryButton,gbc);
         menu.add(options,gbc);
         menu.add(goBackToMainMenu,gbc);
         menu.add(goBackToDesktop,gbc);

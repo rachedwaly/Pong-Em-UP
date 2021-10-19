@@ -6,8 +6,6 @@ import javax.swing.plaf.basic.BasicButtonUI;
 import java.awt.*;
 
 public class PreviousButton extends BasicButtonUI {
-
-
     @Override
     public void paint(Graphics g, JComponent c){
         g.setColor(Color.BLACK);
