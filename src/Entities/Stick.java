@@ -30,6 +30,8 @@ public class Stick extends Shooter{
     private int initialWidth;
     public float offsetX;
     protected float dx,dy;
+
+
     private int score;
 
 
@@ -303,5 +305,10 @@ public class Stick extends Shooter{
         this.health=health;
         width = initialWidth / 2 + (int) ((health / (float) maxHealth) * initialWidth / 2);
     }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
 
 }

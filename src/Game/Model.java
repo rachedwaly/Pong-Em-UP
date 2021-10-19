@@ -199,6 +199,8 @@ public class Model implements ActionListener, KeyListener {
      * @param enemy
      */
     public void removeEnemy(Enemy enemy){
+        //adding point when enemies die
+        stick.setScore(stick.getScore()+10);
         ennemies.remove(enemy);
         physicalObjects.remove(enemy);
         drawables.remove(enemy);
