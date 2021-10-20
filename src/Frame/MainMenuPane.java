@@ -3,7 +3,7 @@ package Frame;
 import AltLib.ImageLoader;
 import Entities.BackgroundObject;
 import Entities.Entity;
-import Game.AnimationModel;
+import Game.AnimationHandler;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -13,12 +13,12 @@ import java.util.ArrayList;
 public class MainMenuPane extends JPanel {
 
     private PongEmUp pongemup;
-    private AnimationModel model;
+    private AnimationHandler model;
 
     public MainMenuPane(PongEmUp pongemup){
         this.pongemup=pongemup;
 
-        model=new AnimationModel(pongemup,this);
+        model=new AnimationHandler(pongemup,this);
         setBorder(new EmptyBorder(50, 10, 10, 10));
         //50 10 10 10
         setLayout(new GridBagLayout());

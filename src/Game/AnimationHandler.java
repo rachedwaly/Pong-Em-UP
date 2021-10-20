@@ -4,18 +4,14 @@ import AltLib.ImageLoader;
 import Entities.*;
 import Frame.PongEmUp;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 import static java.lang.Math.*;
 
-public class AnimationModel extends Model {
+public class AnimationHandler extends Handler {
 
     private JPanel mainMenu;
 
@@ -24,7 +20,7 @@ public class AnimationModel extends Model {
     private int offsetX=30;
     private int offsetY=30; //these offset will help put the animation in place inside the mainmenu
 
-    public AnimationModel(PongEmUp pongEmUp,JPanel panel) {
+    public AnimationHandler(PongEmUp pongEmUp, JPanel panel) {
         super(pongEmUp);
         mainMenu =panel;
         initiateAnimation();
@@ -51,7 +47,7 @@ public class AnimationModel extends Model {
                     color = Color.BLACK;
                 }
 
-                innerTimer += Model.DELAY;
+                innerTimer += Handler.DELAY;
                 move();
 
             }
@@ -76,8 +72,8 @@ public class AnimationModel extends Model {
             @Override
             public void drawEntity(Graphics g){
                 g.setColor(this.color);
-                texture= ImageLoader.stickImage[abs(Model.stickPhoto%ImageLoader.stickImage.length)];
-                g.drawImage(texture,(int)x, (int)y,width,height,model.getView());
+                texture= ImageLoader.stickImage[abs(Handler.stickPhoto%ImageLoader.stickImage.length)];
+                g.drawImage(texture,(int)x, (int)y,width,height, handler.getView());
             }
         };
         addPhysicalObject(wallRight);

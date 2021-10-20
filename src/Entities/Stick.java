@@ -7,7 +7,6 @@ import shape.RectangleShape;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 
 import static java.lang.Math.*;
@@ -40,8 +39,8 @@ public class Stick extends Shooter{
     private boolean respawning = false;
     private int lives =3;
 
-    public Stick(int x, int y,Model model,int initialWidth){
-        super(x,y,model);
+    public Stick(int x, int y, Handler handler, int initialWidth){
+        super(x,y, handler);
         this.initialWidth=initialWidth;
         name = "Stick";
         canShoot = true;
@@ -55,12 +54,12 @@ public class Stick extends Shooter{
 
         lookDirection = new float[]{0,-1};
         for(int i = 0; i < projectiles.length; i++)
-            projectiles[i] = new Projectile(5,10,5,new RectangleShape(0,0,5,10), model);
+            projectiles[i] = new Projectile(5,10,5,new RectangleShape(0,0,5,10), handler);
     }
 
     @Override
     public void update() {
-        innerTimer += Model.DELAY;
+        innerTimer += Handler.DELAY;
 
         if(!respawning){
             if(innerTimer > 80){
@@ -210,8 +209,8 @@ public class Stick extends Shooter{
     public void drawEntity(Graphics g){
         if((innerTimer > 0 || innerTimer % 300 > -150) && !respawning){
             if (health>0){
-                texture=ImageLoader.stickImage[abs(Model.stickPhoto%ImageLoader.stickImage.length)];
-                g.drawImage(texture,(int)x, (int)y,width,height,model.getView());
+                texture=ImageLoader.stickImage[abs(Handler.stickPhoto%ImageLoader.stickImage.length)];
+                g.drawImage(texture,(int)x, (int)y,width,height, handler.getView());
                 g.setColor(healthColor);
                 g.fillRect((int)(x - offsetX),(int)y + height + 5,(int)(initialWidth * health/(float)maxHealth),5);
                 g.setColor(damageColor);
@@ -232,7 +231,7 @@ public class Stick extends Shooter{
                     (int)x-initialWidth,
                     (int)y-height*4,
                     initialWidth*4,
-                    height*8,model.getView());
+                    height*8, handler.getView());
             animationIndex++;
         }
         else
@@ -245,7 +244,7 @@ public class Stick extends Shooter{
      */
     private void destroy() {
         if (lives<=0){
-            model.stopTheGame();
+            handler.stopTheGame();
         }else{
             lives -= 1;
             shape = new RectangleShape(0,0,0,0);

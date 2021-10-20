@@ -10,10 +10,10 @@ import java.awt.*;
  * Credit : Both
  */
 public abstract class Entity {
-    public static final int HEIGHT= Model.HEIGHT; //max height of the game
-    public static final int WIDTH= Model.WIDTH; //max width of the game
+    public static final int HEIGHT= Handler.HEIGHT; //max height of the game
+    public static final int WIDTH= Handler.WIDTH; //max width of the game
 
-    public Model model;
+    public Handler handler;
     protected float x,y; //float position the converted to int
     protected int width,height;
     protected CustomShape shape; //Custom collider
@@ -29,15 +29,15 @@ public abstract class Entity {
 
     /**
      * Default constructor
-     * @param model
+     * @param handler
      */
-    public Entity(Model model){
-        this(Model.random.nextInt(WIDTH), Model.random.nextInt(HEIGHT),
-                Model.random.nextInt(30), Model.random.nextInt(30), model);
+    public Entity(Handler handler){
+        this(Handler.random.nextInt(WIDTH), Handler.random.nextInt(HEIGHT),
+                Handler.random.nextInt(30), Handler.random.nextInt(30), handler);
     }
 
-    public Entity(float x, float y, Model model){
-        this(x,y,0,0, model);
+    public Entity(float x, float y, Handler handler){
+        this(x,y,0,0, handler);
 
     }
 
@@ -47,15 +47,15 @@ public abstract class Entity {
      * @param y y pos
      * @param w width
      * @param h height
-     * @param model model which it is attached to
+     * @param handler handler which it is attached to
      */
-    public Entity(float x, float y, int w, int h, Model model){
+    public Entity(float x, float y, int w, int h, Handler handler){
         this.x=x;
         this.y=y;
         this.width=w;
         this.height=h;
         this.color = Color.BLACK; //default color
-        this.model = model;
+        this.handler = handler;
         color = Color.BLACK;
 
         innerTimer = 81; //0 -> 80 is reserved for blinking animations

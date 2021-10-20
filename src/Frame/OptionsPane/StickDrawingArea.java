@@ -1,10 +1,9 @@
 package Frame.OptionsPane;
 
-import AltLib.ImageLoader;
 import Frame.OptionsPane.Buttons.Button;
 import Frame.OptionsPane.Buttons.NextButton;
 import Frame.OptionsPane.Buttons.PreviousButton;
-import Game.Model;
+import Game.Handler;
 
 import javax.swing.*;
 
@@ -13,7 +12,7 @@ import static java.lang.Math.abs;
 public class StickDrawingArea extends JPanel{
     private JButton nextButton=new Button();
     private JButton previousButton=new Button();
-    private int index= Model.stickPhoto;
+    private int index= Handler.stickPhoto;
     private StickPreview stickPreview=new StickPreview(index);
 
     public StickDrawingArea(){

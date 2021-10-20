@@ -5,8 +5,8 @@ import Frame.PongEmUp;
 
 import javax.swing.*;
 
-public class GameModel extends Model{
-    public GameModel(PongEmUp pongEmUp){
+public class GameHandler extends Handler {
+    public GameHandler(PongEmUp pongEmUp){
         super(pongEmUp);
         initiateGame();
     }

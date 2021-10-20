@@ -7,15 +7,15 @@ import Game.*;
  */
 public class Wall extends Entity{
 
-    public Wall(int x, int y, int w, int h, Model model){
-        super(x,y,w,h, model);
+    public Wall(int x, int y, int w, int h, Handler handler){
+        super(x,y,w,h, handler);
     }
 
     @Override
     public void update() {
         if(innerTimer > 80)
             color = Color.BLACK;
-        innerTimer += Model.DELAY;
+        innerTimer += Handler.DELAY;
     }
 
     @Override

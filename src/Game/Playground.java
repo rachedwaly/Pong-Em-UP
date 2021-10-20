@@ -16,16 +16,16 @@ public class Playground extends JPanel {
     public static int WIDTH=300;
 
     private StatusBar statusBar;
-    private Model model;
+    private Handler handler;
 
 
 
 
-    public Playground(Model model){
+    public Playground(Handler handler){
         super(new BorderLayout()); //BorderLayout instead ?
-        this.model=model;
-        setPreferredSize(new Dimension(Model.WIDTH,Model.HEIGHT));
-        statusBar=new StatusBar(model);
+        this.handler = handler;
+        setPreferredSize(new Dimension(Handler.WIDTH, Handler.HEIGHT));
+        statusBar=new StatusBar(handler);
         add(statusBar,BorderLayout.SOUTH);
     }
     @Override
@@ -33,8 +33,8 @@ public class Playground extends JPanel {
         super.paintComponent(g);
         handleLevelBackground(g);
 
-        //g.drawString(Integer.toString(model.stick.innerTimer % 200) ,50,30 );
-        ArrayList<Entity> drawingList=new ArrayList<>(model.getDrawables());
+        //g.drawString(Integer.toString(handler.stick.innerTimer % 200) ,50,30 );
+        ArrayList<Entity> drawingList=new ArrayList<>(handler.getDrawables());
         //on doit impérativement utiliser ce type de boucle four sinon on peut pas mettre à jour
         // la liste  des drawables dynamiquement (sinon ça throw une exception)
         for (int i=0;i<drawingList.size();i++){
@@ -42,16 +42,16 @@ public class Playground extends JPanel {
             entity.drawEntity(g);
         }
 
-        if (!model.isPlaying()){
-            g.drawImage(ImageLoader.gameoverImage,20,120,model.getView());
+        if (!handler.isPlaying()){
+            g.drawImage(ImageLoader.gameoverImage,20,120, handler.getView());
         }
 
     }
 
     private void handleLevelBackground(Graphics g) {
-        int lvl=model.getCurrentLvl();
+        int lvl= handler.getCurrentLvl();
         g.drawImage(ImageLoader.bgImage[lvl - 1], 0, 0, this);
-        ArrayList<BackgroundObject> drawingList=new ArrayList<>(model.getBackgroundObjects());
+        ArrayList<BackgroundObject> drawingList=new ArrayList<>(handler.getBackgroundObjects());
         for (int i=0;i<drawingList.size();i++){
             BackgroundObject bgo=drawingList.get(i);
             bgo.drawEntity(g);

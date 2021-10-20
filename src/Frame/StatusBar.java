@@ -2,22 +2,21 @@ package Frame;
 
 import AltLib.ImageLoader;
 import Entities.Bonus.Bonus;
-import Game.Model;
+import Game.Handler;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class StatusBar extends JPanel {
 
     private Image healthPhoto;
-    private Model model;
+    private Handler handler;
 
-    public StatusBar(Model model){
-        this.model = model;
+    public StatusBar(Handler handler){
+        this.handler = handler;
         setBackground(new Color(211,211,211));
-        setPreferredSize(new Dimension(Model.WIDTH,50));
+        setPreferredSize(new Dimension(Handler.WIDTH,50));
     }
 
     @Override
@@ -25,9 +24,9 @@ public class StatusBar extends JPanel {
         super.paintComponent(g);
         g.drawImage(ImageLoader.healthImage,10,10,29,30,this);
         g.setFont(new Font("Purisa", Font.BOLD, 13));
-        g.drawString("X "+ model.getPlayerSpawnLeft(),45,30);
-        g.drawString("Score: "+ model.getPlayerScore(),80,30);
-        ArrayList<Bonus> bonuses=model.getBonuses();
+        g.drawString("X "+ handler.getPlayerSpawnLeft(),45,30);
+        g.drawString("Score: "+ handler.getPlayerScore(),80,30);
+        ArrayList<Bonus> bonuses= handler.getBonuses();
         int x=150;
         for (int i=0;i<bonuses.size();i++){
             if (bonuses.get(i).acquired) {

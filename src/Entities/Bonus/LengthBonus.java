@@ -2,7 +2,7 @@ package Entities.Bonus;
 
 import AltLib.ImageLoader;
 import Entities.Stick;
-import Game.Model;
+import Game.Handler;
 
 import java.awt.*;
 
@@ -12,8 +12,8 @@ public class LengthBonus extends Bonus{
     private int powerOftheLength; //this will determine how much we should add health to the stick
 
     public LengthBonus(String name, float x, float y, int delay, Stick stick,
-                       int lengthToAdd, Model model) {
-        super(name, x, y, delay, stick, model);
+                       int lengthToAdd, Handler handler) {
+        super(name, x, y, delay, stick, handler);
         this.lengthToAdd=lengthToAdd;
         this.powerOftheLength=
                 (int) Math.ceil((float)(lengthToAdd+stick.getWidth())/(float)stick.getWidth());
@@ -54,7 +54,7 @@ public class LengthBonus extends Bonus{
         if (!acquired) {
             g.setColor(color);
             g.drawImage(ImageLoader.muscleBonusImage, (int) x, (int) y, width, height,
-                    model.getView());
+                    handler.getView());
         }
     }
 

@@ -27,12 +27,12 @@ public abstract class Shooter extends Entity{
 
 
 
-    public Shooter(Model model){
-        super(model);
+    public Shooter(Handler handler){
+        super(handler);
     }
 
-    public Shooter(float x, float y, Model model){
-        super(x,y, model);
+    public Shooter(float x, float y, Handler handler){
+        super(x,y, handler);
     }
 
     public void fire(){

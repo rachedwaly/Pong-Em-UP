@@ -1,7 +1,7 @@
 package Frame.OptionsPane;
 
 import Frame.*;
-import Game.Model;
+import Game.Handler;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -54,8 +54,8 @@ public class OptionsPane extends JPanel {
         gbc.insets = new Insets(10,0,0,0);
         add(setButton,gbc);
         setButton.addActionListener(e -> {
-            Model.ballColor=ballDrawingArea.getIndex();
-            Model.stickPhoto=stickDrawingArea.getIndex();
+            Handler.ballColor=ballDrawingArea.getIndex();
+            Handler.stickPhoto=stickDrawingArea.getIndex();
         });
 
 

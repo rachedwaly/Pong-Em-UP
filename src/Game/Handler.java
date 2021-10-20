@@ -19,10 +19,10 @@ import java.util.HashMap;
 import java.util.Random;
 
 /***
- * Main model class, glueing the game's implementation together
+ * Main handler class, glueing the game's implementation together
  * Credit : Mostly Rached
  */
-public class Model implements ActionListener, KeyListener {
+public class Handler implements ActionListener, KeyListener {
 
 
     public static final boolean DEBUGMODE = false;
@@ -61,7 +61,7 @@ public class Model implements ActionListener, KeyListener {
      * @param pongEmUp the main frame of the game
      * @throws IOException
      */
-    public Model(PongEmUp pongEmUp){
+    public Handler(PongEmUp pongEmUp){
         this.pongEmUp=pongEmUp;
     }
 
@@ -98,7 +98,7 @@ public class Model implements ActionListener, KeyListener {
 
 
     /**
-     * @param e this method will be called each tick of the timer in order to update the model
+     * @param e this method will be called each tick of the timer in order to update the handler
      */
     @Override
     public void actionPerformed(ActionEvent e) {

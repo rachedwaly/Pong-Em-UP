@@ -1,12 +1,9 @@
 package Entities;
 import AltLib.Vec2Math;
 import Frame.OptionsPane.BallPreview;
-import Entities.Bonus.Bonus;
-import Game.Model;
+import Game.Handler;
 import shape.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Random;
 
 import static java.lang.Math.abs;
 
@@ -22,11 +19,11 @@ public class Ball extends Entity {
 
     /***
      * Credit : Both
-     * @param model
+     * @param handler
      */
-    public Ball(Model model) {
+    public Ball(Handler handler) {
 
-        super(model);
+        super(handler);
 
         lastValidPosition = new float[2];
         this.width = 10;
@@ -45,7 +42,7 @@ public class Ball extends Entity {
     public void drawEntity(Graphics g){
         Graphics2D g2 = (Graphics2D) g;
         if(innerTimer >= 0 || (innerTimer % 500 > -250)){
-            g2.setColor(BallPreview.colors[abs(Model.ballColor%BallPreview.colors.length)]);
+            g2.setColor(BallPreview.colors[abs(Handler.ballColor%BallPreview.colors.length)]);
             g2.fillOval((int)x,(int)y,width,height);
             g2.setColor(Color.WHITE);
         }
@@ -88,7 +85,7 @@ public class Ball extends Entity {
         }
 
         if(y>HEIGHT ){
-            model.stick.setHealth(0);
+            handler.stick.setHealth(0);
         }
     }
 
@@ -96,13 +93,13 @@ public class Ball extends Entity {
      * Credit : Kevin
      */
     public void update(){
-        innerTimer += Model.DELAY;
+        innerTimer += Handler.DELAY;
         if(!respawning){
             if(innerTimer > 8080)
-                scalarSpeed = Math.max(2,scalarSpeed - 1f / 750 * Model.DELAY); //loses 1 speed every 6 seconds
+                scalarSpeed = Math.max(2,scalarSpeed - 1f / 750 * Handler.DELAY); //loses 1 speed every 6 seconds
 
             move();
-            if(model.stick.getHealth() <=0)
+            if(handler.stick.getHealth() <=0)
                 destroy();
             shape.update(this);
         }else{

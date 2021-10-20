@@ -2,13 +2,13 @@ package Entities.Bonus;
 
 import AltLib.ImageLoader;
 import Entities.Stick;
-import Game.Model;
+import Game.Handler;
 
 import java.awt.*;
 
 public class LifeBonus extends Bonus{
-    public LifeBonus(String name, float x, float y, int delay, Stick stick, Model model) {
-        super(name, x, y, delay, stick, model);
+    public LifeBonus(String name, float x, float y, int delay, Stick stick, Handler handler) {
+        super(name, x, y, delay, stick, handler);
     }
 
 
@@ -17,7 +17,7 @@ public class LifeBonus extends Bonus{
     public void update() {
         if (!acquired) move();
         else{
-                model.removeBonus(this);
+                handler.removeBonus(this);
             }
         }
 
@@ -43,7 +43,7 @@ public class LifeBonus extends Bonus{
         if (!acquired) {
             g.setColor(color);
             g.drawImage(ImageLoader.healthImage, (int) x, (int) y, width/2, height/2,
-                    model.getView());
+                    handler.getView());
         }
     }
 }

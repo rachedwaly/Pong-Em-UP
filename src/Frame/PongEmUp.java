@@ -1,8 +1,8 @@
 package Frame;
 
 import Frame.OptionsPane.OptionsPane;
-import Game.GameModel;
-import Game.Model;
+import Game.GameHandler;
+import Game.Handler;
 import Game.Playground;
 
 import javax.swing.*;
@@ -17,7 +17,7 @@ public class PongEmUp extends JFrame {
 
     private boolean running=false;
     private boolean paused=false;
-    private Model model;
+    private Handler handler;
     private JPanel containerPane;
     private Playground playground;
 
@@ -54,13 +54,13 @@ public class PongEmUp extends JFrame {
     public void showPauseMenu(){
         pausePane.setOpaque(false);
         pausePane.setVisible(true);
-        model.stopTimer();
+        handler.stopTimer();
         paused=true;
     }
 
     public void resumeGame(){
         containerPane.requestFocusInWindow();
-        model.startTimer();
+        handler.startTimer();
     }
 
     public void goToOptions(){
@@ -91,10 +91,10 @@ public class PongEmUp extends JFrame {
         paused=false;
         running=true;
         containerPane.removeAll();
-        model = new GameModel(this);
-        playground = model.getView();
+        handler = new GameHandler(this);
+        playground = handler.getView();
         containerPane.add(playground,BorderLayout.CENTER);
-        containerPane.addKeyListener(model);
+        containerPane.addKeyListener(handler);
         containerPane.requestFocusInWindow();
         buttonsPanel=new ButtonsPane(this);
         containerPane.add(buttonsPanel,BorderLayout.EAST);
@@ -104,13 +104,13 @@ public class PongEmUp extends JFrame {
 
     public void stopTheGame(){
         if (running){
-            model.stopTimer();
+            handler.stopTimer();
             containerPane.removeAll();
             buttonsPanel.removeAll();
             playground=null;
             buttonsPanel=null;
-            model.stopTimer();
-            model =null;
+            handler.stopTimer();
+            handler =null;
             running=false;
             paused=false;
         }

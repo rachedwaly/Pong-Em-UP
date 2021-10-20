@@ -29,10 +29,10 @@ public class Enemy extends Shooter{
      * @param y0 initPos y
      * @param fX finalPos x
      * @param fY finalPos y
-     * @param model
+     * @param handler
      */
-    private Enemy(float x0, float y0, float fX, float fY,Model model){
-        super(x0,y0,model);
+    private Enemy(float x0, float y0, float fX, float fY, Handler handler){
+        super(x0,y0, handler);
         this.fX = fX;
         this.fY = fY;
 
@@ -60,10 +60,10 @@ public class Enemy extends Shooter{
      * @param y0 initPos y
      * @param fX finalPos x
      * @param fY finalPos y
-     * @param model
+     * @param handler
      */
-    public Enemy(String name, int x0, int y0 , int fX, int fY,Model model){
-        this(x0,y0,fX,fY,model);
+    public Enemy(String name, int x0, int y0 , int fX, int fY, Handler handler){
+        this(x0,y0,fX,fY, handler);
         switch(name){
             case "SENTRY":
                 width = 40;
@@ -75,7 +75,7 @@ public class Enemy extends Shooter{
                 maxHealth = health;
 
                 for(int i = 0; i < projectiles.length; i++)
-                    projectiles[i] = new Projectile(5,10,2,new RectangleShape(0,0,5,10),model);
+                    projectiles[i] = new Projectile(5,10,2,new RectangleShape(0,0,5,10), handler);
                 color = Color.BLUE;
 
                 this.name = name;
@@ -94,7 +94,7 @@ public class Enemy extends Shooter{
                 health= 20;
                 maxHealth = health;
                 for(int i = 0; i < projectiles.length; i++)
-                    projectiles[i] = new Projectile(5,5,1.5f,new CircleShape(5,5,5), model);
+                    projectiles[i] = new Projectile(5,5,1.5f,new CircleShape(5,5,5), handler);
 
                 color = Color.GREEN;
 
@@ -132,8 +132,8 @@ public class Enemy extends Shooter{
 
         move();
         behaviorUpdate();
-        innerTimer += Model.DELAY;
-        loopTimer += Model.DELAY;
+        innerTimer += Handler.DELAY;
+        loopTimer += Handler.DELAY;
         shape.update(this);
     }
 
@@ -215,11 +215,11 @@ public class Enemy extends Shooter{
             g.drawImage(ImageLoader.explosionAnimation[animationIndex],(int)x-width,
                     (int)y-height,
                     width*4,
-                    height*4,model.getView());
+                    height*4, handler.getView());
             animationIndex++;
         }
         else{
-            model.removeEnemy(this);
+            handler.removeEnemy(this);
         }
     }
 
@@ -308,9 +308,9 @@ public class Enemy extends Shooter{
     public void drawEntity(Graphics g){
         if (health>0){
             if(innerTimer > 80)
-                g.drawImage(photo,(int)x,(int)y,width,height,model.getView());
+                g.drawImage(photo,(int)x,(int)y,width,height, handler.getView());
             else
-                g.drawImage(photoDamaged,(int)x,(int)y,width,height,model.getView());
+                g.drawImage(photoDamaged,(int)x,(int)y,width,height, handler.getView());
 
             g.setColor(Color.GREEN);
             g.fillRect((int)x,(int)y - 10, (int)( (health/(float)maxHealth) * width),5);

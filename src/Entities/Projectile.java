@@ -1,6 +1,6 @@
 package Entities;
 import AltLib.Vec2Math;
-import Game.Model;
+import Game.Handler;
 import shape.CircleShape;
 import shape.CustomShape;
 import shape.RectangleShape;
@@ -16,8 +16,8 @@ public class Projectile extends Entity {
     public float scalarSpeed;
     public boolean friendly; //true if ally projectile, false if enemy;
 
-    public Projectile(int w, int h, float scalarSpeed,CustomShape shape, Model model){
-        super(model);
+    public Projectile(int w, int h, float scalarSpeed,CustomShape shape, Handler handler){
+        super(handler);
         name = "projectile";
         this.x = 500;
         this.y = 1000;

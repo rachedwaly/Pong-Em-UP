@@ -2,21 +2,21 @@ package Entities.Bonus;
 
 import AltLib.ImageLoader;
 import Entities.Stick;
-import Game.Model;
+import Game.Handler;
 
 import java.awt.*;
 
 public class ShieldBonus extends Bonus{
 
-    public ShieldBonus(String name, float x, float y, int delay, Stick stick, Model model) {
-        super(name, x, y, delay, stick, model);
+    public ShieldBonus(String name, float x, float y, int delay, Stick stick, Handler handler) {
+        super(name, x, y, delay, stick, handler);
     }
 
     @Override
     public void drawEntity(Graphics g) {
         if (!acquired) {
             g.setColor(color);
-            g.drawImage(ImageLoader.shieldBonusImage, (int) x, (int) y, width, height, model.getView());
+            g.drawImage(ImageLoader.shieldBonusImage, (int) x, (int) y, width, height, handler.getView());
         }
         else{
             int x1=(int)stick.getX();
@@ -24,7 +24,7 @@ public class ShieldBonus extends Bonus{
             int w1=stick.getWidth();
             g.drawImage(ImageLoader.shieldStickImage,(int)x1+w1+5,(int)y1,20,
                     15,
-                    model.getView());
+                    handler.getView());
         }
     }
 

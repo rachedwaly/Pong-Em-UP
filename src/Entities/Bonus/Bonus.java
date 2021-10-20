@@ -3,12 +3,12 @@ package Entities.Bonus;
 import Entities.Ball;
 import Entities.Entity;
 import Entities.Stick;
-import Game.Model;
+import Game.Handler;
 
 import java.awt.*;
 
 public abstract class Bonus extends Entity {
-    protected Model model;
+    protected Handler handler;
 
     protected Stick stick;
 
@@ -27,10 +27,10 @@ public abstract class Bonus extends Entity {
      * @param y spawn's y corrdiante
      * @param delay bonus period of activation
      * @param stick reference to the stick
-     * @param model referece to the model
+     * @param handler referece to the handler
      */
-    public Bonus(String name, float x, float y,int delay,Stick stick, Model model){
-        super((int)x,(int)y, model);
+    public Bonus(String name, float x, float y,int delay,Stick stick, Handler handler){
+        super((int)x,(int)y, handler);
         this.stick=stick;
         innerTimer=0;
         this.name=name;
@@ -41,7 +41,7 @@ public abstract class Bonus extends Entity {
         this.height=40;
         this.speed[0]=0;
         this.speed[1]=2;
-        this.model = model;
+        this.handler = handler;
         color=Color.PINK;
     }
 
@@ -51,7 +51,7 @@ public abstract class Bonus extends Entity {
         y+=speed[1];
         shape.update(this);
         if (y>600){
-            model.removeBonus(this);
+            handler.removeBonus(this);
         }
     }
 
@@ -80,7 +80,7 @@ public abstract class Bonus extends Entity {
             decrementDelay();
             if (delay<=0){
                 removeBonus();
-                model.removeBonus(this);
+                handler.removeBonus(this);
             }
         }
     }
@@ -94,7 +94,7 @@ public abstract class Bonus extends Entity {
     }
 
     public void decrementDelay(){
-        this.delay-= Model.DELAY;
+        this.delay-= Handler.DELAY;
     }
 
     protected abstract void applyBonus();

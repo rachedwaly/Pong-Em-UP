@@ -1,7 +1,7 @@
 package Entities;
 
 import AltLib.ImageLoader;
-import Game.Model;
+import Game.Handler;
 
 import java.awt.*;
 
@@ -11,7 +11,7 @@ public class BackgroundObject extends Entity{
      */
     Image photo;
     String name;
-    Model model;
+    Handler handler;
     protected float x,y;
     protected float[] speed = new float[2];
     protected int width,height;
@@ -21,21 +21,21 @@ public class BackgroundObject extends Entity{
      * @param name name of the backgroud object
      * @param x initial x position of the background object
      * @param y initial y position of the background object
-     * @param model reference to the model
+     * @param handler reference to the handler
      * @param initialSpeed
      */
-    public BackgroundObject(String name, int x, int y, Model model, float[] initialSpeed){
-        super(x,y,model);
+    public BackgroundObject(String name, int x, int y, Handler handler, float[] initialSpeed){
+        super(x,y, handler);
         this.x=x;
         this.y=y;
         this.name=name;
-        this.model=model;
+        this.handler = handler;
         if(name.equals("plane"))
             this.photo= ImageLoader.planeImage;
         if(name.equals("cloud"))
             this.photo= ImageLoader.cloudImage;
-        this.width=photo.getWidth(model.getView());
-        this.height=photo.getHeight(model.getView());
+        this.width=photo.getWidth(handler.getView());
+        this.height=photo.getHeight(handler.getView());
         this.speed[0]=initialSpeed[0];
         this.speed[1]=initialSpeed[1];
         lookDirection[0]=(this.speed[0]<0)?-1:1;
@@ -53,9 +53,9 @@ public class BackgroundObject extends Entity{
                 if (x + width > WIDTH - 10) {
                     x = -50;
                     if (y + height < HEIGHT / 2) {
-                        y = y + Model.random.nextInt(50);
+                        y = y + Handler.random.nextInt(50);
                     } else {
-                        y = y - Model.random.nextInt(50);
+                        y = y - Handler.random.nextInt(50);
                     }
                 } else {
                     this.x += speed[0];
@@ -66,9 +66,9 @@ public class BackgroundObject extends Entity{
                 if (x < -10) {
                     x = WIDTH + 50;
                     if (y + height < HEIGHT / 2) {
-                        y = y + Model.random.nextInt(50);
+                        y = y + Handler.random.nextInt(50);
                     } else {
-                        y = y - Model.random.nextInt(50);
+                        y = y - Handler.random.nextInt(50);
                     }
                 } else {
                     this.x += speed[0];
@@ -90,7 +90,7 @@ public class BackgroundObject extends Entity{
     }
 
     public void drawEntity(Graphics g) {
-        g.drawImage(photo,(int)x,(int)y,model.getView());
+        g.drawImage(photo,(int)x,(int)y, handler.getView());
     }
 
 

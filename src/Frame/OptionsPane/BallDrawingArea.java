@@ -3,7 +3,7 @@ package Frame.OptionsPane;
 import Frame.OptionsPane.Buttons.Button;
 import Frame.OptionsPane.Buttons.NextButton;
 import Frame.OptionsPane.Buttons.PreviousButton;
-import Game.Model;
+import Game.Handler;
 
 import javax.swing.*;
 
@@ -15,7 +15,7 @@ public class BallDrawingArea extends JPanel{
 
 
 
-    private int index= Model.ballColor;
+    private int index= Handler.ballColor;
     private BallPreview ballPreview=new BallPreview(index);
 
 
