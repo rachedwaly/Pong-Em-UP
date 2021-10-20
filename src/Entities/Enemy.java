@@ -70,10 +70,12 @@ public class Enemy extends Shooter{
                 height =40;
                 speed[0] *= 2;
                 speed[1] *= 2;
-                health=1;
-                for(int i = 0; i < projectiles.length; i++)
-                    projectiles[i] = new Projectile(5,10,10,2,new RectangleShape(0,0,5,10),model);
 
+                health=1;
+                maxHealth = health;
+
+                for(int i = 0; i < projectiles.length; i++)
+                    projectiles[i] = new Projectile(5,10,2,new RectangleShape(0,0,5,10),model);
                 color = Color.BLUE;
 
                 this.name = name;
@@ -90,8 +92,9 @@ public class Enemy extends Shooter{
                 speed[0] *= 1;
                 speed[1] *= 1;
                 health= 20;
+                maxHealth = health;
                 for(int i = 0; i < projectiles.length; i++)
-                    projectiles[i] = new Projectile(5,5,10,1.5f,new CircleShape(5,5,5), model);
+                    projectiles[i] = new Projectile(5,5,1.5f,new CircleShape(5,5,5), model);
 
                 color = Color.GREEN;
 
@@ -103,6 +106,23 @@ public class Enemy extends Shooter{
                 break;
 
         }
+    }
+
+    public static Enemy bossify(Enemy e){
+        e.name = "BOSS";
+        e.health = 150;
+        e.maxHealth = e.health;
+        e.width = 100;
+        e.height = 100;
+
+        for(int i = 0; i < e.projectiles.length; i++){
+            e.projectiles[i].x = 10;
+            e.projectiles[i].y = 10;
+            e.projectiles[i].shape.update(e);
+        }
+
+        e.shape.update(e);
+        return e;
     }
 
     /***
@@ -146,6 +166,23 @@ public class Enemy extends Shooter{
                 super.fire();
                 break;
             case "SPINNER":
+                projectiles[projectileIndex].fire(this, new float[]{1,0});
+                projectileIndex = (projectileIndex + 1) % PROJECTILEBUFFER;
+                projectiles[projectileIndex].fire(this, new float[]{1,1});
+                projectileIndex = (projectileIndex + 1) % PROJECTILEBUFFER;
+                projectiles[projectileIndex].fire(this, new float[]{0,1});
+                projectileIndex = (projectileIndex + 1) % PROJECTILEBUFFER;
+                projectiles[projectileIndex].fire(this, new float[]{-1,1});
+                projectileIndex = (projectileIndex + 1) % PROJECTILEBUFFER;
+                projectiles[projectileIndex].fire(this, new float[]{-1,0});
+                projectileIndex = (projectileIndex + 1) % PROJECTILEBUFFER;
+                projectiles[projectileIndex].fire(this, new float[]{-1,-1});
+                projectileIndex = (projectileIndex + 1) % PROJECTILEBUFFER;
+                projectiles[projectileIndex].fire(this, new float[]{0,-1});
+                projectileIndex = (projectileIndex + 1) % PROJECTILEBUFFER;
+                projectiles[projectileIndex].fire(this, new float[]{1,-1});
+                projectileIndex = (projectileIndex + 1) % PROJECTILEBUFFER;
+            case "BOSS":
                 projectiles[projectileIndex].fire(this, new float[]{1,0});
                 projectileIndex = (projectileIndex + 1) % PROJECTILEBUFFER;
                 projectiles[projectileIndex].fire(this, new float[]{1,1});
@@ -247,7 +284,21 @@ public class Enemy extends Shooter{
 
                     if(loopTimer% 4000 == 0)
                         fire();
+                    break;
+                case "BOSS":
+                    speed[0] = 0;
+                    speed[1] = 0;
+
+                    if(loopTimer % 2000 < 1001){
+                        if(loopTimer % 330 < 8)
+                            fire();
+                    }
+                    break;
+                default:
+                    break;
             }
+
+
         }
 
     }
@@ -260,8 +311,12 @@ public class Enemy extends Shooter{
             else
                 g.drawImage(photoDamaged,(int)x,(int)y,width,height,model.getView());
 
-            g.setColor(color);
-            g.drawString(Integer.toString(health),(int)x + width/2,(int)y - 10);
+            g.setColor(Color.GREEN);
+            g.fillRect((int)x,(int)y - 10, (int)( (health/(float)maxHealth) * width),5);
+            g.setColor(Color.RED);
+            g.fillRect((int)x + (int)( (health/(float)maxHealth) * width),(int)y - 10,
+                        (int)( (maxHealth - health)/(float)maxHealth * width),5);
+
         }
         else startDestructionSequence(g);
 

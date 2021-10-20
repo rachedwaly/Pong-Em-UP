@@ -87,9 +87,9 @@ public class Ball extends Entity {
         if (x < -100 || x > 500 || y < 0 ){ //ball passes stick or glitches out
             destroy();
         }
+
         if(y>HEIGHT ){
             model.stick.setHealth(0);
-            destroy();
         }
     }
 
@@ -103,6 +103,8 @@ public class Ball extends Entity {
                 scalarSpeed = Math.max(2,scalarSpeed - 1f / 750 * Model.DELAY); //loses 1 speed every 6 seconds
 
             move();
+            if(model.stick.getHealth() <=0)
+                destroy();
             shape.update(this);
         }else{
             if(innerTimer >= 0){

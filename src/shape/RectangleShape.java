@@ -47,4 +47,8 @@ public class RectangleShape extends CustomShape {
     public float[] getCenter(){
         return new float[]{x + width/2,y + height/2};
     }
+
+    public void rotate(int angle){
+        
+    }
 }

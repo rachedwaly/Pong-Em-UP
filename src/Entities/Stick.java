@@ -53,7 +53,7 @@ public class Stick extends Shooter{
 
         lookDirection = new float[]{0,-1};
         for(int i = 0; i < projectiles.length; i++)
-            projectiles[i] = new Projectile(5,10,10,5,new RectangleShape(0,0,5,10), model);
+            projectiles[i] = new Projectile(5,10,5,new RectangleShape(0,0,5,10), model);
     }
 
     @Override
@@ -89,7 +89,7 @@ public class Stick extends Shooter{
 
         switch (entity.getEntityTypeName()) {
             case "enemyprojectile":
-                if (!shieldOn || innerTimer < 0) { //stick is invulnerable for some time after respawning
+                if (!shieldOn && innerTimer >= 0) { //stick is invulnerable for some time after respawning
                     color = Color.RED;
                     Projectile p = (Projectile) entity;
                     health -= p.damage;
@@ -99,7 +99,7 @@ public class Stick extends Shooter{
 
                 break;
             case "enemy":
-                if (!shieldOn || innerTimer < 0)
+                if (!shieldOn && innerTimer >= 0)
                     health = 0;
                 break;
             case "ball":

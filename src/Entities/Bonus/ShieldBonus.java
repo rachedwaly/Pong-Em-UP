@@ -32,7 +32,6 @@ public class ShieldBonus extends Bonus{
     @Override
     public void applyBonus(){
         stick.setShieldOn(true);
-        System.out.println("shield");
     }
 
     @Override
