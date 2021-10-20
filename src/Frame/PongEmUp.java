@@ -134,4 +134,7 @@ public class PongEmUp extends JFrame {
     }
 
 
+    public void restartGame() {
+
+    }
 }
