@@ -182,6 +182,7 @@ public class Enemy extends Shooter{
                 projectileIndex = (projectileIndex + 1) % PROJECTILEBUFFER;
                 projectiles[projectileIndex].fire(this, new float[]{1,-1});
                 projectileIndex = (projectileIndex + 1) % PROJECTILEBUFFER;
+                break;
             case "BOSS":
                 projectiles[projectileIndex].fire(this, new float[]{1,0});
                 projectileIndex = (projectileIndex + 1) % PROJECTILEBUFFER;
