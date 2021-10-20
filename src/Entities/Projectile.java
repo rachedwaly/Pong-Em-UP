@@ -16,9 +16,9 @@ public class Projectile extends Entity {
     public float scalarSpeed;
     public boolean friendly; //true if ally projectile, false if enemy;
 
-    public Projectile(int w, int h, int dmg, float scalarSpeed,CustomShape shape, Model model){
+    public Projectile(int w, int h, float scalarSpeed,CustomShape shape, Model model){
         super(model);
-        name = "Projectile";
+        name = "projectile";
         this.x = 500;
         this.y = 1000;
         width = w;
@@ -38,9 +38,13 @@ public class Projectile extends Entity {
 
     @Override
     public void whenCollided(Entity entity) {
-        x = 500;
-        y = 1000;
-        active = false;
+
+        if(!entity.getEntityTypeName().equals("enemy") || !getEntityTypeName().equals("enemyprojectile") ){
+            x = 500;
+            y = 1000;
+            active = false;
+        }
+
     }
 
     @Override

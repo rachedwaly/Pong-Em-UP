@@ -10,8 +10,7 @@ import Entities.*;
 public class CircleShape extends CustomShape{
     //here x,y is center of the circle
     public int radius;
-    public String sourceName; //TODO : remove debugging
-    public String normalSource = "";
+    public String sourceName;
     private float[] normalHit; //Stores the normal hit for the ball
 
     public CircleShape(int x, int y, int radius){
@@ -129,12 +128,14 @@ public class CircleShape extends CustomShape{
         double distance = Math.sqrt(Math.pow(this.x - cs.x,2) + Math.pow(this.y - cs.y,2));
 
         //Modify both circles normalHit, we don't know which one is the ball
-        normalHit[0] = cs.x - x;
-        normalHit[1] = cs.y - y;
-        cs.normalHit[0] = cs.x - x;
-        cs.normalHit[1] = cs.y - y;
+        normalHit[0] = x - cs.x;
+        normalHit[1] = y - cs.y;
+        /*if(cs.sourceName.equals("ball")){
+            cs.normalHit[0] = cs.x - x;
+            cs.normalHit[1] = cs.y - y;
+        }*/
 
-        normalSource = "Circle";
+
         return distance <= this.radius + cs.radius;
     }
 

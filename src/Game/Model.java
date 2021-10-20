@@ -51,7 +51,10 @@ public class Model implements ActionListener, KeyListener {
     protected ArrayList<Entity> physicalObjects = new ArrayList<>();
     protected ArrayList<Bonus> bonuses= new ArrayList<>();
 
-    protected ArrayList<Enemy> ennemies = new ArrayList<>();
+    protected Enemy[] enemyList;
+    protected ArrayList<Enemy> enemyCurrentList = new ArrayList<>();
+    private int waveNumber = 0;
+    private int[] waveSizeList = new int[]{3,4,2,5,1};
 
 
     /**
@@ -66,9 +69,31 @@ public class Model implements ActionListener, KeyListener {
      * This method generate enemies
      */
     protected void generateEnemies() {
-        ennemies.add(new Enemy(Enemy.SENTRY,100,0,100,200,this));
-        ennemies.add(new Enemy(Enemy.SENTRY,250,0,250,200,this));
-        ennemies.add(new Enemy(Enemy.SPINNER,175,0,175,200,this));
+        int size = 0;
+        for(int sizeList : waveSizeList)
+            size += sizeList;
+
+        enemyList = new Enemy[size];
+        enemyList[0] = new Enemy(Enemy.SENTRY,100,0,100,200,this);
+        enemyList[1] = new Enemy(Enemy.SENTRY,250,0,250,200,this);
+        enemyList[2] = new Enemy(Enemy.SPINNER,125,0,125,300,this);
+
+        enemyList[3] = new Enemy(Enemy.SPINNER,100,-100,150,200,this);
+        enemyList[4] = new Enemy(Enemy.SPINNER,100,0,100,300,this);
+        enemyList[5] = new Enemy(Enemy.SENTRY,100,0,100,200,this);
+        enemyList[6] = new Enemy(Enemy.SENTRY,250,0,250,200,this);
+
+        enemyList[7] = new Enemy(Enemy.SPINNER,75,0,75,200,this);
+        enemyList[8] = new Enemy(Enemy.SPINNER,200,0,200,200,this);
+
+        enemyList[9] = new Enemy(Enemy.SENTRY,100,0,100,200,this);
+        enemyList[10] = new Enemy(Enemy.SENTRY,100,-100,100,100,this);
+        enemyList[11] = new Enemy(Enemy.SENTRY,175,-100,175,100,this);
+        enemyList[12] = new Enemy(Enemy.SENTRY,250,-100,250,100,this);
+        enemyList[13] = new Enemy(Enemy.SENTRY,250,0,250,200,this);
+
+        enemyList[14] = Enemy.bossify(new Enemy(Enemy.SPINNER,100,0,100,200,this));
+
     }
 
 
@@ -103,7 +128,9 @@ public class Model implements ActionListener, KeyListener {
      * arrayList, Also it will move the entire entities
      */
     protected void update() {
+        updateEnemies();
         solveCollisions();
+
         for (int i = 0; i < physicalObjects.size(); i++) {
             physicalObjects.get(i).update();
         }
@@ -113,6 +140,25 @@ public class Model implements ActionListener, KeyListener {
         }
     }
 
+    protected void updateEnemies(){
+        if(enemyCurrentList.size() == 0 && waveNumber < 5){
+            int enemyIndex = 0;
+            for(int i = 0; i < waveNumber; i++)
+                enemyIndex += waveSizeList[i]; //get the real index
+            for(int i = enemyIndex; i < enemyIndex + waveSizeList[waveNumber]; i++) //add the right number of enemies
+                enemyCurrentList.add(enemyList[i]);
+            waveNumber++;
+
+            for(Enemy enemy : enemyCurrentList){
+                addPhysicalObject(enemy);
+                addDrawable(enemy);
+                for(Projectile projectile : enemy.projectiles){
+                    addPhysicalObject(projectile);
+                    addDrawable(projectile);
+                }
+            }
+        }
+    }
     protected void addDrawable(Entity e){
         drawables.add(e);
     }
@@ -199,9 +245,8 @@ public class Model implements ActionListener, KeyListener {
      * @param enemy
      */
     public void removeEnemy(Enemy enemy){
-        //adding point when enemies die
+        enemyCurrentList.remove(enemy);
         stick.setScore(stick.getScore()+10);
-        ennemies.remove(enemy);
         physicalObjects.remove(enemy);
         drawables.remove(enemy);
         spawnBonus(enemy.getX(), enemy.getY());
