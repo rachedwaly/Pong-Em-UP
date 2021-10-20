@@ -69,6 +69,7 @@ public class Ball extends Entity {
      * Credit : Kevin
      */
     public void move(){
+        /*
         if(!isOutOfBounds()){
             lastValidPosition[0] = x;
             lastValidPosition[1] = y;
@@ -77,10 +78,8 @@ public class Ball extends Entity {
             y = lastValidPosition[1];
             speed[0] = -speed[0];
             speed[1] = -speed[1];
-            if(isOutOfBounds())
-                move();
         }
-
+        */
         this.x += speed[0] * scalarSpeed;
         this.y += speed[1] * scalarSpeed;
 
@@ -154,7 +153,7 @@ public class Ball extends Entity {
 
             speed = Vec2Math.normalize(speed);
 
-            while(this.getShape().intersects(entity.getShape())){
+            while(this.getShape().intersects(entity.getShape()) && !respawning){
                 scalarSpeed = Math.max(scalarSpeed,Vec2Math.distance(entity.speed));
                 update();
             }

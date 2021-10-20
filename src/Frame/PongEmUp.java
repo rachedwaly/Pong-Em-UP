@@ -88,6 +88,7 @@ public class PongEmUp extends JFrame {
     }
 
     public void startGame() {
+        paused=false;
         running=true;
         containerPane.removeAll();
         model = new GameModel(this);
@@ -111,6 +112,7 @@ public class PongEmUp extends JFrame {
             model.stopTimer();
             model =null;
             running=false;
+            paused=false;
         }
 
     }
