@@ -24,8 +24,6 @@ public class Stick extends Shooter{
 
 
 
-    //static int BASE_WIDTH = 50; je vais changer ça en initialwidth sinon la barre verte va pas
-    // changer avec le bonus length qui dépend
     private int initialWidth;
     public float offsetX;
     protected float dx,dy;

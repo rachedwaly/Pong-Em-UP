@@ -3,6 +3,11 @@ package Frame;
 import javax.swing.*;
 import java.awt.*;
 
+
+/**
+ * Credits: Rached
+ * Buttons Panel on the left of the game
+ */
 public class ButtonsPane extends JPanel {
     private PongEmUp pongEmUp;
     private GridBagConstraints gbc;

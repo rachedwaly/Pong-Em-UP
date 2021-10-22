@@ -8,6 +8,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * Credits: rached
+ * This class will handle the gray status Bar
+ */
 public class StatusBar extends JPanel {
 
     private Image healthPhoto;

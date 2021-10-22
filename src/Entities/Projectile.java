@@ -14,7 +14,10 @@ public class Projectile extends Entity {
     public int damage = 1;
     public boolean active = false;
     public float scalarSpeed;
-    public boolean friendly; //true if ally projectile, false if enemy;
+    /**
+     * true if ally projectile, false if enemy
+     */
+    public boolean friendly;
 
     public Projectile(int w, int h, float scalarSpeed,CustomShape shape, Handler handler){
         super(handler);

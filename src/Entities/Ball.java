@@ -66,17 +66,6 @@ public class Ball extends Entity {
      * Credit : Kevin
      */
     public void move(){
-        /*
-        if(!isOutOfBounds()){
-            lastValidPosition[0] = x;
-            lastValidPosition[1] = y;
-        }else{
-            x = lastValidPosition[0];
-            y = lastValidPosition[1];
-            speed[0] = -speed[0];
-            speed[1] = -speed[1];
-        }
-        */
         this.x += speed[0] * scalarSpeed;
         this.y += speed[1] * scalarSpeed;
 

@@ -7,6 +7,10 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
+/**
+ * Credits: Rached
+ * This class will handle the options menu
+ */
 public class OptionsPane extends JPanel {
     private PongEmUp pongEmUp;
 

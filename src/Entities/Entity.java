@@ -14,10 +14,17 @@ public abstract class Entity {
     public static final int WIDTH= Handler.WIDTH; //max width of the game
 
     public Handler handler;
-    protected float x,y; //float position the converted to int
+    /**
+     * float position the converted to int
+     */
+    protected float x,y;
+
     protected int width,height;
     protected CustomShape shape; //Custom collider
-    protected float[] speed = new float[2]; //directionVector (usually) //TODO : make it universal
+    /**
+     * directionVector (usually)
+     */
+    protected float[] speed = new float[2];
     protected float[] lookDirection=new float[2];
 
     protected Image photo;
@@ -25,7 +32,10 @@ public abstract class Entity {
     public Color color;
     protected String name;
 
-    public int innerTimer; //tracks time for object loop behavior and animations
+    /**
+     * tracks time for object loop behavior and animations
+     */
+    public int innerTimer;
 
     /**
      * Default constructor

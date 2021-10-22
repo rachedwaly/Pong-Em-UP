@@ -10,6 +10,10 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * Credits: Rached
+ * This is the start up menu class
+ */
 public class MainMenuPane extends JPanel {
 
     private PongEmUp pongemup;

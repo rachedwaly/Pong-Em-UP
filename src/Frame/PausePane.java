@@ -5,6 +5,11 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 
+/**
+ *
+ * Credits: Rached
+ * This class will be set as a glass pane for the main frame PongEmUp;
+ */
 public class PausePane extends JPanel {
 
 

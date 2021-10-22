@@ -33,7 +33,6 @@ public class Playground extends JPanel {
         super.paintComponent(g);
         handleLevelBackground(g);
 
-        //g.drawString(Integer.toString(handler.stick.innerTimer % 200) ,50,30 );
         ArrayList<Entity> drawingList=new ArrayList<>(handler.getDrawables());
         //on doit impérativement utiliser ce type de boucle four sinon on peut pas mettre à jour
         // la liste  des drawables dynamiquement (sinon ça throw une exception)

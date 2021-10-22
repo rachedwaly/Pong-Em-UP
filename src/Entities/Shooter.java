@@ -17,10 +17,19 @@ public abstract class Shooter extends Entity{
     protected int maxHealth;
     public int projectileIndex = 0;
     public boolean canShoot;
-    static final int PROJECTILEBUFFER = 50; //pre allocated space for projectiles
-    public Projectile[] projectiles = new Projectile[PROJECTILEBUFFER]; //Ten buffered projectiles, 11 is empty
-    protected int animationIndex=1; //this will be used to render the death animation or any
-    // animation later on
+    /**
+     * pre allocated space for projectiles
+     */
+    static final int PROJECTILEBUFFER = 50;
+    /**
+     * //Ten buffered projectiles, 11 is empty
+     */
+    public Projectile[] projectiles = new Projectile[PROJECTILEBUFFER];
+    /**
+     * this will be used to render the death animation or any animation later on
+     *
+     */
+    protected int animationIndex=1;
     static final int maxAnimationIndex=9;
 
 
